@@ -1,0 +1,3 @@
+[submodule "external/qt-value-slider"]
+	path = external/qt-value-slider
+	url = git@github.com:otto-link/qt-value-slider.git
