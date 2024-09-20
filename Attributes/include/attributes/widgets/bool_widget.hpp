@@ -13,7 +13,7 @@ class BoolWidget : public QWidget
   Q_OBJECT
 
 public:
-  BoolWidget() = default;
+  BoolWidget() = delete;
 
   BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
   {

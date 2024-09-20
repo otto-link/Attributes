@@ -23,12 +23,16 @@ int main(int argc, char *argv[])
   auto bool_attr = attr::BoolAttribute(true, "Bool", "Bool Checked");
   auto int_attr = attr::IntAttribute(1, 0, 10, "Int", attr::BoundCheck::LOWER_ONLY);
 
-  auto vec2float_attr = attr::Vec2FloatAttribute({0.2f, 0.5f},
+  auto vec2float_attr = attr::Vec2FloatAttribute({-0.5f, 1.8f},
                                                  -1.f,
                                                  1.f,
                                                  -2.f,
                                                  2.f,
                                                  "Vec2Float");
+
+  bool_attr.json_to();
+  int_attr.json_to();
+  vec2float_attr.json_to();
 
   QMainWindow w;
   QWidget     wrapper;

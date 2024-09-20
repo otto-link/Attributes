@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # directories to be formatted (recursive search)
-DIRS="QtAttributes/include QtAttributes/src tests"
+DIRS="Attributes/include Attributes/src tests"
 # FORMAT_CMD="clang-format --style=LLVM -i {}"
 FORMAT_CMD="clang-format -style=file:scripts/clang_style -i"
 
@@ -13,4 +13,4 @@ for D in ${DIRS}; do
 done
 
 cmake-format -i CMakeLists.txt
-cmake-format -i QtAttributes/CMakeLists.txt
+cmake-format -i Attributes/CMakeLists.txt

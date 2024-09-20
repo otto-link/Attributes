@@ -1,7 +1,11 @@
 #pragma once
 #include <string>
 
+#include "nlohmann/json.hpp"
+
 #include "attributes/logger.hpp"
+
+#include <iostream>
 
 namespace attr
 {
@@ -53,9 +57,21 @@ public:
     }
   }
 
-  // virtual void json_from(nlohmann::json const &);
+  virtual void json_from(nlohmann::json const &json)
+  {
+    this->type = json["type"].get<AttributeType>();
+    this->label = json["label"];
+    this->bound_check = json["bound_check"].get<BoundCheck>();
+  }
 
-  // virtual nlohmann::json json_to() const;
+  virtual nlohmann::json json_to() const
+  {
+    nlohmann::json json;
+    json["type"] = this->type;
+    json["label"] = this->label;
+    json["bound_check"] = this->bound_check;
+    return json;
+  }
 
   void set_label(const std::string &new_label) { this->label = new_label; }
 

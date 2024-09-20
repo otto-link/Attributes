@@ -14,7 +14,7 @@ class IntWidget : public QWidget
   Q_OBJECT
 
 public:
-  IntWidget() = default;
+  IntWidget() = delete;
 
   IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
   {
