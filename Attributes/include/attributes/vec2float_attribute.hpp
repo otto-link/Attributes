@@ -58,11 +58,15 @@ public:
   std::string to_string()
   {
     std::string str = "{";
-    str += std::to_string(this->value[0]);
-    str += ", ";
-    str += std::to_string(this->value[1]);
-    str += "}";
-    return str;
+
+    // Iterate through the vector and concatenate values
+    for (size_t i = 0; i < this->value.size(); ++i)
+    {
+      if (i > 0)
+        str += ", ";
+      str += std::to_string(this->value[i]);
+    }
+    return str + "}";
   }
 
 private:

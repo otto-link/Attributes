@@ -176,9 +176,17 @@ public:
   {
     QGridLayout *layout = new QGridLayout(this);
 
+    // label
+    int row = 0;
+    if (this->p_attr->get_label() != "")
+    {
+      QLabel *label = new QLabel(this->p_attr->get_label().c_str());
+      layout->addWidget(label, row++, 0, 1, 2);
+    }
+
     // XY selection
     this->xy_widget = new XYWidget(p_attr);
-    layout->addWidget((QWidget *)this->xy_widget, 0, 0, 1, 2);
+    layout->addWidget((QWidget *)this->xy_widget, row++, 0, 1, 2);
 
     this->connect(this->xy_widget,
                   &XYWidget::value_changed,
@@ -188,7 +196,7 @@ public:
     // center button
     {
       QPushButton *button = new QPushButton("Center");
-      layout->addWidget(button, 1, 0);
+      layout->addWidget(button, row, 0);
 
       this->connect(button,
                     &QPushButton::pressed,
@@ -199,7 +207,7 @@ public:
     // randomize button
     {
       QPushButton *button = new QPushButton("Random");
-      layout->addWidget(button, 1, 1);
+      layout->addWidget(button, row, 1);
 
       this->connect(button,
                     &QPushButton::pressed,

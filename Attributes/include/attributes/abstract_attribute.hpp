@@ -13,6 +13,7 @@ namespace attr
 enum AttributeType
 {
   BOOL,
+  COLOR,
   INT,
   RANGE,
   VEC2FLOAT,
@@ -21,6 +22,7 @@ enum AttributeType
 
 static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::BOOL, "Bool"},
+    {AttributeType::COLOR, "Color"},
     {AttributeType::INT, "Integer"},
     {AttributeType::RANGE, "Value range"},
     {AttributeType::VEC2FLOAT, "Vec2Float"},
