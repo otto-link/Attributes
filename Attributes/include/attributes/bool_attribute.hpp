@@ -43,7 +43,6 @@ public:
     nlohmann::json json = AbstractAttribute::json_to();
     json["value"] = this->value;
     json["label_checked"] = this->label_checked;
-    std::cout << json.dump(4) << "\n";
     return json;
   }
 

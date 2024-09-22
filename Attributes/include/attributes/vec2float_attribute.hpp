@@ -50,7 +50,6 @@ public:
     json["xmax"] = this->xmax;
     json["ymin"] = this->ymin;
     json["ymax"] = this->ymax;
-    std::cout << json.dump(4) << "\n";
     return json;
   }
 

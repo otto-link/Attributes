@@ -17,7 +17,11 @@ public:
 
   BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
   {
-    this->button = new QPushButton(p_attr->get_label().c_str());
+    std::string button_label = this->p_attr->get_value()
+                                   ? this->p_attr->get_label_checked()
+                                   : this->p_attr->get_label();
+    this->button = new QPushButton(button_label.c_str());
+
     this->button->setCheckable(true);
     this->button->setChecked(this->p_attr->get_value());
 

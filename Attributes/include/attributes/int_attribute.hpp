@@ -41,7 +41,6 @@ public:
     json["value"] = this->value;
     json["vmin"] = this->vmin;
     json["vmax"] = this->vmax;
-    std::cout << json.dump(4) << "\n";
     return json;
   }
 

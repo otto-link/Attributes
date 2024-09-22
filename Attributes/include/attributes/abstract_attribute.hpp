@@ -14,8 +14,16 @@ enum AttributeType
 {
   BOOL,
   INT,
+  RANGE,
   VEC2FLOAT,
   INVALID,
+};
+
+static std::map<AttributeType, std::string> attribute_type_map = {
+    {AttributeType::BOOL, "Bool"},
+    {AttributeType::INT, "Integer"},
+    {AttributeType::RANGE, "Value range"},
+    {AttributeType::VEC2FLOAT, "Vec2Float"},
 };
 
 enum BoundCheck
@@ -68,6 +76,7 @@ public:
   {
     nlohmann::json json;
     json["type"] = this->type;
+    json["type_string"] = attribute_type_map.at(this->type);
     json["label"] = this->label;
     json["bound_check"] = this->bound_check;
     return json;

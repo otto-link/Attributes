@@ -3,6 +3,7 @@
 
 #include "intslider.hpp"
 
+#include "attributes/helpers.hpp"
 #include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
 
@@ -18,16 +19,7 @@ public:
 
   IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
   {
-
-    // TODO put this somewhere else
-    ValueSliders::BoundMode bcheck = ValueSliders::BoundMode::UNCHECKED;
-
-    if (this->p_attr->get_bound_check() == BoundCheck::UPPER_ONLY)
-      bcheck = ValueSliders::BoundMode::UPPER_ONLY;
-    else if (this->p_attr->get_bound_check() == BoundCheck::LOWER_ONLY)
-      bcheck = ValueSliders::BoundMode::LOWER_ONLY;
-    else if (this->p_attr->get_bound_check() == BoundCheck::UPPER_LOWER)
-      bcheck = ValueSliders::BoundMode::UPPER_LOWER;
+    ValueSliders::BoundMode bcheck = convert_bound_check(this->p_attr->get_bound_check());
 
     this->slider = new ValueSliders::IntSlider(this->p_attr->get_label().c_str(),
                                                this->p_attr->get_value(),

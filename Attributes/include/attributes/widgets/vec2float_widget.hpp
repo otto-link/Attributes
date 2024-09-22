@@ -159,7 +159,7 @@ private:
     float xf = (float)this->point.x();
     float yf = (float)this->point.y();
 
-    std::vector<float> vec = {xf, yf};
+    std::vector<float> vec = std::vector<float>({xf, yf});
 
     this->p_attr->set_value(vec);
     Q_EMIT this->value_changed();
