@@ -9,15 +9,36 @@ class MapEnumAttribute : public AbstractAttribute
 public:
   MapEnumAttribute() = delete;
 
-  MapEnumAttribute(std::string                value,
-                   std::map<std::string, int> map,
-                   const std::string         &label = "")
-      : AbstractAttribute(AttributeType::INT, label, BoundCheck::UNCHECKED), value(value),
-        map(map)
+  MapEnumAttribute(std::map<std::string, int> map, const std::string &label = "")
+      : AbstractAttribute(AttributeType::MAP_ENUM, label, BoundCheck::UNCHECKED), map(map)
   {
+    this->choice = map.begin()->first;
+    this->value = map.begin()->second;
   }
 
-  std::string get_value() const { return this->value; }
+  MapEnumAttribute(std::string                choice,
+                   std::map<std::string, int> map,
+                   const std::string         &label = "")
+      : AbstractAttribute(AttributeType::MAP_ENUM, label, BoundCheck::UNCHECKED),
+        choice(choice), map(map)
+  {
+    auto it = this->map.find(this->choice);
+
+    if (it != this->map.end())
+      this->value = it->second;
+    else
+    {
+      this->choice = map.begin()->first;
+      this->value = map.begin()->second;
+      QATLOG->warn("Warning: input choice not found in the map, default value set to 0 "
+                   "(choice: {}).",
+                   this->choice);
+    }
+  }
+
+  std::string get_choice() const { return this->choice; }
+
+  int get_value() const { return this->value; }
 
   std::map<std::string, int> get_map() const { return this->map; }
 
@@ -25,21 +46,26 @@ public:
   {
     AbstractAttribute::json_from(json);
     this->value = json["value"];
+    this->choice = json["choice"];
   }
 
   nlohmann::json json_to() const override
   {
     nlohmann::json json = AbstractAttribute::json_to();
     json["value"] = this->value;
+    json["choice"] = this->choice;
     return json;
   }
 
-  void set_value(const std::string &new_value) { this->value = new_value; }
+  void set_value(const int &new_value) { this->value = new_value; }
 
-  std::string to_string() { return this->value; }
+  void set_choice(const std::string &new_choice) { this->choice = new_choice; }
+
+  std::string to_string() { return this->choice; }
 
 private:
-  std::string                value;
+  int                        value;
+  std::string                choice;
   std::map<std::string, int> map;
 };
 

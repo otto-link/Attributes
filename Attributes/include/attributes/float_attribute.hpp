@@ -14,7 +14,7 @@ public:
                  float              vmax,
                  const std::string &label = "",
                  const BoundCheck  &bound_check = BoundCheck::UPPER_LOWER)
-      : AbstractAttribute(AttributeType::INT, label, bound_check), value(value),
+      : AbstractAttribute(AttributeType::FLOAT, label, bound_check), value(value),
         vmin(vmin), vmax(vmax)
   {
   }

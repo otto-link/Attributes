@@ -15,6 +15,7 @@ enum AttributeType
   BOOL,
   COLOR,
   INT,
+  FLOAT,
   MAP_ENUM,
   RANGE,
   SEED,
@@ -27,12 +28,15 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::BOOL, "Bool"},
     {AttributeType::COLOR, "Color"},
     {AttributeType::INT, "Integer"},
+    {AttributeType::FLOAT, "Float"},
     {AttributeType::MAP_ENUM, "Enumeration"},
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},
     {AttributeType::VEC2FLOAT, "Vec2Float"},
     {AttributeType::WAVE_NB, "Wavenumber"},
 };
+
+#define ATT_NO_BOUND_CHECK 1000000000
 
 enum BoundCheck
 {

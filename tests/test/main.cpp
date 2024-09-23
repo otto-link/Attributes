@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
   std::map<std::string, int> map = {{"choice 1", 0}, {"choice 2", 1}};
 
-  auto map_enum_attr = attr::MapEnumAttribute("choice 1", map, "MapEnum");
+  auto map_enum_attr = attr::MapEnumAttribute("choice2", map, "MapEnum");
 
   auto range_attr = attr::RangeAttribute({0.5f, 1.2f},
                                          -1.f,
