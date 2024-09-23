@@ -46,12 +46,14 @@ int main(int argc, char *argv[])
 
   auto map_enum_attr = attr::MapEnumAttribute("choice2", map, "MapEnum");
 
-  auto range_attr = attr::RangeAttribute({0.5f, 1.2f},
-                                         -1.f,
-                                         3.f,
-                                         "Range",
-                                         false,
-                                         attr::BoundCheck::UPPER_LOWER);
+  // auto range_attr = attr::RangeAttribute({0.5f, 1.2f},
+  //                                        -1.f,
+  //                                        3.f,
+  //                                        "Range",
+  //                                        false,
+  //                                        attr::BoundCheck::UPPER_LOWER);
+
+  auto range_attr = attr::RangeAttribute();
 
   // auto seed_attr = attr::SeedAttribute(1, "Seed");
   auto seed_attr = attr::SeedAttribute();
@@ -63,12 +65,13 @@ int main(int argc, char *argv[])
                                                  2.f,
                                                  "Vec2Float");
 
-  auto wave_nb_attr = attr::WaveNbAttribute({0.5f, 1.2f},
-                                            -1.f,
-                                            3.f,
-                                            true,
-                                            "WaveNb",
-                                            attr::BoundCheck::UPPER_LOWER);
+  // auto wave_nb_attr = attr::WaveNbAttribute({0.5f, 1.2f},
+  //                                           -1.f,
+  //                                           3.f,
+  //                                           true,
+  //                                           "WaveNb",
+  //                                           attr::BoundCheck::UPPER_LOWER);
+  auto wave_nb_attr = attr::WaveNbAttribute();
 
   bool_attr.json_to();
   color_attr.json_to();

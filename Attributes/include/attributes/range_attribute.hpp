@@ -7,7 +7,11 @@ namespace attr
 class RangeAttribute : public AbstractAttribute
 {
 public:
-  RangeAttribute() = delete;
+  RangeAttribute()
+      : AbstractAttribute(AttributeType::RANGE, "Range", BoundCheck::UPPER_LOWER),
+        value({0.f, 1.f}), vmin(-1.f), vmax(2.f), is_active(true)
+  {
+  }
 
   RangeAttribute(std::vector<float> value,
                  float              vmin,

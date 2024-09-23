@@ -7,14 +7,18 @@ namespace attr
 class WaveNbAttribute : public AbstractAttribute
 {
 public:
-  WaveNbAttribute() = delete;
+  WaveNbAttribute()
+      : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber", BoundCheck::LOWER_ONLY),
+        value({4.f, 4.f}), vmin(0.f), vmax(16.f), link_xy(true)
+  {
+  }
 
   WaveNbAttribute(std::vector<float> value,
                   float              vmin,
                   float              vmax,
                   bool               link_xy = true,
                   const std::string &label = "",
-                  const BoundCheck  &bound_check = BoundCheck::UPPER_LOWER)
+                  const BoundCheck  &bound_check = BoundCheck::LOWER_ONLY)
       : AbstractAttribute(AttributeType::WAVE_NB, label, bound_check), value(value),
         vmin(vmin), vmax(vmax), link_xy(link_xy)
   {

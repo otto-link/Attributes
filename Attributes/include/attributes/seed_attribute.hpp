@@ -8,12 +8,13 @@ class SeedAttribute : public AbstractAttribute
 {
 public:
   SeedAttribute()
-          : AbstractAttribute(AttributeType::SEED, "Seed", BoundCheck::LOWER_ONLY), value(0)
+      : AbstractAttribute(AttributeType::SEED, "Seed", BoundCheck::LOWER_ONLY), value(0)
   {
   }
 
   SeedAttribute(uint value, const std::string &label)
-      : AbstractAttribute(AttributeType::SEED, label, BoundCheck::LOWER_ONLY), value(value)
+      : AbstractAttribute(AttributeType::SEED, label, BoundCheck::LOWER_ONLY),
+        value(value)
   {
   }
 
