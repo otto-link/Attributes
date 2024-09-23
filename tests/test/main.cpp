@@ -9,6 +9,7 @@
 #include "attributes/color_attribute.hpp"
 #include "attributes/float_attribute.hpp"
 #include "attributes/int_attribute.hpp"
+#include "attributes/map_enum_attribute.hpp"
 #include "attributes/range_attribute.hpp"
 #include "attributes/seed_attribute.hpp"
 #include "attributes/vec2float_attribute.hpp"
@@ -16,6 +17,7 @@
 #include "attributes/widgets/color_widget.hpp"
 #include "attributes/widgets/float_widget.hpp"
 #include "attributes/widgets/int_widget.hpp"
+#include "attributes/widgets/map_enum_widget.hpp"
 #include "attributes/widgets/range_widget.hpp"
 #include "attributes/widgets/seed_widget.hpp"
 #include "attributes/widgets/vec2float_widget.hpp"
@@ -38,6 +40,10 @@ int main(int argc, char *argv[])
 
   auto int_attr = attr::IntAttribute(1, 0, 10, "Int", attr::BoundCheck::LOWER_ONLY);
 
+  std::map<std::string, int> map = {{"choice 1", 0}, {"choice 2", 1}};
+
+  auto map_enum_attr = attr::MapEnumAttribute("choice 1", map, "MapEnum");
+
   auto range_attr = attr::RangeAttribute({0.5f, 1.2f},
                                          -1.f,
                                          3.f,
@@ -58,6 +64,7 @@ int main(int argc, char *argv[])
   color_attr.json_to();
   float_attr.json_to();
   int_attr.json_to();
+  map_enum_attr.json_to();
   range_attr.json_to();
   seed_attr.json_to();
   vec2float_attr.json_to();
@@ -73,6 +80,7 @@ int main(int argc, char *argv[])
   layout.addWidget(new attr::ColorWidget(&color_attr));
   layout.addWidget(new attr::FloatWidget(&float_attr));
   layout.addWidget(new attr::IntWidget(&int_attr));
+  layout.addWidget(new attr::MapEnumWidget(&map_enum_attr));
   layout.addWidget(new attr::RangeWidget(&range_attr));
   layout.addWidget(new attr::SeedWidget(&seed_attr));
   layout.addWidget(new attr::Vec2FloatWidget(&vec2float_attr));
