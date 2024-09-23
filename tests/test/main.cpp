@@ -7,12 +7,14 @@
 
 #include "attributes/bool_attribute.hpp"
 #include "attributes/color_attribute.hpp"
+#include "attributes/float_attribute.hpp"
 #include "attributes/int_attribute.hpp"
 #include "attributes/range_attribute.hpp"
 #include "attributes/seed_attribute.hpp"
 #include "attributes/vec2float_attribute.hpp"
 #include "attributes/widgets/bool_widget.hpp"
 #include "attributes/widgets/color_widget.hpp"
+#include "attributes/widgets/float_widget.hpp"
 #include "attributes/widgets/int_widget.hpp"
 #include "attributes/widgets/range_widget.hpp"
 #include "attributes/widgets/seed_widget.hpp"
@@ -28,6 +30,12 @@ int main(int argc, char *argv[])
 
   auto bool_attr = attr::BoolAttribute(true, "Bool", "Bool Checked");
   auto color_attr = attr::ColorAttribute({1.f, 0.f, 0.f, 1.f}, "Color");
+  auto float_attr = attr::FloatAttribute(1,
+                                         0,
+                                         10,
+                                         "Float",
+                                         attr::BoundCheck::UPPER_LOWER);
+
   auto int_attr = attr::IntAttribute(1, 0, 10, "Int", attr::BoundCheck::LOWER_ONLY);
 
   auto range_attr = attr::RangeAttribute({0.5f, 1.2f},
@@ -48,6 +56,7 @@ int main(int argc, char *argv[])
 
   bool_attr.json_to();
   color_attr.json_to();
+  float_attr.json_to();
   int_attr.json_to();
   range_attr.json_to();
   seed_attr.json_to();
@@ -62,6 +71,7 @@ int main(int argc, char *argv[])
 
   layout.addWidget(new attr::BoolWidget(&bool_attr));
   layout.addWidget(new attr::ColorWidget(&color_attr));
+  layout.addWidget(new attr::FloatWidget(&float_attr));
   layout.addWidget(new attr::IntWidget(&int_attr));
   layout.addWidget(new attr::RangeWidget(&range_attr));
   layout.addWidget(new attr::SeedWidget(&seed_attr));
