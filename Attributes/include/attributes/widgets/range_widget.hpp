@@ -131,6 +131,8 @@ protected Q_SLOTS:
     this->button_active->setText(button_label.c_str());
     this->button_center->setEnabled(is_active);
     this->button_reset->setEnabled(is_active);
+
+    this->update_attribute_from_widget();
   }
 
   void on_center()

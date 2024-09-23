@@ -19,6 +19,7 @@ enum AttributeType
   RANGE,
   SEED,
   VEC2FLOAT,
+  WAVE_NB,
   INVALID,
 };
 
@@ -30,6 +31,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},
     {AttributeType::VEC2FLOAT, "Vec2Float"},
+    {AttributeType::WAVE_NB, "Wavenumber"},
 };
 
 enum BoundCheck

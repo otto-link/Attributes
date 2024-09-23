@@ -31,7 +31,6 @@ public:
   {
     nlohmann::json json = AbstractAttribute::json_to();
     json["value"] = this->value;
-    std::cout << json.dump(4) << "\n";
     return json;
   }
 

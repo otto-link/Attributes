@@ -13,6 +13,7 @@
 #include "attributes/range_attribute.hpp"
 #include "attributes/seed_attribute.hpp"
 #include "attributes/vec2float_attribute.hpp"
+#include "attributes/wave_nb_attribute.hpp"
 #include "attributes/widgets/bool_widget.hpp"
 #include "attributes/widgets/color_widget.hpp"
 #include "attributes/widgets/float_widget.hpp"
@@ -21,6 +22,7 @@
 #include "attributes/widgets/range_widget.hpp"
 #include "attributes/widgets/seed_widget.hpp"
 #include "attributes/widgets/vec2float_widget.hpp"
+#include "attributes/widgets/wave_nb_widget.hpp"
 
 #include <iostream>
 
@@ -60,6 +62,13 @@ int main(int argc, char *argv[])
                                                  2.f,
                                                  "Vec2Float");
 
+  auto wave_nb_attr = attr::WaveNbAttribute({0.5f, 1.2f},
+                                            -1.f,
+                                            3.f,
+                                            true,
+                                            "WaveNb",
+                                            attr::BoundCheck::UPPER_LOWER);
+
   bool_attr.json_to();
   color_attr.json_to();
   float_attr.json_to();
@@ -68,6 +77,7 @@ int main(int argc, char *argv[])
   range_attr.json_to();
   seed_attr.json_to();
   vec2float_attr.json_to();
+  wave_nb_attr.json_to();
 
   QMainWindow w;
   QWidget     wrapper;
@@ -84,6 +94,7 @@ int main(int argc, char *argv[])
   layout.addWidget(new attr::RangeWidget(&range_attr));
   layout.addWidget(new attr::SeedWidget(&seed_attr));
   layout.addWidget(new attr::Vec2FloatWidget(&vec2float_attr));
+  layout.addWidget(new attr::WaveNbWidget(&wave_nb_attr));
 
   w.setCentralWidget(&wrapper);
 
