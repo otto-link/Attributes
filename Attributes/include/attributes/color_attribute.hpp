@@ -9,10 +9,9 @@ class ColorAttribute : public AbstractAttribute
 public:
   ColorAttribute() = delete;
 
-  ColorAttribute(std::vector<float> value,
-                 const std::string &label = "",
-                 const BoundCheck  &bound_check = BoundCheck::UNCHECKED)
-      : AbstractAttribute(AttributeType::COLOR, label, bound_check), value(value)
+  ColorAttribute(std::vector<float> value, const std::string &label = "")
+      : AbstractAttribute(AttributeType::COLOR, label, BoundCheck::UNCHECKED),
+        value(value)
   {
   }
 

@@ -16,6 +16,7 @@ enum AttributeType
   COLOR,
   INT,
   RANGE,
+  SEED,
   VEC2FLOAT,
   INVALID,
 };
@@ -25,6 +26,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::COLOR, "Color"},
     {AttributeType::INT, "Integer"},
     {AttributeType::RANGE, "Value range"},
+    {AttributeType::SEED, "Random seed number"},
     {AttributeType::VEC2FLOAT, "Vec2Float"},
 };
 
