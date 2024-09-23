@@ -7,10 +7,13 @@ namespace attr
 class SeedAttribute : public AbstractAttribute
 {
 public:
-  SeedAttribute() = delete;
+  SeedAttribute()
+          : AbstractAttribute(AttributeType::SEED, "Seed", BoundCheck::LOWER_ONLY), value(0)
+  {
+  }
 
-  SeedAttribute(uint value = 0, const std::string &label = "")
-      : AbstractAttribute(AttributeType::SEED, label, BoundCheck::UNCHECKED), value(value)
+  SeedAttribute(uint value, const std::string &label)
+      : AbstractAttribute(AttributeType::SEED, label, BoundCheck::LOWER_ONLY), value(value)
   {
   }
 

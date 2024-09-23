@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
                                          false,
                                          attr::BoundCheck::UPPER_LOWER);
 
-  auto seed_attr = attr::SeedAttribute(1, "Seed");
+  // auto seed_attr = attr::SeedAttribute(1, "Seed");
+  auto seed_attr = attr::SeedAttribute();
 
   auto vec2float_attr = attr::Vec2FloatAttribute({-0.5f, 1.8f},
                                                  -1.f,
