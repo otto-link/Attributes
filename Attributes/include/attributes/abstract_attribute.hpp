@@ -36,8 +36,6 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::WAVE_NB, "Wavenumber"},
 };
 
-#define ATT_NO_BOUND_CHECK 1000000000
-
 enum BoundCheck
 {
   UNCHECKED,
@@ -54,10 +52,7 @@ public:
 
   AbstractAttribute(const AttributeType &type,
                     const std::string   &label,
-                    const BoundCheck    &bound_check)
-      : type(type), label(label), bound_check(bound_check)
-  {
-  }
+                    const BoundCheck    &bound_check);
 
   std::string get_label() const { return this->label; }
 
@@ -70,29 +65,17 @@ public:
       return ptr;
     else
     {
-      QATLOG->critical("in Attribute, trying to get an attribute type which is not "
-                       "compatible with the current instance. Get type is: [{}]",
-                       typeid(T).name());
+      Logger::get_logger()->critical(
+          "in Attribute, trying to get an attribute type which is not "
+          "compatible with the current instance. Get type is: [{}]",
+          typeid(T).name());
       throw std::runtime_error("wrong type");
     }
   }
 
-  virtual void json_from(nlohmann::json const &json)
-  {
-    this->type = json["type"].get<AttributeType>();
-    this->label = json["label"];
-    this->bound_check = json["bound_check"].get<BoundCheck>();
-  }
+  virtual void json_from(nlohmann::json const &json);
 
-  virtual nlohmann::json json_to() const
-  {
-    nlohmann::json json;
-    json["type"] = this->type;
-    json["type_string"] = attribute_type_map.at(this->type);
-    json["label"] = this->label;
-    json["bound_check"] = this->bound_check;
-    return json;
-  }
+  virtual nlohmann::json json_to() const;
 
   void set_label(const std::string &new_label) { this->label = new_label; }
 
@@ -101,5 +84,25 @@ protected:
   std::string   label = "";
   BoundCheck    bound_check;
 };
+
+/**
+ * @brief Creates a unique pointer to an attribute of the specified type.
+ *
+ * This function is a template that can create any type of attribute by forwarding
+ * the provided arguments to the constructor of the attribute.
+ *
+ * @tparam AttributeType The type of the attribute to create. Must be a class that
+ * inherits from an attribute base class.
+ * @tparam Args Variadic template parameter that allows passing any number of arguments
+ * to the constructor of the attribute.
+ *
+ * @param args The arguments to forward to the constructor of the attribute.
+ * @return std::unique_ptr<AttributeType> A unique pointer to the newly created attribute.
+ */
+template <typename AttributeType, typename... Args>
+std::unique_ptr<AttributeType> create_attr(Args &&...args)
+{
+  return std::make_unique<AttributeType>(std::forward<Args>(args)...);
+}
 
 } // namespace attr

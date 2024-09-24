@@ -3,7 +3,7 @@
  * this software. */
 #include "attributes/logger.hpp"
 
-namespace gngui
+namespace attr
 {
 
 // Initialize the static member
@@ -20,4 +20,4 @@ std::shared_ptr<spdlog::logger> &Logger::get_logger()
   return instance;
 }
 
-} // namespace gngui
+} // namespace attr

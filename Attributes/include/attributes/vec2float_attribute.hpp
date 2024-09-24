@@ -1,3 +1,16 @@
+/* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
+ * Public License. The full license is in the file LICENSE, distributed with
+ * this software. */
+
+/**
+ * @file vec2float_attribute.hpp
+ * @author Otto Link (otto.link.bv@gmail.com)
+ * @brief
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
+
 #pragma once
 #include "attributes/abstract_attribute.hpp"
 
@@ -9,16 +22,14 @@ class Vec2FloatAttribute : public AbstractAttribute
 public:
   Vec2FloatAttribute() = delete;
 
+  Vec2FloatAttribute(const std::string &label);
+
   Vec2FloatAttribute(std::vector<float> value,
                      float              xmin,
                      float              xmax,
                      float              ymin,
                      float              ymax,
-                     const std::string &label = "")
-      : AbstractAttribute(AttributeType::VEC2FLOAT, label, BoundCheck::UNCHECKED),
-        value(value), xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax)
-  {
-  }
+                     const std::string &label = "");
 
   BoundCheck get_bound_check() const { return this->bound_check; }
 
@@ -32,42 +43,13 @@ public:
 
   float get_ymax() const { return this->ymax; }
 
-  void json_from(nlohmann::json const &json) override
-  {
-    AbstractAttribute::json_from(json);
-    this->value = json["value"].get<std::vector<float>>();
-    this->xmin = json["xmin"];
-    this->xmax = json["xmax"];
-    this->ymin = json["ymin"];
-    this->ymax = json["ymax"];
-  }
+  void json_from(nlohmann::json const &json) override;
 
-  nlohmann::json json_to() const override
-  {
-    nlohmann::json json = AbstractAttribute::json_to();
-    json["value"] = this->value;
-    json["xmin"] = this->xmin;
-    json["xmax"] = this->xmax;
-    json["ymin"] = this->ymin;
-    json["ymax"] = this->ymax;
-    return json;
-  }
+  nlohmann::json json_to() const override;
 
   void set_value(const std::vector<float> &new_value) { this->value = new_value; }
 
-  std::string to_string()
-  {
-    std::string str = "{";
-
-    // Iterate through the vector and concatenate values
-    for (size_t i = 0; i < this->value.size(); ++i)
-    {
-      if (i > 0)
-        str += ", ";
-      str += std::to_string(this->value[i]);
-    }
-    return str + "}";
-  }
+  std::string to_string();
 
 private:
   std::vector<float> value;

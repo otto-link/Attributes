@@ -3,7 +3,7 @@
  * this software. */
 
 /**
- * @file map_enum_widget.hpp
+ * @file attributes.hpp
  * @author Otto Link (otto.link.bv@gmail.com)
  * @brief
  *
@@ -12,34 +12,17 @@
  */
 
 #pragma once
-#include <QComboBox>
-#include <QHBoxLayout>
 
+#include "attributes/abstract_attribute.hpp"
+
+#include "attributes/bool_attribute.hpp"
+#include "attributes/color_attribute.hpp"
+#include "attributes/float_attribute.hpp"
 #include "attributes/helpers.hpp"
+#include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
 #include "attributes/map_enum_attribute.hpp"
-
-namespace attr
-{
-
-class MapEnumWidget : public QWidget
-{
-  Q_OBJECT
-
-public:
-  MapEnumWidget() = delete;
-
-  MapEnumWidget(MapEnumAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
-
-private:
-  MapEnumAttribute *p_attr;
-
-  QComboBox *combobox;
-
-  void update_attribute_from_widget();
-};
-
-} // namespace attr
+#include "attributes/range_attribute.hpp"
+#include "attributes/seed_attribute.hpp"
+#include "attributes/vec2float_attribute.hpp"
+#include "attributes/wave_nb_attribute.hpp"

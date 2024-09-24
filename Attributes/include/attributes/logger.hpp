@@ -33,9 +33,9 @@
  *
  * @see gnode::Logger
  */
-#define QATLOG gngui::Logger::get_logger()
+#define QATLOG attr::Logger::get_logger()
 
-namespace gngui
+namespace attr
 {
 
 /**
@@ -76,4 +76,4 @@ private:
   static std::shared_ptr<spdlog::logger> instance;
 };
 
-} // namespace gngui
+} // namespace attr

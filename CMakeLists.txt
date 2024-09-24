@@ -15,7 +15,7 @@ endif()
 
 set(CMAKE_CXX_STANDARD 20)
 
-# ---  dependencies
+# ---  dependenciesù
 find_package(spdlog REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 

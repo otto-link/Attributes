@@ -1,3 +1,16 @@
+/* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
+ * Public License. The full license is in the file LICENSE, distributed with
+ * this software. */
+
+/**
+ * @file bool_attribute.hpp
+ * @author Otto Link (otto.link.bv@gmail.com)
+ * @brief
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
+
 #pragma once
 #include "attributes/abstract_attribute.hpp"
 
@@ -9,42 +22,19 @@ class BoolAttribute : public AbstractAttribute
 public:
   BoolAttribute() = delete;
 
-  BoolAttribute(bool value)
-      : AbstractAttribute(AttributeType::BOOL, "", BoundCheck::UNCHECKED), value(value),
-        label_checked("")
-  {
-  }
+  BoolAttribute(bool value);
 
-  BoolAttribute(bool value, const std::string &label)
-      : AbstractAttribute(AttributeType::BOOL, label, BoundCheck::UNCHECKED),
-        value(value), label_checked(label)
-  {
-  }
+  BoolAttribute(bool value, const std::string &label);
 
-  BoolAttribute(bool value, const std::string &label, const std::string &label_checked)
-      : AbstractAttribute(AttributeType::BOOL, label, BoundCheck::UNCHECKED),
-        value(value), label_checked(label_checked)
-  {
-  }
+  BoolAttribute(bool value, const std::string &label, const std::string &label_checked);
 
   std::string get_label_checked() const { return this->label_checked; }
 
   bool get_value() const { return this->value; }
 
-  void json_from(nlohmann::json const &json) override
-  {
-    AbstractAttribute::json_from(json);
-    this->value = json["value"];
-    this->label_checked = json["label_checked"];
-  }
+  void json_from(nlohmann::json const &json) override;
 
-  nlohmann::json json_to() const override
-  {
-    nlohmann::json json = AbstractAttribute::json_to();
-    json["value"] = this->value;
-    json["label_checked"] = this->label_checked;
-    return json;
-  }
+  nlohmann::json json_to() const override;
 
   void set_value(const bool &new_value) { this->value = new_value; }
 

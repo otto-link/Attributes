@@ -1,3 +1,16 @@
+/* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
+ * Public License. The full license is in the file LICENSE, distributed with
+ * this software. */
+
+/**
+ * @file wave_nb_attribute.hpp
+ * @author Otto Link (otto.link.bv@gmail.com)
+ * @brief
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
+
 #pragma once
 #include "attributes/abstract_attribute.hpp"
 
@@ -7,22 +20,14 @@ namespace attr
 class WaveNbAttribute : public AbstractAttribute
 {
 public:
-  WaveNbAttribute()
-      : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber", BoundCheck::LOWER_ONLY),
-        value({4.f, 4.f}), vmin(0.f), vmax(16.f), link_xy(true)
-  {
-  }
+  WaveNbAttribute();
 
   WaveNbAttribute(std::vector<float> value,
                   float              vmin,
                   float              vmax,
                   bool               link_xy = true,
                   const std::string &label = "",
-                  const BoundCheck  &bound_check = BoundCheck::LOWER_ONLY)
-      : AbstractAttribute(AttributeType::WAVE_NB, label, bound_check), value(value),
-        vmin(vmin), vmax(vmax), link_xy(link_xy)
-  {
-  }
+                  const BoundCheck  &bound_check = BoundCheck::LOWER_ONLY);
 
   BoundCheck get_bound_check() const { return this->bound_check; }
 
@@ -34,43 +39,15 @@ public:
 
   float get_vmax() const { return this->vmax; }
 
-  void json_from(nlohmann::json const &json) override
-  {
-    AbstractAttribute::json_from(json);
-    this->value = json["value"].get<std::vector<float>>();
-    this->vmin = json["vmin"];
-    this->vmax = json["vmax"];
-    this->link_xy = json["link_xy"];
-  }
+  void json_from(nlohmann::json const &json) override;
 
-  nlohmann::json json_to() const override
-  {
-    nlohmann::json json = AbstractAttribute::json_to();
-    json["value"] = this->value;
-    json["vmin"] = this->vmin;
-    json["vmax"] = this->vmax;
-    json["link_xy"] = this->link_xy;
-    std::cout << json.dump(4) << "\n";
-    return json;
-  }
+  nlohmann::json json_to() const override;
 
   void set_link_xy(const bool new_state) { this->link_xy = new_state; }
 
   void set_value(const std::vector<float> &new_value) { this->value = new_value; }
 
-  std::string to_string()
-  {
-    std::string str = "{";
-
-    // Iterate through the vector and concatenate values
-    for (size_t i = 0; i < this->value.size(); ++i)
-    {
-      if (i > 0)
-        str += ", ";
-      str += std::to_string(this->value[i]);
-    }
-    return str + "}";
-  }
+  std::string to_string();
 
 private:
   std::vector<float> value;
