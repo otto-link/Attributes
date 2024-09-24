@@ -6,6 +6,7 @@
 
 #include "attributes/widgets/bool_widget.hpp"
 #include "attributes/widgets/color_widget.hpp"
+#include "attributes/widgets/filename_widget.hpp"
 #include "attributes/widgets/float_widget.hpp"
 #include "attributes/widgets/int_widget.hpp"
 #include "attributes/widgets/map_enum_widget.hpp"
@@ -25,6 +26,7 @@ QWidget *get_attribute_widget(AbstractAttribute *p_attr)
 {
   RETURN_IF_MATCH(BOOL, BoolWidget, BoolAttribute, p_attr);
   RETURN_IF_MATCH(COLOR, ColorWidget, ColorAttribute, p_attr);
+  RETURN_IF_MATCH(FILENAME, FilenameWidget, FilenameAttribute, p_attr);
   RETURN_IF_MATCH(FLOAT, FloatWidget, FloatAttribute, p_attr);
   RETURN_IF_MATCH(INT, IntWidget, IntAttribute, p_attr);
   RETURN_IF_MATCH(MAP_ENUM, MapEnumWidget, MapEnumAttribute, p_attr);
@@ -33,8 +35,9 @@ QWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(VEC2FLOAT, Vec2FloatWidget, Vec2FloatAttribute, p_attr);
   RETURN_IF_MATCH(WAVE_NB, WaveNbWidget, WaveNbAttribute, p_attr);
 
-  Logger::get_logger()->warn("Could not find any widget for the attribute type: {}",
-                             p_attr->get_type());
+  Logger::get_logger()->warn("Could not find any widget for the attribute type: {} ({})",
+                             p_attr->get_type(),
+                             attribute_type_map.at(p_attr->get_type()));
 
   return nullptr;
 }

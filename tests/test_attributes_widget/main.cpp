@@ -37,6 +37,10 @@ int main(int argc, char *argv[])
   map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
   map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
 
+  map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
+
+  map["fname"]->json_to();
+
   QMainWindow w;
   QWidget     wrapper;
   QVBoxLayout layout;
