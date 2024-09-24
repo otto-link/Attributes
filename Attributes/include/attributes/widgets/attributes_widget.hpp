@@ -21,4 +21,6 @@ namespace attr
 
 QWidget *get_attribute_widget(AbstractAttribute *p_attr);
 
-}
+// QWidget *get_attribute_widget(std::vector<AbstractAttribute *> p_attributes);
+
+} // namespace attr

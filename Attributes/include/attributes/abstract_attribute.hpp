@@ -1,30 +1,61 @@
+/* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
+ * Public License. The full license is in the file LICENSE, distributed with
+ * this software. */
+
+/**
+ * @file filename_widget.hpp
+ * @author Otto Link (otto.link.bv@gmail.com)
+ * @brief Defines attribute types, a base class for attributes, and utility functions for
+ *        handling attributes in the application. Includes functionality for type-checking
+ *        and JSON conversion of attribute data.
+ *
+ * This header provides the definition of different types of attributes (e.g., Bool,
+ * Color, Filename) and their corresponding string representation. It includes an abstract
+ * class for attribute objects, handling functionality like label setting, type retrieval,
+ * and JSON serialization/deserialization.
+ *
+ * @copyright Copyright (c) 2024 Otto Link
+ */
+
 #pragma once
+#include <iostream>
 #include <string>
 
-#include "nlohmann/json.hpp"
-
 #include "attributes/logger.hpp"
-
-#include <iostream>
+#include "nlohmann/json.hpp"
 
 namespace attr
 {
 
+/**
+ * @enum AttributeType
+ * @brief Enumeration of various attribute types.
+ *
+ * This enumeration defines different attribute types that can be used, such as
+ * Bool, Color, Integer, Filename, Float, and others. It provides a mapping
+ * between each type and its string representation for more human-readable outputs.
+ */
 enum AttributeType
 {
-  BOOL,
-  COLOR,
-  INT,
-  FILENAME,
-  FLOAT,
-  MAP_ENUM,
-  RANGE,
-  SEED,
-  VEC2FLOAT,
-  WAVE_NB,
-  INVALID,
+  BOOL,      /**< Boolean attribute */
+  COLOR,     /**< Color attribute */
+  INT,       /**< Integer attribute */
+  FILENAME,  /**< Filename attribute */
+  FLOAT,     /**< Floating-point number attribute */
+  MAP_ENUM,  /**< Enum attribute */
+  RANGE,     /**< Range attribute */
+  SEED,      /**< Random seed attribute */
+  VEC2FLOAT, /**< 2D vector of floats */
+  WAVE_NB,   /**< Wavenumber attribute */
+  INVALID,   /**< Invalid attribute */
 };
 
+/**
+ * @brief A mapping between AttributeType and its string representation.
+ *
+ * This map is used to provide string representations for attribute types,
+ * making it easier to display attribute type information in logs or UIs.
+ */
 static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::BOOL, "Bool"},
     {AttributeType::COLOR, "Color"},
@@ -38,28 +69,71 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::WAVE_NB, "Wavenumber"},
 };
 
+/**
+ * @enum BoundCheck
+ * @brief Enumeration for checking the bounds of an attribute.
+ *
+ * Specifies whether bound checking is enabled for the attribute, and if so,
+ * whether it's applied to the upper bound, lower bound, or both.
+ */
 enum BoundCheck
 {
-  UNCHECKED,
-  UPPER_ONLY,
-  LOWER_ONLY,
-  UPPER_LOWER,
+  UNCHECKED,   /**< No bounds checking */
+  UPPER_ONLY,  /**< Only upper bound checked */
+  LOWER_ONLY,  /**< Only lower bound checked */
+  UPPER_LOWER, /**< Both upper and lower bounds checked */
 };
 
+/**
+ * @class AbstractAttribute
+ * @brief A base class for defining attributes with labels, types, and bound checking.
+ *
+ * This class provides the foundation for all attribute types. It includes functionality
+ * to set and get labels, retrieve the attribute type, and handle JSON serialization and
+ * deserialization. It also provides a utility function to dynamically cast the attribute
+ * to a specific type.
+ */
 class AbstractAttribute
 {
-
 public:
-  AbstractAttribute() = delete;
-
+  /**
+   * @brief Constructor for AbstractAttribute.
+   *
+   * Initializes an attribute with a specific type, label, and bound checking
+   * configuration.
+   *
+   * @param type The type of the attribute.
+   * @param label A label describing the attribute.
+   * @param bound_check The bound check policy for this attribute.
+   */
   AbstractAttribute(const AttributeType &type,
                     const std::string   &label,
                     const BoundCheck    &bound_check);
 
+  /**
+   * @brief Get the label of the attribute.
+   *
+   * @return std::string The label of the attribute.
+   */
   std::string get_label() const { return this->label; }
 
+  /**
+   * @brief Get the type of the attribute.
+   *
+   * @return AttributeType The type of the attribute.
+   */
   AttributeType get_type() const { return this->type; }
 
+  /**
+   * @brief Get a pointer to the current attribute, cast to the requested type.
+   *
+   * This function attempts to dynamically cast the attribute to the requested type.
+   * If the cast fails, a critical error is logged, and an exception is thrown.
+   *
+   * @tparam T The expected type of the attribute.
+   * @return T* A pointer to the attribute if the cast is successful.
+   * @throws std::runtime_error If the cast fails.
+   */
   template <class T = void> T *get_ref()
   {
     T *ptr = dynamic_cast<T *>(this);
@@ -75,16 +149,37 @@ public:
     }
   }
 
+  /**
+   * @brief Deserialize attribute data from JSON.
+   *
+   * This virtual function loads the attribute's state from the provided JSON object.
+   *
+   * @param json The JSON object containing the attribute data.
+   */
   virtual void json_from(nlohmann::json const &json);
 
+  /**
+   * @brief Serialize the attribute's data to JSON.
+   *
+   * This virtual function generates a JSON representation of the attribute's state.
+   *
+   * @return nlohmann::json The JSON object containing the serialized attribute data.
+   */
   virtual nlohmann::json json_to() const;
 
+  /**
+   * @brief Set the label for the attribute.
+   *
+   * This function allows modifying the label associated with the attribute.
+   *
+   * @param new_label The new label to set.
+   */
   void set_label(const std::string &new_label) { this->label = new_label; }
 
 protected:
-  AttributeType type = AttributeType::INVALID;
-  std::string   label = "";
-  BoundCheck    bound_check;
+  AttributeType type = AttributeType::INVALID; /**< The type of the attribute */
+  std::string   label = "";                    /**< The label describing the attribute */
+  BoundCheck    bound_check; /**< The bound check policy for this attribute */
 };
 
 /**

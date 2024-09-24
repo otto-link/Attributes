@@ -3,8 +3,8 @@
  * this software. */
 
 #include <QFileDialog>
-#include <QVBoxLayout>
 #include <QLabel>
+#include <QVBoxLayout>
 
 #include "attributes/widgets/filename_widget.hpp"
 
@@ -20,7 +20,7 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
     QLabel *label = new QLabel(this->p_attr->get_label().c_str());
     layout->addWidget(label);
   }
-  
+
   this->button = new QPushButton(QString::fromStdString(this->p_attr->get_value()));
   layout->addWidget(this->button);
 
@@ -35,14 +35,14 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
                       this->p_attr->get_label().c_str(),
                       path.string().c_str(),
                       this->p_attr->get_filter().c_str());
-		  
+
                   if (!fname.isNull() && !fname.isEmpty())
                   {
                     this->p_attr->set_value(fname.toStdString());
                     this->update_attribute_from_widget();
                   }
 
-		  this->button->setToolTip(this->p_attr->get_value().string().c_str());
+                  this->button->setToolTip(this->p_attr->get_value().string().c_str());
                 });
 
   this->setLayout(layout);
