@@ -67,8 +67,6 @@ AttributesWidget::AttributesWidget(
 
   // setup layout
   QVBoxLayout *layout = new QVBoxLayout(this);
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
 
   // update button
   QPushButton *update_button = new QPushButton("Force update");
