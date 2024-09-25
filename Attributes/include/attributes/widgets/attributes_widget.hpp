@@ -21,6 +21,8 @@ namespace attr
 
 QWidget *get_attribute_widget(AbstractAttribute *p_attr);
 
-// QWidget *get_attribute_widget(std::vector<AbstractAttribute *> p_attributes);
+QWidget *get_attribute_widget(std::vector<AbstractAttribute *> p_attributes,
+                              const std::string               &label = "",
+                              bool                             horizontal_layout = false);
 
 } // namespace attr

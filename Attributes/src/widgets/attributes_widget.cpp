@@ -2,6 +2,10 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
+
 #include "attributes/widgets/attributes_widget.hpp"
 
 #include "attributes/widgets/bool_widget.hpp"
@@ -40,6 +44,30 @@ QWidget *get_attribute_widget(AbstractAttribute *p_attr)
                              attribute_type_map.at(p_attr->get_type()));
 
   return nullptr;
+}
+
+QWidget *get_attribute_widget(std::vector<AbstractAttribute *> p_attributes,
+                              const std::string               &label,
+                              bool                             horizontal_layout)
+{
+  QWidget *main_widget = new QWidget();
+
+  QBoxLayout *layout;
+
+  if (horizontal_layout)
+    layout = new QHBoxLayout(main_widget);
+  else
+    layout = new QVBoxLayout(main_widget);
+
+  if (label != "")
+    layout->addWidget(new QLabel(label.c_str()));
+
+  for (auto &pa : p_attributes)
+    layout->addWidget(get_attribute_widget(pa));
+
+  main_widget->setLayout(layout);
+
+  return main_widget;
 }
 
 } // namespace attr

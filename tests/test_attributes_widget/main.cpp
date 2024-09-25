@@ -42,16 +42,12 @@ int main(int argc, char *argv[])
   map["fname"]->json_to();
 
   QMainWindow w;
-  QWidget     wrapper;
-  QVBoxLayout layout;
-  wrapper.setLayout(&layout);
 
-  layout.addWidget(new QLabel("Attributes"));
-
+  std::vector<attr::AbstractAttribute *> pa_list = {};
   for (auto &[_, pa] : map)
-    layout.addWidget(get_attribute_widget(pa.get()));
+    pa_list.push_back(pa.get());
 
-  w.setCentralWidget(&wrapper);
+  w.setCentralWidget(attr::get_attribute_widget(pa_list, "Settings", true));
 
   w.show();
 
