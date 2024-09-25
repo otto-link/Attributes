@@ -23,5 +23,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${ATTR_INCLUDE})
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog
                                               nlohmann_json::nlohmann_json)
 # Qt
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets
-                                              valueSliders)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets
+                                             valueSliders)
