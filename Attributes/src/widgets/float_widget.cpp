@@ -28,6 +28,12 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
   QHBoxLayout *layout = new QHBoxLayout(this);
   layout->addWidget(this->slider);
   this->setLayout(layout);
+
+  // set width so that the text has enough room
+  QFont        font;
+  QFontMetrics font_metrics(font);
+  QSize size = font_metrics.size(Qt::TextSingleLine, this->p_attr->get_label().c_str());
+  this->setMinimumWidth(4.f * size.width());
 }
 
 void FloatWidget::update_attribute_from_widget()
