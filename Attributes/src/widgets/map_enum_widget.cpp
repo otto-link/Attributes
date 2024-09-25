@@ -38,7 +38,7 @@ void MapEnumWidget::update_attribute_from_widget()
 
   this->p_attr->set_choice(current_choice);
   this->p_attr->set_value(p_attr->get_map().at(current_choice));
-  Logger::get_logger()->trace("{}", p_attr->to_string());
+  Logger::log()->trace("{}", p_attr->to_string());
   Q_EMIT this->value_changed();
 }
 

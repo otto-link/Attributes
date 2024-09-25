@@ -141,7 +141,7 @@ public:
       return ptr;
     else
     {
-      Logger::get_logger()->critical(
+      Logger::log()->critical(
           "in Attribute, trying to get an attribute type which is not "
           "compatible with the current instance. Get type is: [{}]",
           typeid(T).name());

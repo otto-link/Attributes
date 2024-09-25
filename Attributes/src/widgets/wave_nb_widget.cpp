@@ -121,7 +121,7 @@ void WaveNbWidget::update_attribute_from_widget()
   std::vector<float> vec = {x1, x2};
 
   this->p_attr->set_value(vec);
-  Logger::get_logger()->trace("{}", p_attr->to_string());
+  Logger::log()->trace("{}", p_attr->to_string());
   Q_EMIT this->value_changed();
 }
 

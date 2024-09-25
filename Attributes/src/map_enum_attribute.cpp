@@ -29,7 +29,7 @@ MapEnumAttribute::MapEnumAttribute(std::string                choice,
   {
     this->choice = map.begin()->first;
     this->value = map.begin()->second;
-    Logger::get_logger()->warn(
+    Logger::log()->warn(
         "Warning: input choice not found in the map, default value set to 0 "
         "(choice: {}).",
         this->choice);

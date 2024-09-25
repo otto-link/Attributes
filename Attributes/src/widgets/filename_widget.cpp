@@ -50,7 +50,7 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
 
 void FilenameWidget::update_attribute_from_widget()
 {
-  Logger::get_logger()->trace("{}", p_attr->to_string());
+  Logger::log()->trace("{}", p_attr->to_string());
 
   std::string basename = this->p_attr->get_value().filename();
   this->button->setText(basename.c_str());

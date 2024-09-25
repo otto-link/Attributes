@@ -47,7 +47,7 @@ public:
    * This method returns the singleton logger instance. It is used to access
    * the logger for logging messages.
    */
-  static std::shared_ptr<spdlog::logger> &get_logger();
+  static std::shared_ptr<spdlog::logger> &log();
 
 private:
   // Private constructor to prevent direct instantiation

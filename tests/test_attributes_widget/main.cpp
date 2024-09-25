@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
 
-  attr::Logger::get_logger()->info("Starting test application...");
+  attr::Logger::log()->info("Starting test application...");
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
 

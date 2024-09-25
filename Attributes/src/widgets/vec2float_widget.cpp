@@ -138,7 +138,7 @@ void XYWidget::update_attribute_from_widget()
   std::vector<float> vec = std::vector<float>({xf, yf});
   this->p_attr->set_value(vec);
 
-  Logger::get_logger()->trace("{}", this->p_attr->to_string());
+  Logger::log()->trace("{}", this->p_attr->to_string());
 
   Q_EMIT this->value_changed();
 }

@@ -65,7 +65,7 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
 void SeedWidget::update_attribute_from_widget()
 {
   this->p_attr->set_value((uint)this->slider->getVal());
-  Logger::get_logger()->trace("{}", p_attr->to_string());
+  Logger::log()->trace("{}", p_attr->to_string());
   Q_EMIT this->value_changed();
 }
 
