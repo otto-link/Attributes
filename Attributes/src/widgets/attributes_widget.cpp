@@ -84,7 +84,15 @@ AttributesWidget::AttributesWidget(
 
   for (auto &key : attr_key_queue)
   {
-    if (p_attr_map->contains(key))
+    if (key == "_SEPARATOR_")
+    {
+      QFrame *line = new QFrame;
+      line->setFrameShape(QFrame::HLine);
+      line->setFrameShadow(QFrame::Plain);
+      line->setFixedHeight(1);
+      layout->addWidget(line);
+    }
+    else if (p_attr_map->contains(key))
     {
       AbstractAttribute *p_attr = p_attr_map->at(key).get();
       AbstractWidget    *widget = get_attribute_widget(p_attr);
@@ -93,9 +101,14 @@ AttributesWidget::AttributesWidget(
       this->connect(widget,
                     &AbstractWidget::value_changed,
                     [this]() { Q_EMIT this->value_changed(); });
+
+      count++;
     }
     else
     {
+      Logger::get_logger()->critical(
+          "unknown attribute key {} in AttributesWidget (check attr_ordered_key)",
+          key);
     }
   }
 
