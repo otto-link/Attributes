@@ -15,21 +15,17 @@
 #include <QLabel>
 
 #include "attributes/color_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class ColorWidget : public QWidget
+class ColorWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   ColorWidget() = delete;
 
   ColorWidget(ColorAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   ColorAttribute *p_attr;

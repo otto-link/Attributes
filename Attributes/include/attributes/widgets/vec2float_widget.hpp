@@ -18,6 +18,7 @@
 #include <QWidget>
 
 #include "attributes/vec2float_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
@@ -31,13 +32,13 @@ public:
 
   XYWidget(Vec2FloatAttribute *p_attr);
 
+Q_SIGNALS:
+  void value_changed();
+
 public Q_SLOTS:
   void center_point();
 
   void random_point();
-
-Q_SIGNALS:
-  void value_changed();
 
 protected:
   void paintEvent(QPaintEvent *event) override;
@@ -72,16 +73,12 @@ private:
   void update_attribute_from_widget();
 };
 
-class Vec2FloatWidget : public QWidget
+class Vec2FloatWidget : public AbstractWidget
 {
-  Q_OBJECT
 public:
   Vec2FloatWidget() = delete;
 
   Vec2FloatWidget(Vec2FloatAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   Vec2FloatAttribute *p_attr;

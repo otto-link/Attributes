@@ -15,21 +15,17 @@
 #include "doubleslider.hpp"
 
 #include "attributes/float_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class FloatWidget : public QWidget
+class FloatWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   FloatWidget() = delete;
 
   FloatWidget(FloatAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   FloatAttribute *p_attr;

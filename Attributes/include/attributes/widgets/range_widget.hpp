@@ -18,21 +18,17 @@
 
 #include "attributes/helpers.hpp"
 #include "attributes/range_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class RangeWidget : public QWidget
+class RangeWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   RangeWidget() = delete;
 
   RangeWidget(RangeAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 protected Q_SLOTS:
 

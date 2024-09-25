@@ -18,21 +18,17 @@
 #include "attributes/helpers.hpp"
 #include "attributes/logger.hpp"
 #include "attributes/map_enum_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class MapEnumWidget : public QWidget
+class MapEnumWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   MapEnumWidget() = delete;
 
   MapEnumWidget(MapEnumAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   MapEnumAttribute *p_attr;

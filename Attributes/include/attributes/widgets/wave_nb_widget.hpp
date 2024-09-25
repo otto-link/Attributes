@@ -18,21 +18,17 @@
 
 #include "attributes/helpers.hpp"
 #include "attributes/wave_nb_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class WaveNbWidget : public QWidget
+class WaveNbWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   WaveNbWidget() = delete;
 
   WaveNbWidget(WaveNbAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 protected Q_SLOTS:
 

@@ -15,21 +15,17 @@
 #include <QPushButton>
 
 #include "attributes/filename_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class FilenameWidget : public QWidget
+class FilenameWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   FilenameWidget() = delete;
 
   FilenameWidget(FilenameAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   FilenameAttribute *p_attr;

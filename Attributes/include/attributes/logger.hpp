@@ -22,19 +22,6 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-/**
- * @def SPDLOG
- * @brief Macro to access the singleton logger instance.
- *
- * Example usage:
- * @code
- * SPDLOG->info("This is a log message.");
- * @endcode
- *
- * @see gnode::Logger
- */
-#define QATLOG attr::Logger::get_logger()
-
 namespace attr
 {
 

@@ -16,21 +16,17 @@
 #include "intslider.hpp"
 
 #include "attributes/seed_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class SeedWidget : public QWidget
+class SeedWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   SeedWidget() = delete;
 
   SeedWidget(SeedAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   SeedAttribute *p_attr;

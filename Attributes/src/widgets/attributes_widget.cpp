@@ -1,9 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QVBoxLayout>
 
 #include "attributes/widgets/attributes_widget.hpp"
@@ -26,7 +23,7 @@
 namespace attr
 {
 
-QWidget *get_attribute_widget(AbstractAttribute *p_attr)
+AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
 {
   RETURN_IF_MATCH(BOOL, BoolWidget, BoolAttribute, p_attr);
   RETURN_IF_MATCH(COLOR, ColorWidget, ColorAttribute, p_attr);
@@ -46,28 +43,81 @@ QWidget *get_attribute_widget(AbstractAttribute *p_attr)
   return nullptr;
 }
 
-QWidget *get_attribute_widget(std::vector<AbstractAttribute *> p_attributes,
-                              const std::string               &label,
-                              bool                             horizontal_layout)
+AttributesWidget::AttributesWidget(
+    std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map,
+    std::vector<std::string>                                  *p_attr_ordered_key)
+    : p_attr_map(p_attr_map), p_attr_ordered_key(p_attr_ordered_key)
 {
-  QWidget *main_widget = new QWidget();
+  this->setWindowTitle("Attribute settings");
 
-  QBoxLayout *layout;
+  // define the attribute order either on the key map order or on a
+  // given order provided as a key list (optional)
+  std::vector<std::string> attr_key_queue = {};
+  bool                     check_count = false;
 
-  if (horizontal_layout)
-    layout = new QHBoxLayout(main_widget);
-  else
-    layout = new QVBoxLayout(main_widget);
+  for (auto &[k, v] : *p_attr_map)
+    attr_key_queue.push_back(k);
 
-  if (label != "")
-    layout->addWidget(new QLabel(label.c_str()));
+  if (p_attr_ordered_key)
+    if (p_attr_ordered_key->size() > 0)
+    {
+      attr_key_queue = *p_attr_ordered_key;
+      check_count = true;
+    }
 
-  for (auto &pa : p_attributes)
-    layout->addWidget(get_attribute_widget(pa));
+  // setup layout
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
 
-  main_widget->setLayout(layout);
+  // update button
+  QPushButton *update_button = new QPushButton("Force update");
+  layout->addWidget(update_button);
 
-  return main_widget;
+  connect(update_button,
+          &QPushButton::released,
+          [this]() { Q_EMIT this->update_button_released(); });
+
+  // to check the number of widgets corresponds to the number of keys
+  // in "p_attr_ordered_key"
+  int count = 0;
+
+  for (auto &key : attr_key_queue)
+  {
+    if (p_attr_map->contains(key))
+    {
+      AbstractAttribute *p_attr = p_attr_map->at(key).get();
+      AbstractWidget    *widget = get_attribute_widget(p_attr);
+      layout->addWidget(widget);
+
+      this->connect(widget,
+                    &AbstractWidget::value_changed,
+                    [this]() { Q_EMIT this->value_changed(); });
+    }
+    else
+    {
+    }
+  }
+
+  if (check_count && count != (int)this->p_attr_map->size())
+  {
+    Logger::get_logger()->critical(
+        "missing attributes in AttributesWidget (check attr_ordered_key)");
+    throw std::runtime_error(
+        "missing attributes in AttributesWidget (check attr_ordered_key)");
+  }
+
+  // as a last resort, for empty "settings"
+  if (p_attr_map->size() == 0)
+  {
+    QLabel *widget = new QLabel("no settings");
+    QFont   f = widget->font();
+    f.setItalic(true);
+    widget->setFont(f);
+    layout->addWidget(widget);
+  }
+
+  this->setLayout(layout);
 }
 
 } // namespace attr

@@ -15,21 +15,17 @@
 #include <QPushButton>
 
 #include "attributes/bool_attribute.hpp"
+#include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class BoolWidget : public QWidget
+class BoolWidget : public AbstractWidget
 {
-  Q_OBJECT
-
 public:
   BoolWidget() = delete;
 
   BoolWidget(BoolAttribute *p_attr);
-
-Q_SIGNALS:
-  void value_changed();
 
 private:
   BoolAttribute *p_attr;

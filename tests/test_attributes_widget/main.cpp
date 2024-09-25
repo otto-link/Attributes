@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
 
-  QATLOG->info("Starting test application...");
+  attr::Logger::get_logger()->info("Starting test application...");
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
 
@@ -43,11 +43,7 @@ int main(int argc, char *argv[])
 
   QMainWindow w;
 
-  std::vector<attr::AbstractAttribute *> pa_list = {};
-  for (auto &[_, pa] : map)
-    pa_list.push_back(pa.get());
-
-  w.setCentralWidget(attr::get_attribute_widget(pa_list, "Settings"));
+  w.setCentralWidget(new attr::AttributesWidget(&map));
 
   w.show();
 
