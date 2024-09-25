@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(attributes-root VERSION 0.0.0)
 
+set(ATTRIBUTES_ENABLE_TESTS ON)
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -21,4 +23,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 
 add_subdirectory(external)
 add_subdirectory(Attributes)
-add_subdirectory(tests)
+
+if(ATTRIBUTES_ENABLE_TESTS)
+  add_subdirectory(tests)
+endif()
