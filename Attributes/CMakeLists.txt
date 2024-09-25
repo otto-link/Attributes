@@ -13,9 +13,9 @@ file(GLOB_RECURSE ATTR_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 add_library(${PROJECT_NAME} ${ATTR_SOURCES} ${ATTR_GUI_INCLUDES})
 
 set(ATTR_INCLUDE
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../external/json/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../external/qt-value-slider/include)
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../external/qt-value-slider/include PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../external/json/include)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${ATTR_INCLUDE})
 
