@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
   for (auto &[_, pa] : map)
     pa_list.push_back(pa.get());
 
-  w.setCentralWidget(attr::get_attribute_widget(pa_list, "Settings", true));
+  w.setCentralWidget(attr::get_attribute_widget(pa_list, "Settings"));
 
   w.show();
 

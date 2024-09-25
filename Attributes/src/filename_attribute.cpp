@@ -29,7 +29,6 @@ nlohmann::json FilenameAttribute::json_to() const
   json["value"] = this->value;
   json["filter"] = this->filter;
   json["label"] = this->label;
-  std::cout << json.dump(4) << "\n";
   return json;
 }
 

@@ -40,7 +40,6 @@ nlohmann::json WaveNbAttribute::json_to() const
   json["vmin"] = this->vmin;
   json["vmax"] = this->vmax;
   json["link_xy"] = this->link_xy;
-  std::cout << json.dump(4) << "\n";
   return json;
 }
 
