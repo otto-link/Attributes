@@ -14,7 +14,7 @@ std::shared_ptr<spdlog::logger> &Logger::log()
   if (!instance)
   {
     instance = spdlog::stdout_color_mt("console_attributes");
-    instance->set_pattern("[attr-] [%H:%M:%S] [%^---%L---%$] %v");
+    instance->set_pattern("[attr--] [%H:%M:%S] [%^---%L---%$] %v");
     instance->set_level(spdlog::level::trace);
   }
   return instance;
