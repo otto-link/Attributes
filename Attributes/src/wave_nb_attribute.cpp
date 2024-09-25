@@ -9,7 +9,7 @@ namespace attr
 
 WaveNbAttribute::WaveNbAttribute()
     : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber", BoundCheck::LOWER_ONLY),
-      value({4.f, 4.f}), vmin(0.f), vmax(16.f), link_xy(true)
+      value({2.f, 2.f}), vmin(0.f), vmax(16.f), link_xy(true)
 {
 }
 
