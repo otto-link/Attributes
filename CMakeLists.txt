@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(attributes-root VERSION 0.0.0)
 
-set(ATTRIBUTES_ENABLE_TESTS ON)
+option(ATTRIBUTES_ENABLE_TESTS "" ON)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
