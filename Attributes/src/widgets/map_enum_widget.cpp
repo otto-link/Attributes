@@ -1,6 +1,7 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <QLabel>
 
 #include "attributes/widgets/map_enum_widget.hpp"
 
@@ -9,7 +10,13 @@ namespace attr
 
 MapEnumWidget::MapEnumWidget(MapEnumAttribute *p_attr) : p_attr(p_attr)
 {
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  QVBoxLayout *layout = new QVBoxLayout(this);
+
+  if (this->p_attr->get_label() != "")
+  {
+    QLabel *label = new QLabel(this->p_attr->get_label().c_str());
+    layout->addWidget(label);
+  }
 
   this->combobox = new QComboBox();
 

@@ -5,6 +5,7 @@
 
 #include "attributes.hpp"
 #include "attributes/widgets/attributes_widget.hpp"
+#include "attributes/widgets/inspector_widget.hpp"
 
 #include <iostream>
 
@@ -44,6 +45,9 @@ int main(int argc, char *argv[])
   QMainWindow w;
 
   w.setCentralWidget(new attr::AttributesWidget(&map));
+
+  QWidget *inspector = new attr::InspectorWidget(&map);
+  inspector->show();
 
   w.show();
 
