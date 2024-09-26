@@ -30,7 +30,7 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
                 {
                   std::filesystem::path path = this->p_attr->get_value().parent_path();
 
-                  QString fname = QFileDialog::getOpenFileName(
+                  QString fname = QFileDialog::getSaveFileName(
                       this,
                       this->p_attr->get_label().c_str(),
                       path.string().c_str(),
