@@ -22,8 +22,6 @@ ArrayAttribute::ArrayAttribute(const hmap::Array &value, const std::string &labe
 void ArrayAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  // TODO
-  Logger::log()->critical("HeightmapAttribute::json_from");
 
   hmap::Vec2<int> shape(json["shape.x"], json["shape.y"]);
   this->value = hmap::Array(shape);
@@ -35,8 +33,6 @@ void ArrayAttribute::json_from(nlohmann::json const &json)
 nlohmann::json ArrayAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
-  // TODO
-  Logger::log()->critical("HeightmapAttribute::json_from");
 
   json["shape.x"] = this->value.shape.x;
   json["shape.y"] = this->value.shape.y;

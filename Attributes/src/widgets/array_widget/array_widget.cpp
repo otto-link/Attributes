@@ -31,6 +31,7 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
 
   // canvas
   this->canvas = new CanvasWidget();
+  this->canvas->set_image(this->array_to_image());
 
   this->connect(this->canvas,
                 &CanvasWidget::edit_ended,
