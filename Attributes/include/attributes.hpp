@@ -15,11 +15,11 @@
 
 #include "attributes/abstract_attribute.hpp"
 
+#include "attributes/array_attribute.hpp"
 #include "attributes/bool_attribute.hpp"
 #include "attributes/color_attribute.hpp"
 #include "attributes/filename_attribute.hpp"
 #include "attributes/float_attribute.hpp"
-#include "attributes/helpers.hpp"
 #include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
 #include "attributes/map_enum_attribute.hpp"

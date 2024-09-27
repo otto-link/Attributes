@@ -3,7 +3,6 @@
  * this software. */
 
 #include "attributes/float_attribute.hpp"
-#include "attributes/widgets/float_widget.hpp"
 
 namespace attr
 {

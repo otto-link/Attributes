@@ -3,6 +3,8 @@
 #include <QMainWindow>
 #include <QVBoxLayout>
 
+#include "highmap/array.hpp"
+
 #include "attributes.hpp"
 #include "attributes/widgets/attributes_widget.hpp"
 #include "attributes/widgets/inspector_widget.hpp"
@@ -37,17 +39,19 @@ int main(int argc, char *argv[])
   map["seed"] = attr::create_attr<attr::SeedAttribute>();
   map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
   map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
-
   map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
 
-  map["fname"]->json_to();
+  map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap", hmap::Vec2<int>(64, 64));
+
+  // std::cout << map.at("hmap")->to_string() << "\n";
+  // map.at("hmap")->json_to();
 
   QMainWindow w;
 
   w.setCentralWidget(new attr::AttributesWidget(&map));
 
-  QWidget *inspector = new attr::InspectorWidget(&map);
-  inspector->show();
+  // QWidget *inspector = new attr::InspectorWidget(&map);
+  // inspector->show();
 
   w.show();
 

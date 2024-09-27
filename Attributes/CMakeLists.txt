@@ -21,5 +21,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${ATTR_INCLUDE})
 
 # --- Link libraries
 target_link_libraries(
-  ${PROJECT_NAME} spdlog::spdlog nlohmann_json::nlohmann_json Qt6::Core
-  Qt6::Widgets valueSliders)
+  ${PROJECT_NAME}
+  spdlog::spdlog
+  nlohmann_json::nlohmann_json
+  Qt6::Core
+  Qt6::Widgets
+  valueSliders
+  highmap)

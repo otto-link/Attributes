@@ -3,7 +3,6 @@
  * this software. */
 
 #include "attributes/int_attribute.hpp"
-#include "attributes/widgets/int_widget.hpp"
 
 namespace attr
 {

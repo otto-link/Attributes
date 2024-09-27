@@ -37,11 +37,12 @@ namespace attr
  */
 enum AttributeType
 {
-  BOOL,      /**< Boolean attribute */
-  COLOR,     /**< Color attribute */
-  INT,       /**< Integer attribute */
-  FILENAME,  /**< Filename attribute */
-  FLOAT,     /**< Floating-point number attribute */
+  BOOL,     /**< Boolean attribute */
+  COLOR,    /**< Color attribute */
+  INT,      /**< Integer attribute */
+  FILENAME, /**< Filename attribute */
+  FLOAT,    /**< Floating-point number attribute */
+  HMAP_ARRAY,
   MAP_ENUM,  /**< Enum attribute */
   RANGE,     /**< Range attribute */
   SEED,      /**< Random seed attribute */
@@ -62,6 +63,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::INT, "Integer"},
     {AttributeType::FILENAME, "Filename"},
     {AttributeType::FLOAT, "Float"},
+    {AttributeType::HMAP_ARRAY, "Array"},
     {AttributeType::MAP_ENUM, "Enumeration"},
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},
@@ -175,6 +177,17 @@ public:
    * @param new_label The new label to set.
    */
   void set_label(const std::string &new_label) { this->label = new_label; }
+
+  /**
+   * @brief Converts the current object to a string representation.
+   *
+   * This pure virtual function must be overridden by derived classes to provide
+   * a string representation of the object. The content and format of the returned
+   * string are defined by the implementation in the derived class.
+   *
+   * @return std::string A string representation of the object.
+   */
+  virtual std::string to_string() = 0;
 
 protected:
   AttributeType type = AttributeType::INVALID; /**< The type of the attribute */
