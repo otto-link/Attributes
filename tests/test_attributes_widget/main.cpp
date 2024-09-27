@@ -41,12 +41,16 @@ int main(int argc, char *argv[])
   map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
   map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
 
-  map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap", hmap::Vec2<int>(64, 64));
+  map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
+                                                        hmap::Vec2<int>(256, 256));
 
   // std::cout << map.at("hmap")->to_string() << "\n";
   // map.at("hmap")->json_to();
 
   QMainWindow w;
+
+  auto brush = attr::get_attribute_widget(map.at("hmap").get());
+  brush->show();
 
   w.setCentralWidget(new attr::AttributesWidget(&map));
 

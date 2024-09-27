@@ -25,39 +25,22 @@ public:
 
   ArrayAttribute(const hmap::Array &value, const std::string &label = "Array");
 
+  hmap::Vec2<int> get_shape() const { return this->value.shape; }
+
   hmap::Array get_value() const { return this->value; }
 
-  /**
-   * @brief Deserialize the attribute from a JSON object.
-   *
-   * Loads the attribute's state from a provided JSON object.
-   *
-   * @param json The JSON object containing the attribute data.
-   */
+  hmap::Array *get_value_ref() { return &this->value; }
+
   void json_from(nlohmann::json const &json) override;
 
-  /**
-   * @brief Serialize the attribute to a JSON object.
-   *
-   * Generates a JSON representation of the attribute's current state.
-   *
-   * @return nlohmann::json A JSON object representing the attribute's state.
-   */
   nlohmann::json json_to() const override;
 
   void set_value(const hmap::Array &new_value) { this->value = new_value; }
 
-  /**
-   * @brief Convert the hmap::Array value to a string representation.
-   *
-   * Returns the hmap::Array value as a string.
-   *
-   * @return std::string The string representation of the hmap::Array value.
-   */
   std::string to_string();
 
 private:
-  hmap::Array value; /**< The hmap::Array value of the attribute */
+  hmap::Array value;
 };
 
 } // namespace attr
