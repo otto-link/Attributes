@@ -2,8 +2,11 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 
+#include <QGraphicsBlurEffect>
 #include <QMouseEvent>
 #include <QPainter>
+
+#include "highmap/range.hpp"
 
 #include "attributes/widgets/array_widget.hpp"
 
@@ -18,6 +21,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
   this->image = QImage(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH, QImage::Format_RGB32);
   this->image.fill(Qt::black);
   this->setMouseTracking(true);
+  this->setFocusPolicy(Qt::StrongFocus);
 
   this->update_brush_kernel();
 }
@@ -45,11 +49,25 @@ void CanvasWidget::draw_at(const QPoint &pos)
         // get current value and apply kernel
         float value = this->image.pixelColor(ic + p, jc + q).redF();
 
-        if (this->adding)
+        if (this->left_clicking)
         {
-          // reduce intensity when getting close to value saturation
-          float amp = this->brush_intensity * (1.f - value);
-          value += amp * this->kernel(p + nk, q + nk);
+          if (this->blending_add)
+          {
+            // reduce intensity when getting close to value saturation
+            float amp = this->brush_intensity * (1.f - value);
+            value += amp * this->kernel(p + nk, q + nk);
+          }
+          else if (this->blending_max)
+          {
+            value = hmap::maximum_smooth(value,
+                                         this->brush_intensity *
+                                             this->kernel(p + nk, q + nk),
+                                         0.1f);
+          }
+          else if (this->smoothing)
+          {
+            // TODO
+          }
         }
         else
           value -= this->brush_intensity * this->kernel(p + nk, q + nk);
@@ -63,6 +81,37 @@ void CanvasWidget::draw_at(const QPoint &pos)
       }
     }
   this->update();
+}
+
+void CanvasWidget::keyPressEvent(QKeyEvent *event)
+{
+  if (event->key() == Qt::Key_Shift)
+  {
+    this->blending_add = false;
+    this->blending_max = false;
+    this->smoothing = true;
+  }
+  else if (event->key() == Qt::Key_Control)
+  {
+    this->blending_add = false;
+    this->blending_max = true;
+    this->smoothing = false;
+  }
+
+  this->update();
+
+  QWidget::keyPressEvent(event);
+}
+
+void CanvasWidget::keyReleaseEvent(QKeyEvent *event)
+{
+  this->blending_add = true;
+  this->blending_max = false;
+  this->smoothing = false;
+
+  this->update();
+
+  QWidget::keyReleaseEvent(event);
 }
 
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
@@ -88,19 +137,19 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton)
   {
-    this->adding = true;
+    this->left_clicking = true;
     this->draw_at(event->pos());
   }
   else if (event->button() == Qt::RightButton)
   {
-    this->adding = false;
+    this->left_clicking = false;
     this->draw_at(event->pos());
   }
 }
 
 void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-  if (event->button() == Qt::LeftButton)
+  if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     Q_EMIT this->edit_ended(&this->image);
 }
 
@@ -115,7 +164,15 @@ void CanvasWidget::paintEvent(QPaintEvent * /* event */)
   // If the mouse is inside the widget, draw the brush circle
   if (rect().contains(local_pos))
   {
-    QPen pen(Qt::green);
+    QPen pen;
+
+    if (this->blending_max)
+      pen.setColor(Qt::blue);
+    else if (this->smoothing)
+      pen.setColor(Qt::red);
+    else
+      pen.setColor(Qt::green);
+
     pen.setWidth(2);
     painter.setPen(pen);
     painter.setBrush(Qt::NoBrush);

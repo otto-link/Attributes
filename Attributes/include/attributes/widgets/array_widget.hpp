@@ -66,10 +66,16 @@ public:
     return QSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH);
   }
 
+  void smooth();
+
 Q_SIGNALS:
   void edit_ended(QImage *p_image);
 
 protected:
+  void keyPressEvent(QKeyEvent *event) override;
+
+  void keyReleaseEvent(QKeyEvent *event) override;
+
   void paintEvent(QPaintEvent *event) override;
 
   void mouseMoveEvent(QMouseEvent *event) override;
@@ -89,7 +95,11 @@ private:
   float       brush_intensity;
   BrushKernel kernel_type;
 
-  bool adding;
+  bool left_clicking;
+
+  bool blending_add = true;
+  bool blending_max = false;
+  bool smoothing = false;
 
   hmap::Array kernel;
 
@@ -116,6 +126,8 @@ private:
   CanvasWidget *canvas;
 
   QImage array_to_image();
+
+  void smooth_array();
 };
 
 } // namespace attr

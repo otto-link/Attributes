@@ -9,6 +9,7 @@
 
 #include "doubleslider.hpp"
 
+#include "highmap/filters.hpp"
 #include "highmap/range.hpp"
 
 #include "attributes/widgets/array_widget.hpp"
@@ -36,7 +37,7 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
                 this,
                 &ArrayWidget::on_canvas_edit_ended);
 
-  layout->addWidget(this->canvas, row++, 0, 1, 3);
+  layout->addWidget(this->canvas, row++, 0, 1, 4);
 
   // brush type
   QComboBox *combo = new QComboBox();
@@ -72,10 +73,21 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
 
   layout->addWidget(slider, row, 1);
 
+  // smooth button
+  QPushButton *smooth_button = new QPushButton("Smooth");
+  this->connect(smooth_button, &QPushButton::pressed, [this]() { this->smooth_array(); });
+  layout->addWidget(smooth_button, row, 2);
+
   // clear button
   QPushButton *clear_button = new QPushButton("Clear");
-  this->connect(clear_button, &QPushButton::pressed, [this]() { this->canvas->clear(); });
-  layout->addWidget(clear_button, row, 2);
+  this->connect(clear_button,
+                &QPushButton::pressed,
+                [this]()
+                {
+                  this->canvas->clear();
+                  Q_EMIT this->value_changed();
+                });
+  layout->addWidget(clear_button, row, 3);
 
   this->setLayout(layout);
 }
@@ -94,7 +106,7 @@ QImage ArrayWidget::array_to_image()
   for (int i = 0; i < p_array->shape.x; i++)
     for (int j = 0; j < p_array->shape.y; j++)
     {
-      int value = (int)array_remap(i, j);
+      int value = (int)array_remap(i, p_array->shape.y - 1 - j);
       image.setPixelColor(i, j, QColor(value, value, value));
     }
 
@@ -114,6 +126,21 @@ void ArrayWidget::on_canvas_edit_ended(QImage *p_image)
     for (int j = 0; j < p_array->shape.y; j++)
       (*p_array)(i, j) = (float)qGray(scaled_image.pixel(i, p_array->shape.y - 1 - j)) /
                          255.f;
+
+  Q_EMIT this->value_changed();
+}
+
+void ArrayWidget::smooth_array()
+{
+  hmap::Array *p_array = this->p_attr->get_value_ref();
+
+  float radius = 0.02f;
+  int   ir = std::max((int)(radius * p_array->shape.x), 1);
+  hmap::smooth_cpulse(*p_array, ir);
+
+  QImage smoothed_image = this->array_to_image();
+  this->canvas->set_image(smoothed_image);
+  this->canvas->update();
 
   Q_EMIT this->value_changed();
 }
