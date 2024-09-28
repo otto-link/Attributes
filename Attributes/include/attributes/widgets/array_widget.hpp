@@ -18,7 +18,8 @@
 #include "attributes/array_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
-#define DEFAULT_CANVAS_WIDTH 512
+#define DEFAULT_CANVAS_RESOLUTION 512
+#define DEFAULT_CANVAS_WIDTH 384
 
 namespace attr
 {

@@ -23,11 +23,14 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
 
   // label
   int row = 0;
+
+  std::string label_text = "";
   if (this->p_attr->get_label() != "")
-  {
-    QLabel *label = new QLabel(this->p_attr->get_label().c_str());
-    layout->addWidget(label, row++, 0);
-  }
+    label_text += this->p_attr->get_label() + "\n";
+  label_text += "(default: add brush, Ctrl: max brush, Shift: smooth brush)";
+
+  QLabel *label = new QLabel(label_text.c_str());
+  layout->addWidget(label, row++, 0);
 
   // canvas
   this->canvas = new CanvasWidget();

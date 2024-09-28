@@ -18,10 +18,12 @@ CanvasWidget::CanvasWidget(QWidget *parent)
       kernel_type(BrushKernel::CUBIC_PULSE)
 {
   // initialize the canvas as a black image
-  this->image = QImage(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH, QImage::Format_RGB32);
+  this->image = QImage(DEFAULT_CANVAS_RESOLUTION,
+                       DEFAULT_CANVAS_RESOLUTION,
+                       QImage::Format_RGB32);
   this->image.fill(Qt::black);
   this->setMouseTracking(true);
-  this->setFocusPolicy(Qt::StrongFocus);
+  this->setFocusPolicy(Qt::ClickFocus);
 
   this->setMinimumSize(QSize(256, 256));
   this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -47,46 +49,86 @@ void CanvasWidget::draw_at(const QPoint &pos)
 
   int nk = this->brush_radius;
 
-  for (int p = -nk; p < nk + 1; p++)
-    for (int q = -nk; q < nk + 1; q++)
-    {
-      if (ic + p >= 0 && ic + p < this->image.width() && jc + q >= 0 &&
-          jc + q < this->image.height())
+  if (this->smoothing)
+  {
+    // apply an average filter on the brush region, intensity of the
+    // averaging is locally weighted by the kernel value
+    int navg = 5; //(int)(0.25f * this->brush_radius);
+
+    for (int p = -nk; p < nk + 1; p++)
+      for (int q = -nk; q < nk + 1; q++)
       {
-        // get current value and apply kernel
-        float value = this->image.pixelColor(ic + p, jc + q).redF();
-
-        if (this->left_clicking)
+        if (ic + p >= 0 && ic + p < this->image.width() && jc + q >= 0 &&
+            jc + q < this->image.height())
         {
-          if (this->blending_add)
-          {
-            // reduce intensity when getting close to value saturation
-            float amp = this->brush_intensity * (1.f - value);
-            value += amp * this->kernel(p + nk, q + nk);
-          }
-          else if (this->blending_max)
-          {
-            value = hmap::maximum_smooth(value,
-                                         this->brush_intensity *
-                                             this->kernel(p + nk, q + nk),
-                                         0.1f);
-          }
-          else if (this->smoothing)
-          {
-            // TODO
-          }
+          float value_bckp = this->image.pixelColor(ic + p, jc + q).redF();
+
+          // averaging
+          float sum = 0.f;
+          int   ns = 0;
+
+          for (int r = -navg; r < navg + 1; r++)
+            for (int s = -navg; s < navg + 1; s++)
+              if (ic + p + r >= 0 && ic + p + r < this->image.width() &&
+                  jc + q + s >= 0 && jc + q + s < this->image.height())
+              {
+                float v = this->image.pixelColor(ic + p + r, jc + q + s).redF();
+                sum += v;
+                ns++;
+              }
+
+          float t = this->kernel(p + nk, q + nk);
+          float value_avg = std::clamp(sum / (float)ns, 0.f, 1.f);
+          float value = (1.f - t) * value_bckp + t * value_avg;
+
+          QColor color;
+          color.setRgbF(value, value, value);
+
+          this->image.setPixelColor(ic + p, jc + q, color);
         }
-        else
-          value -= this->brush_intensity * this->kernel(p + nk, q + nk);
-
-        value = std::clamp(value, 0.f, 1.f);
-
-        QColor color;
-        color.setRgbF(value, value, value);
-
-        this->image.setPixelColor(ic + p, jc + q, color);
       }
-    }
+  }
+  else
+  {
+    // apply "standard" kernel add
+    for (int p = -nk; p < nk + 1; p++)
+      for (int q = -nk; q < nk + 1; q++)
+      {
+        if (ic + p >= 0 && ic + p < this->image.width() && jc + q >= 0 &&
+            jc + q < this->image.height())
+        {
+          // get current value and apply kernel
+          float value = this->image.pixelColor(ic + p, jc + q).redF();
+
+          if (this->left_clicking)
+          {
+            if (this->blending_add)
+            {
+              // reduce intensity when getting close to value saturation
+              float amp = this->brush_intensity * (1.f - value);
+              value += amp * this->kernel(p + nk, q + nk);
+            }
+            else if (this->blending_max)
+            {
+              value = hmap::maximum_smooth(value,
+                                           this->brush_intensity *
+                                               this->kernel(p + nk, q + nk),
+                                           0.1f);
+            }
+          }
+          else
+            value -= this->brush_intensity * this->kernel(p + nk, q + nk);
+
+          value = std::clamp(value, 0.f, 1.f);
+
+          QColor color;
+          color.setRgbF(value, value, value);
+
+          this->image.setPixelColor(ic + p, jc + q, color);
+        }
+      }
+  }
+
   this->update();
 }
 
@@ -213,7 +255,7 @@ void CanvasWidget::set_brush_radius(int new_brush_radius)
 void CanvasWidget::set_image(const QImage &new_image)
 {
   // rescale image to the canvas size
-  QSize  size = QSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH);
+  QSize  size = QSize(DEFAULT_CANVAS_RESOLUTION, DEFAULT_CANVAS_RESOLUTION);
   QImage scaled_image = new_image.scaled(size);
   this->image = scaled_image;
 }
