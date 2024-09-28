@@ -89,7 +89,9 @@ protected:
   void wheelEvent(QWheelEvent *event) override;
 
 private:
-  QImage      image;
+  QImage image;
+  QRect  image_rect;
+
   QColor      brush_color;
   int         brush_radius;
   float       brush_intensity;

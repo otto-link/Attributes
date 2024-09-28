@@ -23,6 +23,9 @@ CanvasWidget::CanvasWidget(QWidget *parent)
   this->setMouseTracking(true);
   this->setFocusPolicy(Qt::StrongFocus);
 
+  this->setMinimumSize(QSize(256, 256));
+  this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
   this->update_brush_kernel();
 }
 
@@ -35,8 +38,12 @@ void CanvasWidget::clear()
 
 void CanvasWidget::draw_at(const QPoint &pos)
 {
-  int ic = pos.x();
-  int jc = pos.y();
+  // rescale coordinates based on the current image size on screen
+  float dx = pos.x() - this->image_rect.topLeft().x();
+  float dy = pos.y() - this->image_rect.topLeft().y();
+
+  int ic = (int)(dx / this->image_rect.width() * this->image.width());
+  int jc = (int)(dy / this->image_rect.height() * this->image.height());
 
   int nk = this->brush_radius;
 
@@ -156,7 +163,19 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
 void CanvasWidget::paintEvent(QPaintEvent * /* event */)
 {
   QPainter painter(this);
-  painter.drawImage(0, 0, this->image);
+
+  // painter.drawImage(0, 0, this->image);
+
+  // scale the image to fit within the widget's size, maintaining aspect ratio
+  QImage scaled_image = this->image.scaled(this->size(),
+                                           Qt::KeepAspectRatio,
+                                           Qt::SmoothTransformation);
+  QPoint top_left((width() - scaled_image.width()) / 2,
+                  (height() - scaled_image.height()) / 2);
+  painter.drawImage(top_left, scaled_image);
+
+  // update current image rectangle
+  this->image_rect = QRect(top_left, scaled_image.size());
 
   // if the mouse is inside the widget, draw the brush circle
   QPoint local_pos = this->mapFromGlobal(QCursor::pos());
@@ -173,10 +192,14 @@ void CanvasWidget::paintEvent(QPaintEvent * /* event */)
     else
       pen.setColor(Qt::green);
 
+    // adjust brush radius to the actual image size as rendered
+    int radius = (int)(this->brush_radius * this->image_rect.width() /
+                       this->image.width());
+
     pen.setWidth(2);
     painter.setPen(pen);
     painter.setBrush(Qt::NoBrush);
-    painter.drawEllipse(local_pos, this->brush_radius, this->brush_radius);
+    painter.drawEllipse(local_pos, radius, radius);
   }
 }
 
