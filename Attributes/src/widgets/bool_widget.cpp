@@ -39,7 +39,6 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
 void BoolWidget::update_attribute_from_widget()
 {
   this->p_attr->set_value(this->button->isChecked());
-  std::cout << this->p_attr->to_string() << "\n";
   Q_EMIT this->value_changed();
 }
 

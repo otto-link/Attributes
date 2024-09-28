@@ -70,7 +70,6 @@ void ColorWidget::update_attribute_from_widget(QColor color)
 
   this->label->setStyleSheet(str.c_str());
 
-  std::cout << this->p_attr->to_string() << "\n";
   Q_EMIT this->value_changed();
 }
 
