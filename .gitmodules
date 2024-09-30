@@ -1,6 +1,6 @@
 [submodule "external/qt-value-slider"]
 	path = external/qt-value-slider
-	url = git@github.com:otto-link/qt-value-slider.git
+	url = git@github.com:BugelNiels/qt-value-slider.git
 [submodule "external/json"]
 	path = external/json
 	url = git@github.com:nlohmann/json.git
