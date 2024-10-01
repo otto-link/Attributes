@@ -31,10 +31,12 @@ CloudCanvasWidget::CloudCanvasWidget(CloudAttribute *p_attr, QWidget *parent)
 {
   int width = DEFAULT_CANVAS_WIDTH;
 
-  this->setFixedSize(QSize(width + 2, width + 2));
+  this->setFixedSize(QSize(width, width));
   this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  this->setDragMode(QGraphicsView::NoDrag);
+  // this->setViewportUpdateMode(QGraphicsView::NoViewportUpdate);
 
   // setup scene
   this->setScene(new QGraphicsScene(parent));
@@ -42,12 +44,12 @@ CloudCanvasWidget::CloudCanvasWidget(CloudAttribute *p_attr, QWidget *parent)
 
   // background
   this->scene()->addRect(QRectF(0.f, 0.f, this->width(), this->height()),
-                         QPen(Qt::black),
+                         QPen(Qt::gray, 1),
                          QBrush(Qt::black));
 
   this->scene()->addRect(
       QRectF(margin, margin, this->width() - 2 * margin, this->height() - 2 * margin),
-      QPen(Qt::white, Qt::DotLine),
+      QPen(Qt::gray, 1),
       QBrush(Qt::black));
 
   // update scene based on the input attribute
@@ -62,16 +64,13 @@ void CloudCanvasWidget::add_point(QPointF event_pos, float point_value)
 
   QGraphicsEllipseItem *ellipse_item = this->scene()->addEllipse(
       QRectF(new_point.x(), new_point.y(), radius, radius),
-      QPen(Qt::white),
+      QPen(Qt::gray),
       QBrush(Qt::black));
 
   // use `id_point_data` data storage to keep track of the value
   // assign to the point
   ellipse_item->setData(this->id_point_data, point_value);
   ellipse_item->setFlag(QGraphicsItem::ItemIsMovable);
-
-  this->update_attribute_from_widget();
-  this->update_point_colors();
 }
 
 void CloudCanvasWidget::clear()
@@ -101,6 +100,7 @@ void CloudCanvasWidget::mouseDoubleClickEvent(QMouseEvent *event)
   QGraphicsView::mouseDoubleClickEvent(event);
   this->add_point(QPointF(event->globalPosition()));
   this->update_attribute_from_widget();
+  this->update_point_colors();
 }
 
 void CloudCanvasWidget::mouseMoveEvent(QMouseEvent *event)
@@ -136,7 +136,7 @@ void CloudCanvasWidget::mousePressEvent(QMouseEvent *event)
       this->moving_point = dynamic_cast<QGraphicsEllipseItem *>(item);
       {
         this->offset = this->moving_point->pos() - scene_pos;
-        this->moving_point->setPen(QPen(Qt::white, 3));
+        this->moving_point->setPen(QPen(Qt::gray, 2));
         return;
       }
     }
@@ -165,11 +165,19 @@ void CloudCanvasWidget::mouseReleaseEvent(QMouseEvent *event)
 
   if (this->moving_point)
   {
-    this->moving_point->setPen(QPen(Qt::white, 1));
+    this->moving_point->setPen(QPen(Qt::gray, 1));
     this->moving_point = nullptr;
 
     this->update_attribute_from_widget();
   }
+}
+
+void CloudCanvasWidget::reset_scene()
+{
+  this->clear_scene();
+  this->update_scene();
+  this->update_point_colors();
+  this->update_attribute_from_widget();
 }
 
 void CloudCanvasWidget::update_attribute_from_widget()
@@ -186,8 +194,8 @@ void CloudCanvasWidget::update_attribute_from_widget()
       {
         QPointF position = qgraphicsitem_relative_coordinates(ellipse_item, this);
 
-        float x = (position.x() - margin) / (float)this->width();
-        float y = 1.f - (position.y() - margin) / (float)this->height();
+        float x = (position.x() - margin) / (float)(this->width() - 2 * margin);
+        float y = 1.f - (position.y() - margin) / (float)(this->height() - 2 * margin);
 
         points.push_back(hmap::Point(x, y, item->data(this->id_point_data).toFloat()));
       }
@@ -208,8 +216,11 @@ void CloudCanvasWidget::update_point_colors()
   for (QGraphicsItem *item : this->scene()->items())
     if (QGraphicsEllipseItem *ellipse_item = dynamic_cast<QGraphicsEllipseItem *>(item))
     {
-      float t = (ellipse_item->data(this->id_point_data).toFloat() - vmin) /
-                (vmax - vmin);
+      float t;
+      if (vmin != vmax)
+        t = (ellipse_item->data(this->id_point_data).toFloat() - vmin) / (vmax - vmin);
+      else
+        t = 0.f;
 
       float r = t * (1.f - t);
       float g = t * t;
@@ -230,8 +241,9 @@ void CloudCanvasWidget::update_scene()
 
   for (auto &p : this->p_attr->get_value().points)
   {
-    QPointF pos = QPointF(margin + p.x * this->width() + global_view_pos.x(),
-                          margin + (1.f - p.y) * this->height() + global_view_pos.y());
+    QPointF pos = QPointF(
+        margin + p.x * (this->width() - 2 * margin) + global_view_pos.x(),
+        margin + (1.f - p.y) * (this->height() - 2 * margin) + global_view_pos.y());
 
     this->add_point(pos, p.v);
   }
@@ -255,7 +267,6 @@ void CloudCanvasWidget::wheelEvent(QWheelEvent *event)
                               ellipse_item->data(this->id_point_data).toFloat() - delta);
 
       this->update_attribute_from_widget();
-
       this->update_point_colors();
     }
 }

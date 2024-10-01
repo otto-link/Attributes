@@ -34,6 +34,8 @@ public:
 
   void clear();
 
+  void reset_scene();
+
 Q_SIGNALS:
   void value_changed();
 
@@ -83,8 +85,6 @@ public:
 
 private:
   CloudAttribute *p_attr;
-
-  CloudCanvasWidget *canvas;
 
   QImage array_to_image();
 
