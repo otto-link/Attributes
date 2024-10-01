@@ -210,28 +210,31 @@ void CloudCanvasWidget::update_attribute_from_widget()
 
 void CloudCanvasWidget::update_point_colors()
 {
-  float vmin = this->p_attr->get_value().get_values_min();
-  float vmax = this->p_attr->get_value().get_values_max();
+  if (this->p_attr->get_value_ref()->get_npoints())
+  {
+    float vmin = this->p_attr->get_value_ref()->get_values_min();
+    float vmax = this->p_attr->get_value_ref()->get_values_max();
 
-  for (QGraphicsItem *item : this->scene()->items())
-    if (QGraphicsEllipseItem *ellipse_item = dynamic_cast<QGraphicsEllipseItem *>(item))
-    {
-      float t;
-      if (vmin != vmax)
-        t = (ellipse_item->data(this->id_point_data).toFloat() - vmin) / (vmax - vmin);
-      else
-        t = 0.f;
+    for (QGraphicsItem *item : this->scene()->items())
+      if (QGraphicsEllipseItem *ellipse_item = dynamic_cast<QGraphicsEllipseItem *>(item))
+      {
+        float t;
+        if (vmin != vmax)
+          t = (ellipse_item->data(this->id_point_data).toFloat() - vmin) / (vmax - vmin);
+        else
+          t = 0.f;
 
-      float r = t * (1.f - t);
-      float g = t * t;
-      float b = t;
+        float r = t * (1.f - t);
+        float g = t * t;
+        float b = t;
 
-      QColor color = QColor(static_cast<int>(r * 255),
-                            static_cast<int>(g * 255),
-                            static_cast<int>(b * 255));
+        QColor color = QColor(static_cast<int>(r * 255),
+                              static_cast<int>(g * 255),
+                              static_cast<int>(b * 255));
 
-      ellipse_item->setBrush(color);
-    }
+        ellipse_item->setBrush(color);
+      }
+  }
 }
 
 void CloudCanvasWidget::update_scene()
@@ -239,14 +242,15 @@ void CloudCanvasWidget::update_scene()
   this->clear_scene();
   QPointF global_view_pos = this->mapToGlobal(QPoint(0, 0));
 
-  for (auto &p : this->p_attr->get_value().points)
-  {
-    QPointF pos = QPointF(
-        margin + p.x * (this->width() - 2 * margin) + global_view_pos.x(),
-        margin + (1.f - p.y) * (this->height() - 2 * margin) + global_view_pos.y());
+  if (this->p_attr->get_value_ref()->get_npoints())
+    for (auto &p : this->p_attr->get_value_ref()->points)
+    {
+      QPointF pos = QPointF(
+          margin + p.x * (this->width() - 2 * margin) + global_view_pos.x(),
+          margin + (1.f - p.y) * (this->height() - 2 * margin) + global_view_pos.y());
 
-    this->add_point(pos, p.v);
-  }
+      this->add_point(pos, p.v);
+    }
 }
 
 void CloudCanvasWidget::wheelEvent(QWheelEvent *event)

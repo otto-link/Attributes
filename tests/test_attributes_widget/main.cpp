@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
                                                         hmap::Vec2<int>(256, 256));
 
-  auto cloud = hmap::Cloud(10, 0);
+  auto cloud = hmap::Cloud(); // 10, 0);
   map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
   std::cout << map.at("cloud")->to_string() << "\n";
