@@ -69,6 +69,9 @@ void CloudCanvasWidget::add_point(QPointF event_pos, float point_value)
   // assign to the point
   ellipse_item->setData(this->id_point_data, point_value);
   ellipse_item->setFlag(QGraphicsItem::ItemIsMovable);
+
+  this->update_attribute_from_widget();
+  this->update_point_colors();
 }
 
 void CloudCanvasWidget::clear()
@@ -148,6 +151,7 @@ void CloudCanvasWidget::mousePressEvent(QMouseEvent *event)
     {
       this->scene()->removeItem(item);
       this->update_attribute_from_widget();
+      this->update_point_colors();
       return;
     }
   }
