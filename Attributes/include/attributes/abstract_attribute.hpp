@@ -43,6 +43,7 @@ enum AttributeType
   FILENAME, /**< Filename attribute */
   FLOAT,    /**< Floating-point number attribute */
   HMAP_ARRAY,
+  HMAP_CLOUD,
   MAP_ENUM,  /**< Enum attribute */
   RANGE,     /**< Range attribute */
   SEED,      /**< Random seed attribute */
@@ -64,6 +65,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::FILENAME, "Filename"},
     {AttributeType::FLOAT, "Float"},
     {AttributeType::HMAP_ARRAY, "Array"},
+    {AttributeType::HMAP_CLOUD, "Cloud"},
     {AttributeType::MAP_ENUM, "Enumeration"},
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},

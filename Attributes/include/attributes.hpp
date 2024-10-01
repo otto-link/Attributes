@@ -17,6 +17,7 @@
 
 #include "attributes/array_attribute.hpp"
 #include "attributes/bool_attribute.hpp"
+#include "attributes/cloud_attribute.hpp"
 #include "attributes/color_attribute.hpp"
 #include "attributes/filename_attribute.hpp"
 #include "attributes/float_attribute.hpp"

@@ -22,6 +22,8 @@
 #pragma once
 #include <QWidget>
 
+#define DEFAULT_CANVAS_WIDTH 384
+
 namespace attr
 {
 

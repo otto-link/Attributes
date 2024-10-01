@@ -13,7 +13,7 @@
 namespace attr
 {
 
-CanvasWidget::CanvasWidget(QWidget *parent)
+ArrayCanvasWidget::ArrayCanvasWidget(QWidget *parent)
     : QWidget(parent), brush_color(Qt::white), brush_radius(64), brush_intensity(0.1f),
       kernel_type(BrushKernel::CUBIC_PULSE)
 {
@@ -25,20 +25,20 @@ CanvasWidget::CanvasWidget(QWidget *parent)
   this->setMouseTracking(true);
   this->setFocusPolicy(Qt::ClickFocus);
 
-  this->setMinimumSize(QSize(256, 256));
+  this->setMinimumSize(QSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH));
   this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   this->update_brush_kernel();
 }
 
-void CanvasWidget::clear()
+void ArrayCanvasWidget::clear()
 {
   this->image.fill(Qt::black);
   this->update();
   Q_EMIT this->edit_ended(&this->image);
 }
 
-void CanvasWidget::draw_at(const QPoint &pos)
+void ArrayCanvasWidget::draw_at(const QPoint &pos)
 {
   // rescale coordinates based on the current image size on screen
   float dx = pos.x() - this->image_rect.topLeft().x();
@@ -132,7 +132,7 @@ void CanvasWidget::draw_at(const QPoint &pos)
   this->update();
 }
 
-void CanvasWidget::keyPressEvent(QKeyEvent *event)
+void ArrayCanvasWidget::keyPressEvent(QKeyEvent *event)
 {
   if (event->key() == Qt::Key_Shift)
   {
@@ -152,7 +152,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent *event)
   QWidget::keyPressEvent(event);
 }
 
-void CanvasWidget::keyReleaseEvent(QKeyEvent *event)
+void ArrayCanvasWidget::keyReleaseEvent(QKeyEvent *event)
 {
   this->blending_add = true;
   this->blending_max = false;
@@ -163,7 +163,7 @@ void CanvasWidget::keyReleaseEvent(QKeyEvent *event)
   QWidget::keyReleaseEvent(event);
 }
 
-void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
+void ArrayCanvasWidget::mouseMoveEvent(QMouseEvent *event)
 {
   if (event->buttons() & (Qt::LeftButton | Qt::RightButton))
   {
@@ -182,7 +182,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event)
   this->update();
 }
 
-void CanvasWidget::mousePressEvent(QMouseEvent *event)
+void ArrayCanvasWidget::mousePressEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton)
   {
@@ -196,13 +196,13 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
+void ArrayCanvasWidget::mouseReleaseEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
     Q_EMIT this->edit_ended(&this->image);
 }
 
-void CanvasWidget::paintEvent(QPaintEvent * /* event */)
+void ArrayCanvasWidget::paintEvent(QPaintEvent * /* event */)
 {
   QPainter painter(this);
 
@@ -245,14 +245,14 @@ void CanvasWidget::paintEvent(QPaintEvent * /* event */)
   }
 }
 
-void CanvasWidget::set_brush_radius(int new_brush_radius)
+void ArrayCanvasWidget::set_brush_radius(int new_brush_radius)
 {
   this->brush_radius = new_brush_radius;
   this->update_brush_kernel();
   this->update();
 }
 
-void CanvasWidget::set_image(const QImage &new_image)
+void ArrayCanvasWidget::set_image(const QImage &new_image)
 {
   // rescale image to the canvas size
   QSize  size = QSize(DEFAULT_CANVAS_RESOLUTION, DEFAULT_CANVAS_RESOLUTION);
@@ -260,14 +260,14 @@ void CanvasWidget::set_image(const QImage &new_image)
   this->image = scaled_image;
 }
 
-void CanvasWidget::set_kernel_type(const BrushKernel &new_kernel_type)
+void ArrayCanvasWidget::set_kernel_type(const BrushKernel &new_kernel_type)
 {
   this->kernel_type = new_kernel_type;
   this->update_brush_kernel();
   this->update();
 }
 
-void CanvasWidget::update_brush_kernel()
+void ArrayCanvasWidget::update_brush_kernel()
 {
   hmap::Vec2<int> shape(2 * this->brush_radius + 1, 2 * this->brush_radius + 1);
 
@@ -283,7 +283,7 @@ void CanvasWidget::update_brush_kernel()
   this->kernel /= this->kernel.max();
 }
 
-void CanvasWidget::wheelEvent(QWheelEvent *event)
+void ArrayCanvasWidget::wheelEvent(QWheelEvent *event)
 {
   if (event->angleDelta().y() > 0)
     this->brush_radius += 1;

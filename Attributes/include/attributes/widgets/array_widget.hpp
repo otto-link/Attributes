@@ -19,7 +19,6 @@
 #include "attributes/widgets/abstract_widget.hpp"
 
 #define DEFAULT_CANVAS_RESOLUTION 512
-#define DEFAULT_CANVAS_WIDTH 384
 
 namespace attr
 {
@@ -39,11 +38,11 @@ static std::map<std::string, BrushKernel> brush_kernel_map = {
     {"Disc", BrushKernel::DISK},
 };
 
-class CanvasWidget : public QWidget
+class ArrayCanvasWidget : public QWidget
 {
   Q_OBJECT
 public:
-  CanvasWidget(QWidget *parent = nullptr);
+  ArrayCanvasWidget(QWidget *parent = nullptr);
 
   void clear();
 
@@ -126,7 +125,7 @@ public Q_SLOTS:
 private:
   ArrayAttribute *p_attr;
 
-  CanvasWidget *canvas;
+  ArrayCanvasWidget *canvas;
 
   QImage array_to_image();
 

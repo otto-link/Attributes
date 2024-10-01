@@ -33,11 +33,11 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
   layout->addWidget(label, row++, 0);
 
   // canvas
-  this->canvas = new CanvasWidget();
+  this->canvas = new ArrayCanvasWidget();
   this->canvas->set_image(this->array_to_image());
 
   this->connect(this->canvas,
-                &CanvasWidget::edit_ended,
+                &ArrayCanvasWidget::edit_ended,
                 this,
                 &ArrayWidget::on_canvas_edit_ended);
 
