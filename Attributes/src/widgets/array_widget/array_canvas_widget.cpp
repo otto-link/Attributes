@@ -25,7 +25,7 @@ ArrayCanvasWidget::ArrayCanvasWidget(QWidget *parent)
   this->setMouseTracking(true);
   this->setFocusPolicy(Qt::ClickFocus);
 
-  this->setMinimumSize(QSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH));
+  this->setMinimumSize(QSize(CANVAS_WIDTH, CANVAS_WIDTH));
   this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   this->update_brush_kernel();

@@ -61,10 +61,7 @@ public:
 
   void set_kernel_type(const BrushKernel &new_kernel_type);
 
-  QSize sizeHint() const override
-  {
-    return QSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_WIDTH);
-  }
+  QSize sizeHint() const override { return QSize(CANVAS_WIDTH, CANVAS_WIDTH); }
 
   void smooth();
 

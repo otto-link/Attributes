@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
   map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
   map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
 
-  map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
-                                                        hmap::Vec2<int>(256, 256));
+  // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
+  //                                                       hmap::Vec2<int>(256, 256));
 
-  auto cloud = hmap::Cloud(10, 0);
-  map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
+  // auto cloud = hmap::Cloud(10, 0);
+  // map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
   auto path = hmap::Path(10, 1);
   path.reorder_nns();

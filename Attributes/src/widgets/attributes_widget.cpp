@@ -13,6 +13,7 @@
 #include "attributes/widgets/float_widget.hpp"
 #include "attributes/widgets/int_widget.hpp"
 #include "attributes/widgets/map_enum_widget.hpp"
+#include "attributes/widgets/path_widget.hpp"
 #include "attributes/widgets/range_widget.hpp"
 #include "attributes/widgets/seed_widget.hpp"
 #include "attributes/widgets/vec2float_widget.hpp"
@@ -33,6 +34,7 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(FLOAT, FloatWidget, FloatAttribute, p_attr);
   RETURN_IF_MATCH(HMAP_ARRAY, ArrayWidget, ArrayAttribute, p_attr);
   RETURN_IF_MATCH(HMAP_CLOUD, CloudWidget, CloudAttribute, p_attr);
+  RETURN_IF_MATCH(HMAP_PATH, PathWidget, PathAttribute, p_attr);
   RETURN_IF_MATCH(INT, IntWidget, IntAttribute, p_attr);
   RETURN_IF_MATCH(MAP_ENUM, MapEnumWidget, MapEnumAttribute, p_attr);
   RETURN_IF_MATCH(RANGE, RangeWidget, RangeAttribute, p_attr);

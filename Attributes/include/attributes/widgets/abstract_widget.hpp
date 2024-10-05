@@ -22,7 +22,10 @@
 #pragma once
 #include <QWidget>
 
-#define DEFAULT_CANVAS_WIDTH 384
+#define CANVAS_WIDTH 384
+#define CANVAS_BGCOLOR QColor(42, 42, 42, 255)
+#define CANVAS_MARGIN 20
+#define CANVAS_POINT_RADIUS 5
 
 namespace attr
 {

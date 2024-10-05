@@ -18,8 +18,6 @@
 #include "attributes/cloud_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
-#define CANVAS_POINT_RADIUS 5
-
 namespace attr
 {
 
@@ -79,9 +77,6 @@ public:
   CloudWidget() = delete;
 
   CloudWidget(CloudAttribute *p_attr);
-
-  // public Q_SLOTS:
-  //   void on_canvas_edit_ended(QImage *p_image);
 
 private:
   CloudAttribute *p_attr;

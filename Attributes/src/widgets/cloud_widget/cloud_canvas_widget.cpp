@@ -29,7 +29,7 @@ QPointF qgraphicsitem_relative_coordinates(QGraphicsItem *item, QGraphicsView *v
 CloudCanvasWidget::CloudCanvasWidget(CloudAttribute *p_attr, QWidget *parent)
     : QGraphicsView(parent), p_attr(p_attr)
 {
-  int width = DEFAULT_CANVAS_WIDTH;
+  int width = CANVAS_WIDTH;
 
   this->setFixedSize(QSize(width, width));
   this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
