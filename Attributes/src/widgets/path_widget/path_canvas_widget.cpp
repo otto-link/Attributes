@@ -184,7 +184,7 @@ void PathCanvasWidget::paintEvent(QPaintEvent * /* event */)
 
   // background
   painter.setBrush(QBrush(CANVAS_BGCOLOR));
-  painter.setPen(Qt::NoPen);
+  painter.setPen(Qt::black);
   painter.drawRoundedRect(this->rect(), this->radius, this->radius);
 
   // domain limit
