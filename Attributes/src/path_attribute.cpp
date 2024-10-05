@@ -35,7 +35,7 @@ nlohmann::json PathAttribute::json_to() const
   nlohmann::json json = AbstractAttribute::json_to();
 
   json["x"] = this->value.get_x();
-  json["y"] = this->value.get_x();
+  json["y"] = this->value.get_y();
   json["values"] = this->value.get_values();
 
   return json;
