@@ -12,8 +12,8 @@
  */
 
 #pragma once
-#include <QGraphicsEllipseItem>
-#include <QGraphicsView>
+#include <QWheelEvent>
+#include <QWidget>
 
 #include "attributes/cloud_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -21,7 +21,7 @@
 namespace attr
 {
 
-class CloudCanvasWidget : public QGraphicsView
+class CloudCanvasWidget : public QWidget
 {
   Q_OBJECT
 
@@ -32,7 +32,9 @@ public:
 
   void clear();
 
-  void reset_scene();
+  void randomize();
+
+  void update_widget_from_attribute();
 
 Q_SIGNALS:
   void value_changed();
@@ -46,27 +48,30 @@ protected:
 
   void mouseReleaseEvent(QMouseEvent *event) override;
 
+  void paintEvent(QPaintEvent *event) override;
+
   void wheelEvent(QWheelEvent *event) override;
 
 private:
   CloudAttribute *p_attr;
 
-  float radius = 20.f;
-  float margin = 10.f;
-  int   id_point_data = 0;
+  float margin;
 
-  QGraphicsEllipseItem *moving_point = nullptr;
-  QPointF               offset;
+  float radius;
 
-  void add_point(QPointF event_pos, float point_value = 1.f);
+  std::vector<QPointF> qpoints = {};
 
-  void clear_scene();
+  std::vector<float> qvalues = {};
+
+  int moving_point_index = -1;
+
+  QPointF map_to_value(const QPointF &widget_point);
+
+  QPointF map_to_widget(const QPointF &value_point);
+
+  int get_hovered_point_index(const QPointF &pos);
 
   void update_attribute_from_widget();
-
-  void update_point_colors();
-
-  void update_scene();
 };
 
 class CloudWidget : public AbstractWidget
@@ -80,10 +85,6 @@ public:
 
 private:
   CloudAttribute *p_attr;
-
-  QImage array_to_image();
-
-  void smooth_array();
 };
 
 } // namespace attr

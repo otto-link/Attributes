@@ -36,16 +36,7 @@ CloudWidget::CloudWidget(CloudAttribute *p_attr) : p_attr(p_attr)
   {
     QPushButton *button = new QPushButton("Randomize");
     layout->addWidget(button, row, 0);
-    this->connect(button,
-                  &QPushButton::pressed,
-                  [this, canvas]()
-                  {
-                    if (this->p_attr->get_value_ref()->get_npoints())
-                    {
-                      this->p_attr->get_value_ref()->randomize((uint)time(NULL));
-                      canvas->reset_scene();
-                    }
-                  });
+    this->connect(button, &QPushButton::pressed, [canvas]() { canvas->randomize(); });
 
     // clear button
     {

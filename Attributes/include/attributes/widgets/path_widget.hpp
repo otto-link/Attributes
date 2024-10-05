@@ -36,8 +36,6 @@ public:
 
   void reorder_nns();
 
-  void update_widget_from_attribute();
-
 Q_SIGNALS:
   void value_changed();
 
@@ -78,6 +76,8 @@ private:
   int get_hovered_edge_index(const QPointF &pos);
 
   void update_attribute_from_widget();
+
+  void update_widget_from_attribute();
 };
 
 class PathWidget : public AbstractWidget
