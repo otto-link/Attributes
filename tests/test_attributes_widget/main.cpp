@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
   // auto cloud = hmap::Cloud(10, 0);
   // map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
-  auto path = hmap::Path(10, 1);
-  path.reorder_nns();
+  auto path = hmap::Path(); // 10, 1);
+  // path.reorder_nns();
   map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");
 
   std::cout << map.at("path")->to_string() << "\n";

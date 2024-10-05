@@ -31,33 +31,34 @@ void PathCanvasWidget::clear()
 
 int PathCanvasWidget::get_hovered_edge_index(const QPointF &pos)
 {
-  for (size_t k = 0; k < this->qpoints.size() - 1; k++)
-  {
-    QPointF p1 = this->qpoints[k];
-    QPointF p2 = this->qpoints[k + 1];
+  if (this->qpoints.size() > 1)
+    for (size_t k = 0; k < this->qpoints.size() - 1; k++)
+    {
+      QPointF p1 = this->qpoints[k];
+      QPointF p2 = this->qpoints[k + 1];
 
-    if (p1 == p2)
-      return -1;
+      if (p1 == p2)
+        return -1;
 
-    float dx = p2.x() - p1.x();
-    float dy = p2.y() - p1.y();
-    float d2 = dx * dx + dy * dy;
+      float dx = p2.x() - p1.x();
+      float dy = p2.y() - p1.y();
+      float d2 = dx * dx + dy * dy;
 
-    // calculate the projection of the mouse point onto the line
-    // segment and clamp t to the range [0, 1] to make sure the
-    // projection lies on the segment
-    float t = ((pos.x() - p1.x()) * dx + (pos.y() - p1.y()) * dy) / d2;
-    t = std::clamp(t, 0.f, 1.f);
+      // calculate the projection of the mouse point onto the line
+      // segment and clamp t to the range [0, 1] to make sure the
+      // projection lies on the segment
+      float t = ((pos.x() - p1.x()) * dx + (pos.y() - p1.y()) * dy) / d2;
+      t = std::clamp(t, 0.f, 1.f);
 
-    // find the closest point on the line segment and compute the
-    // distance between the mouse and the closest point on the line
-    // segment
-    QPointF closest_point = QPointF(p1.x() + t * dx, p1.y() + t * dy);
-    float   distance = QLineF(closest_point, pos).length();
+      // find the closest point on the line segment and compute the
+      // distance between the mouse and the closest point on the line
+      // segment
+      QPointF closest_point = QPointF(p1.x() + t * dx, p1.y() + t * dy);
+      float   distance = QLineF(closest_point, pos).length();
 
-    if (distance <= 2.f * CANVAS_POINT_RADIUS)
-      return static_cast<int>(k);
-  }
+      if (distance <= 2.f * CANVAS_POINT_RADIUS)
+        return static_cast<int>(k);
+    }
 
   return -1;
 }

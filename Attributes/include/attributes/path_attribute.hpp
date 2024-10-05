@@ -23,7 +23,7 @@ class PathAttribute : public AbstractAttribute
 public:
   PathAttribute(const std::string &label);
 
-  PathAttribute(const hmap::Path &value, const std::string &label = "Path");
+  PathAttribute(const hmap::Path &value, const std::string &label);
 
   hmap::Path get_value() const { return this->value; }
 
