@@ -24,6 +24,7 @@
 #include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
 #include "attributes/map_enum_attribute.hpp"
+#include "attributes/path_attribute.hpp"
 #include "attributes/range_attribute.hpp"
 #include "attributes/seed_attribute.hpp"
 #include "attributes/vec2float_attribute.hpp"

@@ -3,9 +3,6 @@
 #include <QMainWindow>
 #include <QVBoxLayout>
 
-#include "highmap/array.hpp"
-#include "highmap/geometry/cloud.hpp"
-
 #include "attributes.hpp"
 #include "attributes/widgets/attributes_widget.hpp"
 #include "attributes/widgets/inspector_widget.hpp"
@@ -45,10 +42,14 @@ int main(int argc, char *argv[])
   map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
                                                         hmap::Vec2<int>(256, 256));
 
-  auto cloud = hmap::Cloud(); // 10, 0);
+  auto cloud = hmap::Cloud(10, 0);
   map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
-  std::cout << map.at("cloud")->to_string() << "\n";
+  auto path = hmap::Path(10, 1);
+  path.reorder_nns();
+  map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");
+
+  std::cout << map.at("path")->to_string() << "\n";
 
   //
   QMainWindow w;
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
   // auto brush = attr::get_attribute_widget(map.at("hmap").get());
   // brush->show();
 
-  auto point = attr::get_attribute_widget(map.at("cloud").get());
+  auto point = attr::get_attribute_widget(map.at("path").get());
   point->show();
 
   w.setCentralWidget(new attr::AttributesWidget(&map));
