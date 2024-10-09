@@ -1,6 +1,9 @@
 # Attributes
 
-**Attributes** is a C++ library that provides a collection of standard attributes, each paired with a corresponding Qt widget for editing their values. This library is designed to streamline the management of various data types in applications, offering an intuitive interface for both developers and users to handle attributes seamlessly.
+**Attributes** is a C++ library that provides a collection of standard attributes, each paired with a corresponding Qt widget for editing their values. This library is designed to streamline the management of various data types in applications.
+
+![Screenshot_2024-10-09_17-12-43](https://github.com/user-attachments/assets/30545098-55f0-40d9-b4ef-9dc094523f82)
+
 
 ## Features
 
