@@ -37,8 +37,9 @@ namespace attr
  */
 enum AttributeType
 {
-  BOOL,     /**< Boolean attribute */
-  COLOR,    /**< Color attribute */
+  BOOL,  /**< Boolean attribute */
+  COLOR, /**< Color attribute */
+  COLOR_GRADIENT,
   INT,      /**< Integer attribute */
   FILENAME, /**< Filename attribute */
   FLOAT,    /**< Floating-point number attribute */
@@ -62,6 +63,7 @@ enum AttributeType
 static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::BOOL, "Bool"},
     {AttributeType::COLOR, "Color"},
+    {AttributeType::COLOR_GRADIENT, "Color gradient"},
     {AttributeType::INT, "Integer"},
     {AttributeType::FILENAME, "Filename"},
     {AttributeType::FLOAT, "Float"},

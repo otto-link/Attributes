@@ -8,6 +8,7 @@
 #include "attributes/widgets/array_widget.hpp"
 #include "attributes/widgets/bool_widget.hpp"
 #include "attributes/widgets/cloud_widget.hpp"
+#include "attributes/widgets/color_gradient_widget.hpp"
 #include "attributes/widgets/color_widget.hpp"
 #include "attributes/widgets/filename_widget.hpp"
 #include "attributes/widgets/float_widget.hpp"
@@ -30,6 +31,7 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
 {
   RETURN_IF_MATCH(BOOL, BoolWidget, BoolAttribute, p_attr);
   RETURN_IF_MATCH(COLOR, ColorWidget, ColorAttribute, p_attr);
+  RETURN_IF_MATCH(COLOR_GRADIENT, ColorGradientWidget, ColorGradientAttribute, p_attr);
   RETURN_IF_MATCH(FILENAME, FilenameWidget, FilenameAttribute, p_attr);
   RETURN_IF_MATCH(FLOAT, FloatWidget, FloatAttribute, p_attr);
   RETURN_IF_MATCH(HMAP_ARRAY, ArrayWidget, ArrayAttribute, p_attr);
@@ -104,7 +106,7 @@ AttributesWidget::AttributesWidget(
 
       this->connect(widget,
                     &AbstractWidget::value_changed,
-                    [this]() { Q_EMIT this->value_changed(); });
+                    [this, p_attr]() { Q_EMIT this->value_changed(); });
 
       count++;
     }

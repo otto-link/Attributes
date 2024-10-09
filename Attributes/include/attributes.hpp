@@ -19,6 +19,7 @@
 #include "attributes/bool_attribute.hpp"
 #include "attributes/cloud_attribute.hpp"
 #include "attributes/color_attribute.hpp"
+#include "attributes/color_gradient_attribute.hpp"
 #include "attributes/filename_attribute.hpp"
 #include "attributes/float_attribute.hpp"
 #include "attributes/int_attribute.hpp"

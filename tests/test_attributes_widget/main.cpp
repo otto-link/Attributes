@@ -39,17 +39,21 @@ int main(int argc, char *argv[])
   map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
   map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
 
+  std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
+                                                      {1.f, 0.f, 1.f, 0.f, 1.f}};
+
+  map["gradient"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
+  std::cout << map.at("gradient").get()->to_string() << "\n";
+  std::cout << map.at("gradient").get()->json_to().dump(4) << "\n";
+
   // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
   //                                                       hmap::Vec2<int>(256, 256));
 
-  auto cloud = hmap::Cloud(10, 0);
-  map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
+  // auto cloud = hmap::Cloud(10, 0);
+  // map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
-  auto path = hmap::Path(); // 10, 1);
-  // path.reorder_nns();
-  map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");
-
-  std::cout << map.at("path")->to_string() << "\n";
+  // auto path = hmap::Path(); // 10, 1);
+  // map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");
 
   //
   QMainWindow w;
@@ -57,8 +61,8 @@ int main(int argc, char *argv[])
   // auto brush = attr::get_attribute_widget(map.at("hmap").get());
   // brush->show();
 
-  auto point = attr::get_attribute_widget(map.at("cloud").get());
-  point->show();
+  // auto point = attr::get_attribute_widget(map.at("cloud").get());
+  // point->show();
 
   w.setCentralWidget(new attr::AttributesWidget(&map));
 
