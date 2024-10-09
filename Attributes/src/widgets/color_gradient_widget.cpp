@@ -118,9 +118,13 @@ void ColorGradientWidget::on_item_double_click(QListWidgetItem *item)
 
 void ColorGradientWidget::remove_color()
 {
-  QListWidgetItem *selected_item = this->color_list->currentItem();
-  delete selected_item;
-  this->update();
+  // do not allow "zero" colors, at least one color needed
+  if (this->color_list->count() > 1)
+  {
+    QListWidgetItem *selected_item = this->color_list->currentItem();
+    delete selected_item;
+    this->update();
+  }
 }
 
 void ColorGradientWidget::update()
