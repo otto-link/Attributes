@@ -4,7 +4,7 @@
 
 ![Screenshot_2024-10-09_17-12-43](https://github.com/user-attachments/assets/30545098-55f0-40d9-b4ef-9dc094523f82)
 
-This library is currently used in the Hesiod GUI, a node-based system for heightmap generation, to manage and edit node attributes.
+This library is currently used in the [Hesiod](https://github.com/otto-link/Hesiod) GUI, a node-based system for heightmap generation, to manage and edit node attributes.
 
 ## Features
 
