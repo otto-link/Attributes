@@ -16,6 +16,8 @@
 #pragma once
 #include "attributes/abstract_attribute.hpp"
 
+typedef unsigned int uint;
+
 namespace attr
 {
 
