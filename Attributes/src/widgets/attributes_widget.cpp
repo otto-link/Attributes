@@ -44,9 +44,8 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(VEC2FLOAT, Vec2FloatWidget, Vec2FloatAttribute, p_attr);
   RETURN_IF_MATCH(WAVE_NB, WaveNbWidget, WaveNbAttribute, p_attr);
 
-  Logger::log()->warn("Could not find any widget for the attribute type: {} ({})",
-                      p_attr->get_type(),
-                      attribute_type_map.at(p_attr->get_type()));
+  Logger::log()->warn("Could not find any widget for the attribute type: {}",
+                      p_attr->get_type());
 
   return nullptr;
 }
