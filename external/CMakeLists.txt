@@ -1,4 +1,4 @@
-add_subdirectory(qt-value-slider)
+include(qt-value-slider.cmake)
 
 # add it ony if it has not being added before by any other dependency
 if(NOT TARGET nlohmann_json)
