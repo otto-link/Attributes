@@ -21,7 +21,7 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
     layout->addWidget(label);
   }
 
-  this->button = new QPushButton(this->p_attr->get_value().c_str());
+  this->button = new QPushButton(this->p_attr->get_value().string().c_str());
   layout->addWidget(this->button);
 
   this->connect(this->button,
@@ -52,7 +52,7 @@ void FilenameWidget::update_attribute_from_widget()
 {
   Logger::log()->trace("{}", p_attr->to_string());
 
-  std::string basename = this->p_attr->get_value().filename();
+  std::string basename = this->p_attr->get_value().filename().string();
   this->button->setText(basename.c_str());
 
   Q_EMIT this->value_changed();
