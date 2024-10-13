@@ -21,7 +21,7 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
     layout->addWidget(label);
   }
 
-  this->button = new QPushButton(QString::fromStdString(this->p_attr->get_value()));
+  this->button = new QPushButton(this->p_attr->get_value().c_str());
   layout->addWidget(this->button);
 
   this->connect(this->button,
