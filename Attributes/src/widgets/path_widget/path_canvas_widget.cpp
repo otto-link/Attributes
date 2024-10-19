@@ -27,6 +27,7 @@ void PathCanvasWidget::clear()
   this->qvalues.clear();
   this->update();
   this->update_attribute_from_widget();
+  Q_EMIT this->value_changed();
 }
 
 int PathCanvasWidget::get_hovered_edge_index(const QPointF &pos)
@@ -246,6 +247,26 @@ void PathCanvasWidget::paintEvent(QPaintEvent * /* event */)
   }
 }
 
+void PathCanvasWidget::randomize()
+{
+  if (this->p_attr->get_value_ref()->get_npoints())
+  {
+    this->p_attr->get_value_ref()->randomize((uint)time(NULL));
+    this->p_attr->get_value_ref()->reorder_nns();
+    this->update_widget_from_attribute();
+    this->update();
+    Q_EMIT this->value_changed();
+  }
+}
+
+void PathCanvasWidget::reorder_nns()
+{
+  this->p_attr->get_value_ref()->reorder_nns();
+  this->update_widget_from_attribute();
+  this->update();
+  Q_EMIT this->value_changed();
+}
+
 void PathCanvasWidget::update_attribute_from_widget()
 {
   std::vector<float> x, y, v;
@@ -262,24 +283,6 @@ void PathCanvasWidget::update_attribute_from_widget()
   this->p_attr->set_value(hmap::Path(x, y, v));
 
   Q_EMIT this->value_changed();
-}
-
-void PathCanvasWidget::randomize()
-{
-  if (this->p_attr->get_value_ref()->get_npoints())
-  {
-    this->p_attr->get_value_ref()->randomize((uint)time(NULL));
-    this->p_attr->get_value_ref()->reorder_nns();
-    this->update_widget_from_attribute();
-    this->update();
-  }
-}
-
-void PathCanvasWidget::reorder_nns()
-{
-  this->p_attr->get_value_ref()->reorder_nns();
-  this->update_widget_from_attribute();
-  this->update();
 }
 
 void PathCanvasWidget::update_widget_from_attribute()

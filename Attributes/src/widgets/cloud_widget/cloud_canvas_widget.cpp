@@ -175,6 +175,17 @@ void CloudCanvasWidget::paintEvent(QPaintEvent * /* event */)
   }
 }
 
+void CloudCanvasWidget::randomize()
+{
+  if (this->p_attr->get_value_ref()->get_npoints())
+  {
+    this->p_attr->get_value_ref()->randomize((uint)time(NULL));
+    this->update_widget_from_attribute();
+    this->update();
+    Q_EMIT this->value_changed();
+  }
+}
+
 void CloudCanvasWidget::update_attribute_from_widget()
 {
   std::vector<float> x, y, v;
@@ -191,16 +202,6 @@ void CloudCanvasWidget::update_attribute_from_widget()
   this->p_attr->set_value(hmap::Cloud(x, y, v));
 
   Q_EMIT this->value_changed();
-}
-
-void CloudCanvasWidget::randomize()
-{
-  if (this->p_attr->get_value_ref()->get_npoints())
-  {
-    this->p_attr->get_value_ref()->randomize((uint)time(NULL));
-    this->update_widget_from_attribute();
-    this->update();
-  }
 }
 
 void CloudCanvasWidget::update_widget_from_attribute()
