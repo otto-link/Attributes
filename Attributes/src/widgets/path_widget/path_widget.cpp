@@ -26,30 +26,50 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
 
   // canvas
   PathCanvasWidget *canvas = new PathCanvasWidget(this->p_attr, this);
-  layout->addWidget(canvas, row++, 0, 1, 3);
+  layout->addWidget(canvas, row++, 0, 1, 4);
 
   this->connect(canvas,
                 &PathCanvasWidget::value_changed,
                 [this]() { Q_EMIT this->value_changed(); });
 
+  // close/open button
+  {
+    std::string label = this->p_attr->get_value_ref()->closed ? "Closed" : "Opened";
+
+    QPushButton *button = new QPushButton(label.c_str());
+    button->setCheckable(true);
+    button->setChecked(this->p_attr->get_value_ref()->closed);
+
+    layout->addWidget(button, row, 0);
+    this->connect(
+        button,
+        &QPushButton::pressed,
+        [this, button]()
+        {
+          this->p_attr->get_value_ref()->closed = !this->p_attr->get_value_ref()->closed;
+          button->setText(this->p_attr->get_value_ref()->closed ? "Closed" : "Opened");
+	  Q_EMIT this->value_changed();
+        });
+  }
+
   // randomize button
   {
     QPushButton *button = new QPushButton("Randomize");
-    layout->addWidget(button, row, 0);
+    layout->addWidget(button, row, 1);
     this->connect(button, &QPushButton::pressed, [canvas]() { canvas->randomize(); });
   }
 
   // reorder
   {
     QPushButton *button = new QPushButton("Reorder (NNS)");
-    layout->addWidget(button, row, 1);
+    layout->addWidget(button, row, 2);
     this->connect(button, &QPushButton::pressed, [canvas]() { canvas->reorder_nns(); });
   }
 
   // clear button
   {
     QPushButton *button = new QPushButton("Clear");
-    layout->addWidget(button, row, 2);
+    layout->addWidget(button, row, 3);
     this->connect(button, &QPushButton::pressed, [canvas]() { canvas->clear(); });
   }
 }
