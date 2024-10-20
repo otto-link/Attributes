@@ -48,7 +48,7 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
         {
           this->p_attr->get_value_ref()->closed = !this->p_attr->get_value_ref()->closed;
           button->setText(this->p_attr->get_value_ref()->closed ? "Closed" : "Opened");
-	  Q_EMIT this->value_changed();
+          Q_EMIT this->value_changed();
         });
   }
 

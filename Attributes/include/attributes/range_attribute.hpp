@@ -44,8 +44,9 @@ public:
    * @brief Constructor to initialize a RangeAttribute with a label.
    *
    * @param label The label describing the attribute.
+   * @param is_active Whether the attribute is active (optional, default is true).
    */
-  RangeAttribute(const std::string &label);
+  RangeAttribute(const std::string &label, bool is_active = true);
 
   /**
    * @brief Constructor to initialize a RangeAttribute with a value range, bounds, and
