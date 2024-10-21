@@ -101,10 +101,10 @@ void XYWidget::handle_mouse_event(const QPoint &widget_point)
 QPointF XYWidget::map_to_value(const QPointF &widget_point)
 {
   float x = this->p_attr->get_xmin() +
-            (widget_point.x() - margin) / (this->size().width() - margin) *
+            (widget_point.x() - margin) / (this->width() - margin) *
                 (this->p_attr->get_xmax() - this->p_attr->get_xmin());
   float y = this->p_attr->get_ymax() -
-            (widget_point.y() - margin) / (this->size().height() - margin) *
+            (widget_point.y() - margin) / (this->height() - margin) *
                 (this->p_attr->get_ymax() - this->p_attr->get_ymin());
 
   x = std::clamp(x, this->p_attr->get_xmin(), this->p_attr->get_xmax());
@@ -117,10 +117,10 @@ QPointF XYWidget::map_to_widget(const QPointF &value_point)
 {
   float x = 2.f * radius + (value_point.x() - this->p_attr->get_xmin()) /
                                (this->p_attr->get_xmax() - this->p_attr->get_xmin()) *
-                               (this->size().width() - margin);
+                               (this->width() - margin);
   float y = 2.f * radius + (this->p_attr->get_ymax() - value_point.y()) /
                                (this->p_attr->get_ymax() - this->p_attr->get_ymin()) *
-                               (this->size().height() - margin);
+                               (this->height() - margin);
   return QPointF(x, y);
 }
 

@@ -32,25 +32,36 @@ int main(int argc, char *argv[])
 
   std::map<std::string, int> choices = {{"choice 1", 0}, {"choice 2", 1}};
   map["enum"] = attr::create_attr<attr::MapEnumAttribute>("choice2", choices, "MapEnum");
-
-  map["range"] = attr::create_attr<attr::RangeAttribute>("remap");
+  // map["range"] = attr::create_attr<attr::RangeAttribute>("remap");
   map["seed"] = attr::create_attr<attr::SeedAttribute>();
-  map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
+  // map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
+
   map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
   map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
 
-  std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
-                                                      {1.f, 0.f, 1.f, 0.f, 1.f}};
+  if (false)
+  {
+    std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
+                                                        {1.f, 0.f, 1.f, 0.f, 1.f}};
 
-  map["gradient"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
-  std::cout << map.at("gradient").get()->to_string() << "\n";
-  std::cout << map.at("gradient").get()->json_to().dump(4) << "\n";
+    map["gradient"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
+    std::cout << map.at("gradient").get()->to_string() << "\n";
+    std::cout << map.at("gradient").get()->json_to().dump(4) << "\n";
+  }
+
+  std::vector<float> v0 = {0.2f, 0.5f, 1.f};
+  map["vec_float"] = attr::create_attr<attr::VecFloatAttribute>(v0,
+                                                                0.f,
+                                                                1.f,
+                                                                "vec_float");
+  std::cout << map.at("vec_float").get()->to_string() << "\n";
+  std::cout << map.at("vec_float").get()->json_to().dump(4) << "\n";
 
   // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
   //                                                       hmap::Vec2<int>(256, 256));
 
-  // auto cloud = hmap::Cloud(10, 0);
-  // map["cloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
+  auto cloud = hmap::Cloud(10, 0);
+  map["zcloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
   // auto path = hmap::Path(); // 10, 1);
   // map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");

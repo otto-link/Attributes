@@ -49,7 +49,8 @@ enum AttributeType
   MAP_ENUM,  /**< Enum attribute */
   RANGE,     /**< Range attribute */
   SEED,      /**< Random seed attribute */
-  VEC2FLOAT, /**< 2D vector of floats */
+  VEC_FLOAT, /**< Vector of floats */
+  VEC2FLOAT, /**< (x, y) floats */
   WAVE_NB,   /**< Wavenumber attribute */
   INVALID,   /**< Invalid attribute */
 };
@@ -73,6 +74,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::MAP_ENUM, "Enumeration"},
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},
+    {AttributeType::VEC_FLOAT, "Vector of floats"},
     {AttributeType::VEC2FLOAT, "Vec2Float"},
     {AttributeType::WAVE_NB, "Wavenumber"},
 };

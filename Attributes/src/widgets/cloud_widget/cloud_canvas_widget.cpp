@@ -46,8 +46,8 @@ int CloudCanvasWidget::get_hovered_point_index(const QPointF &pos)
 
 QPointF CloudCanvasWidget::map_to_value(const QPointF &widget_point)
 {
-  float x = (widget_point.x() - margin) / (this->size().width() - 2.f * margin);
-  float y = 1.f - (widget_point.y() - margin) / (this->size().height() - 2.f * margin);
+  float x = (widget_point.x() - margin) / (this->width() - 2.f * margin);
+  float y = 1.f - (widget_point.y() - margin) / (this->height() - 2.f * margin);
 
   x = std::clamp(x, 0.f, 1.f);
   y = std::clamp(y, 0.f, 1.f);
@@ -57,8 +57,8 @@ QPointF CloudCanvasWidget::map_to_value(const QPointF &widget_point)
 
 QPointF CloudCanvasWidget::map_to_widget(const QPointF &value_point)
 {
-  float x = margin + value_point.x() * (this->size().width() - 2.f * margin);
-  float y = margin + (1.f - value_point.y()) * (this->size().height() - 2.f * margin);
+  float x = margin + value_point.x() * (this->width() - 2.f * margin);
+  float y = margin + (1.f - value_point.y()) * (this->height() - 2.f * margin);
   return QPointF(x, y);
 }
 
