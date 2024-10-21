@@ -19,6 +19,7 @@
 #include "attributes/widgets/seed_widget.hpp"
 #include "attributes/widgets/vec2float_widget.hpp"
 #include "attributes/widgets/vec_float_widget.hpp"
+#include "attributes/widgets/vec_int_widget.hpp"
 #include "attributes/widgets/wave_nb_widget.hpp"
 
 #define RETURN_IF_MATCH(attr_type, widget_class, attribute_class, p_attr)                \
@@ -43,6 +44,7 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(RANGE, RangeWidget, RangeAttribute, p_attr);
   RETURN_IF_MATCH(SEED, SeedWidget, SeedAttribute, p_attr);
   RETURN_IF_MATCH(VEC_FLOAT, VecFloatWidget, VecFloatAttribute, p_attr);
+  RETURN_IF_MATCH(VEC_INT, VecIntWidget, VecIntAttribute, p_attr);
   RETURN_IF_MATCH(VEC2FLOAT, Vec2FloatWidget, Vec2FloatAttribute, p_attr);
   RETURN_IF_MATCH(WAVE_NB, WaveNbWidget, WaveNbAttribute, p_attr);
 

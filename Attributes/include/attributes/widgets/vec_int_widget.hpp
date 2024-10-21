@@ -3,7 +3,7 @@
  * this software. */
 
 /**
- * @file vec_float_widget.hpp
+ * @file vec_int_widget.hpp
  * @author Otto Link (otto.link.bv@gmail.com)
  * @brief
  *
@@ -15,20 +15,20 @@
 #include <QMouseEvent>
 #include <QWidget>
 
-#include "attributes/vec_float_attribute.hpp"
+#include "attributes/vec_int_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class FVecWidget : public QWidget
+class IVecWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  FVecWidget() = delete;
+  IVecWidget() = delete;
 
-  FVecWidget(VecFloatAttribute *p_attr, QWidget *parent = nullptr);
+  IVecWidget(VecIntAttribute *p_attr, QWidget *parent = nullptr);
 
 Q_SIGNALS:
   void value_changed();
@@ -50,9 +50,9 @@ protected:
   void update_widget_from_attribute();
 
 private:
-  VecFloatAttribute *p_attr;
+  VecIntAttribute *p_attr;
 
-  float radius;
+  int radius;
 
   int moving_point_index = -1;
 
@@ -60,22 +60,22 @@ private:
 
   int get_hovered_point_index(const QPointF &pos);
 
-  float map_ypos_to_value(float ypos);
+  int map_ypos_to_value(float ypos);
 
-  float map_value_to_ypos(float value);
+  float map_value_to_ypos(int value);
 };
 
-class VecFloatWidget : public AbstractWidget
+class VecIntWidget : public AbstractWidget
 {
 public:
-  VecFloatWidget() = delete;
+  VecIntWidget() = delete;
 
-  VecFloatWidget(VecFloatAttribute *p_attr);
+  VecIntWidget(VecIntAttribute *p_attr);
 
 private:
-  VecFloatAttribute *p_attr;
+  VecIntAttribute *p_attr;
 
-  FVecWidget *vec_widget;
+  IVecWidget *vec_widget;
 };
 
 } // namespace attr

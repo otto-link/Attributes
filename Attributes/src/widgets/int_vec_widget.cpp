@@ -7,14 +7,14 @@
 #include <QPainter>
 #include <QPushButton>
 
-#include "attributes/widgets/vec_float_widget.hpp"
+#include "attributes/widgets/vec_int_widget.hpp"
 
 namespace attr
 {
 
 // --- base VecWidget
 
-FVecWidget::FVecWidget(VecFloatAttribute *p_attr, QWidget *parent)
+IVecWidget::IVecWidget(VecIntAttribute *p_attr, QWidget *parent)
     : QWidget(parent), p_attr(p_attr), radius(CANVAS_POINT_RADIUS)
 {
   this->setMinimumSize(128, 128);
@@ -24,7 +24,7 @@ FVecWidget::FVecWidget(VecFloatAttribute *p_attr, QWidget *parent)
   this->update_widget_from_attribute();
 }
 
-int FVecWidget::get_hovered_point_index(const QPointF &pos)
+int IVecWidget::get_hovered_point_index(const QPointF &pos)
 {
   for (size_t k = 0; k < this->qpoints.size(); k++)
   {
@@ -39,22 +39,22 @@ int FVecWidget::get_hovered_point_index(const QPointF &pos)
   return -1;
 }
 
-float FVecWidget::map_ypos_to_value(float ypos)
+int IVecWidget::map_ypos_to_value(float ypos)
 {
   float v = 1.f - ypos / this->height();
   v = std::clamp(v, 0.f, 1.f);
-  return this->p_attr->get_vmin() +
-         v * (this->p_attr->get_vmax() - this->p_attr->get_vmin());
+  return (int)(this->p_attr->get_vmin() +
+               v * (this->p_attr->get_vmax() - this->p_attr->get_vmin()));
 }
 
-float FVecWidget::map_value_to_ypos(float value)
+float IVecWidget::map_value_to_ypos(int value)
 {
-  float ypos = (value - this->p_attr->get_vmin()) /
-               (this->p_attr->get_vmax() - this->p_attr->get_vmin());
+  float ypos = (float)(value - this->p_attr->get_vmin()) /
+               (float)(this->p_attr->get_vmax() - this->p_attr->get_vmin());
   return (1.f - ypos) * this->height();
 }
 
-void FVecWidget::mouseMoveEvent(QMouseEvent *event)
+void IVecWidget::mouseMoveEvent(QMouseEvent *event)
 {
   if (this->moving_point_index != -1)
   {
@@ -68,7 +68,7 @@ void FVecWidget::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-void FVecWidget::mousePressEvent(QMouseEvent *event)
+void IVecWidget::mousePressEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton)
   {
@@ -87,7 +87,7 @@ void FVecWidget::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void FVecWidget::mouseReleaseEvent(QMouseEvent *event)
+void IVecWidget::mouseReleaseEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton)
   {
@@ -100,9 +100,9 @@ void FVecWidget::mouseReleaseEvent(QMouseEvent *event)
   }
 }
 
-void FVecWidget::new_value()
+void IVecWidget::new_value()
 {
-  float new_value = 0.5f * (this->p_attr->get_vmin() + this->p_attr->get_vmax());
+  int new_value = (int)(0.5f * (this->p_attr->get_vmin() + this->p_attr->get_vmax()));
 
   // push back last value if one is available
   if (this->p_attr->get_value().size() > 0)
@@ -113,7 +113,7 @@ void FVecWidget::new_value()
   Q_EMIT this->value_changed();
 }
 
-void FVecWidget::paintEvent(QPaintEvent *event)
+void IVecWidget::paintEvent(QPaintEvent *event)
 {
   Q_UNUSED(event);
 
@@ -157,16 +157,16 @@ void FVecWidget::paintEvent(QPaintEvent *event)
   if (this->moving_point_index >= 0)
   {
     float ypos = (float)this->qpoints[this->moving_point_index].y();
-    float value = this->map_ypos_to_value(ypos);
+    int   value = this->map_ypos_to_value(ypos);
     painter.drawText(this->qpoints[this->moving_point_index] +
                          QPointF(this->radius, -this->radius),
                      std::to_string(value).c_str());
   }
 }
 
-void FVecWidget::update_attribute_from_widget()
+void IVecWidget::update_attribute_from_widget()
 {
-  std::vector<float> values = {};
+  std::vector<int> values = {};
 
   for (auto &qp : this->qpoints)
     values.push_back(this->map_ypos_to_value(qp.y()));
@@ -176,7 +176,7 @@ void FVecWidget::update_attribute_from_widget()
   Q_EMIT this->value_changed();
 }
 
-void FVecWidget::update_widget_from_attribute()
+void IVecWidget::update_widget_from_attribute()
 {
   this->qpoints.clear();
 
@@ -193,9 +193,9 @@ void FVecWidget::update_widget_from_attribute()
   this->update();
 }
 
-// --- VecFloatWidget
+// --- VecIntWidget
 
-VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
+VecIntWidget::VecIntWidget(VecIntAttribute *p_attr) : p_attr(p_attr)
 {
   QGridLayout *layout = new QGridLayout(this);
 
@@ -208,13 +208,13 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
   }
 
   // selection
-  this->vec_widget = new FVecWidget(p_attr, this);
+  this->vec_widget = new IVecWidget(p_attr, this);
   layout->addWidget((QWidget *)this->vec_widget, row++, 0, 1, 2);
 
   this->connect(this->vec_widget,
-                &FVecWidget::value_changed,
+                &IVecWidget::value_changed,
                 this,
-                &VecFloatWidget::value_changed);
+                &VecIntWidget::value_changed);
 
   // buttons
   {
@@ -224,11 +224,11 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
     this->connect(button,
                   &QPushButton::pressed,
                   this->vec_widget,
-                  &FVecWidget::new_value);
+                  &IVecWidget::new_value);
   }
 
   this->connect(this->vec_widget,
-                &FVecWidget::value_changed,
+                &IVecWidget::value_changed,
                 [this]() { std::cout << this->p_attr->json_to().dump(4) << "\n"; });
 
   this->setLayout(layout);

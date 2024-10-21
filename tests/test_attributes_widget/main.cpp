@@ -57,6 +57,9 @@ int main(int argc, char *argv[])
   std::cout << map.at("vec_float").get()->to_string() << "\n";
   std::cout << map.at("vec_float").get()->json_to().dump(4) << "\n";
 
+  std::vector<int> vi0 = {4, 5, 8};
+  map["vec_int"] = attr::create_attr<attr::VecIntAttribute>(vi0, 3, 10, "vec_int");
+
   // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
   //                                                       hmap::Vec2<int>(256, 256));
 

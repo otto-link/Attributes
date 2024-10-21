@@ -5,12 +5,7 @@
 /**
  * @file vec_float_attribute.hpp
  * @author Otto Link (otto.link.bv@gmail.com)
- * @brief Defines a float attribute class derived from AbstractAttribute.
- *
- * This file contains the definition of the VecFloatAttribute class, which represents
- * an attribute that stores a floating-point value with optional minimum and maximum
- * bounds. The class provides functions for setting and getting the float value, as well
- * as JSON serialization/deserialization, and string conversion of the value.
+ * @brief
  *
  * @copyright Copyright (c) 2024 Otto Link
  */

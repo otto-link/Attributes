@@ -50,6 +50,7 @@ enum AttributeType
   RANGE,     /**< Range attribute */
   SEED,      /**< Random seed attribute */
   VEC_FLOAT, /**< Vector of floats */
+  VEC_INT,   /**< Vector of integers */
   VEC2FLOAT, /**< (x, y) floats */
   WAVE_NB,   /**< Wavenumber attribute */
   INVALID,   /**< Invalid attribute */
@@ -75,6 +76,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},
     {AttributeType::VEC_FLOAT, "Vector of floats"},
+    {AttributeType::VEC_INT, "Vector of integers"},
     {AttributeType::VEC2FLOAT, "Vec2Float"},
     {AttributeType::WAVE_NB, "Wavenumber"},
 };

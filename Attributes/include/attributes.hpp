@@ -30,4 +30,5 @@
 #include "attributes/seed_attribute.hpp"
 #include "attributes/vec2float_attribute.hpp"
 #include "attributes/vec_float_attribute.hpp"
+#include "attributes/vec_int_attribute.hpp"
 #include "attributes/wave_nb_attribute.hpp"
