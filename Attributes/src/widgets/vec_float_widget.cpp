@@ -227,10 +227,6 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
                   &FVecWidget::new_value);
   }
 
-  this->connect(this->vec_widget,
-                &FVecWidget::value_changed,
-                [this]() { std::cout << this->p_attr->json_to().dump(4) << "\n"; });
-
   this->setLayout(layout);
 }
 

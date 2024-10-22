@@ -227,10 +227,6 @@ VecIntWidget::VecIntWidget(VecIntAttribute *p_attr) : p_attr(p_attr)
                   &IVecWidget::new_value);
   }
 
-  this->connect(this->vec_widget,
-                &IVecWidget::value_changed,
-                [this]() { std::cout << this->p_attr->json_to().dump(4) << "\n"; });
-
   this->setLayout(layout);
 }
 
