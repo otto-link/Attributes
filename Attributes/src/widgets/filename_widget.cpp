@@ -24,26 +24,34 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
   this->button = new QPushButton(this->p_attr->get_value().string().c_str());
   layout->addWidget(this->button);
 
-  this->connect(this->button,
-                &QPushButton::released,
-                [this]()
-                {
-                  std::filesystem::path path = this->p_attr->get_value().parent_path();
+  this->connect(
+      this->button,
+      &QPushButton::released,
+      [this]()
+      {
+        std::filesystem::path path = this->p_attr->get_value().parent_path();
 
-                  QString fname = QFileDialog::getSaveFileName(
-                      this,
-                      this->p_attr->get_label().c_str(),
-                      path.string().c_str(),
-                      this->p_attr->get_filter().c_str());
+        QString fname;
 
-                  if (!fname.isNull() && !fname.isEmpty())
-                  {
-                    this->p_attr->set_value(fname.toStdString());
-                    this->update_attribute_from_widget();
-                  }
+        if (this->p_attr->get_for_saving())
+          fname = QFileDialog::getSaveFileName(this,
+                                               this->p_attr->get_label().c_str(),
+                                               path.string().c_str(),
+                                               this->p_attr->get_filter().c_str());
+        else
+          fname = QFileDialog::getOpenFileName(this,
+                                               this->p_attr->get_label().c_str(),
+                                               path.string().c_str(),
+                                               this->p_attr->get_filter().c_str());
 
-                  this->button->setToolTip(this->p_attr->get_value().string().c_str());
-                });
+        if (!fname.isNull() && !fname.isEmpty())
+        {
+          this->p_attr->set_value(fname.toStdString());
+          this->update_attribute_from_widget();
+        }
+
+        this->button->setToolTip(this->p_attr->get_value().string().c_str());
+      });
 
   this->setLayout(layout);
 }

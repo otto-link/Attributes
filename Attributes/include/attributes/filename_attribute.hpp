@@ -44,6 +44,7 @@ public:
    * @param label A label describing the attribute (optional, default is empty).
    */
   FilenameAttribute(std::filesystem::path value,
+                    bool                  for_saving = true,
                     std::string           filter = "",
                     std::string           label = "");
 
@@ -55,6 +56,8 @@ public:
    * @return std::string The file type filter.
    */
   std::string get_filter() const { return this->filter; }
+
+  bool get_for_saving() const { return this->for_saving; };
 
   /**
    * @brief Get the file path value of the attribute.
@@ -104,8 +107,10 @@ public:
   std::string to_string() { return this->value.string(); }
 
 private:
-  std::filesystem::path value;  /**< The file path associated with the attribute */
-  std::string           filter; /**< A filter string to limit the types of files */
+  std::filesystem::path value; /**< The file path associated with the attribute */
+  bool for_saving; /**< Whether the filename is used for loading or saving (change widget)
+                    */
+  std::string filter; /**< A filter string to limit the types of files */
 };
 
 } // namespace attr

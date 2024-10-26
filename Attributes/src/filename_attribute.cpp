@@ -8,10 +8,11 @@ namespace attr
 {
 
 FilenameAttribute::FilenameAttribute(std::filesystem::path value,
+                                     bool                  for_saving,
                                      std::string           filter,
                                      std::string           label)
     : AbstractAttribute(AttributeType::FILENAME, label, BoundCheck::UNCHECKED),
-      value(value), filter(filter)
+      value(value), for_saving(for_saving), filter(filter)
 {
 }
 
@@ -19,6 +20,7 @@ void FilenameAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
   this->value = json["value"].get<std::filesystem::path>();
+  this->for_saving = json["for_saving"];
   this->filter = json["filter"];
   this->label = json["label"];
 }
@@ -27,6 +29,7 @@ nlohmann::json FilenameAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
   json["value"] = this->value;
+  json["for_saving"] = this->for_saving;
   json["filter"] = this->filter;
   json["label"] = this->label;
   return json;
