@@ -3,7 +3,7 @@
  * this software. */
 
 /**
- * @file bool_widget.hpp
+ * @file choice_widget.hpp
  * @author Otto Link (otto.link.bv@gmail.com)
  * @brief
  *
@@ -12,23 +12,23 @@
  */
 
 #pragma once
-#include "attributes/bool_attribute.hpp"
+#include "attributes/choice_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class BoolWidget : public AbstractWidget
+class ChoiceWidget : public AbstractWidget
 {
 public:
-  BoolWidget() = delete;
+  ChoiceWidget() = delete;
 
-  BoolWidget(BoolAttribute *p_attr);
+  ChoiceWidget(ChoiceAttribute *p_attr);
 
 private:
-  BoolAttribute *p_attr;
+  ChoiceAttribute *p_attr;
 
-  void update_attribute_from_widget(const bool new_value);
+  void update_attribute_from_widget(const std::string &new_value);
 };
 
 } // namespace attr

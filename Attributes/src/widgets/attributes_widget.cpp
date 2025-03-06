@@ -7,6 +7,7 @@
 
 #include "attributes/widgets/array_widget.hpp"
 #include "attributes/widgets/bool_widget.hpp"
+#include "attributes/widgets/choice_widget.hpp"
 #include "attributes/widgets/cloud_widget.hpp"
 #include "attributes/widgets/color_gradient_widget.hpp"
 #include "attributes/widgets/color_widget.hpp"
@@ -32,6 +33,7 @@ namespace attr
 AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
 {
   RETURN_IF_MATCH(BOOL, BoolWidget, BoolAttribute, p_attr);
+  RETURN_IF_MATCH(CHOICE, ChoiceWidget, ChoiceAttribute, p_attr);
   RETURN_IF_MATCH(COLOR, ColorWidget, ColorAttribute, p_attr);
   RETURN_IF_MATCH(COLOR_GRADIENT, ColorGradientWidget, ColorGradientAttribute, p_attr);
   RETURN_IF_MATCH(FILENAME, FilenameWidget, FilenameAttribute, p_attr);

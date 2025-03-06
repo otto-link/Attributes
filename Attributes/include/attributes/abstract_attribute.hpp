@@ -37,8 +37,9 @@ namespace attr
  */
 enum AttributeType
 {
-  BOOL,  /**< Boolean attribute */
-  COLOR, /**< Color attribute */
+  BOOL,   /**< Boolean attribute */
+  CHOICE, /**< Choice attribute */
+  COLOR,  /**< Color attribute */
   COLOR_GRADIENT,
   INT,      /**< Integer attribute */
   FILENAME, /**< Filename attribute */
@@ -64,6 +65,7 @@ enum AttributeType
  */
 static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::BOOL, "Bool"},
+    {AttributeType::CHOICE, "Choice"},
     {AttributeType::COLOR, "Color"},
     {AttributeType::COLOR_GRADIENT, "Color gradient"},
     {AttributeType::INT, "Integer"},
@@ -120,7 +122,7 @@ public:
    */
   AbstractAttribute(const AttributeType &type,
                     const std::string   &label,
-                    const BoundCheck    &bound_check);
+                    const BoundCheck    &bound_check = BoundCheck::UNCHECKED);
 
   /**
    * @brief Get the label of the attribute.

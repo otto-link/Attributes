@@ -38,7 +38,7 @@ public:
    *
    * @param value The boolean value to initialize the attribute with.
    */
-  BoolAttribute(bool value);
+  BoolAttribute(const bool value);
 
   /**
    * @brief Constructor to initialize a BoolAttribute with a boolean value and label.
@@ -46,7 +46,7 @@ public:
    * @param value The boolean value to initialize the attribute with.
    * @param label The label describing the attribute.
    */
-  BoolAttribute(bool value, const std::string &label);
+  BoolAttribute(const std::string &label, const bool value);
 
   /**
    * @brief Constructor to initialize a BoolAttribute with a value, label, and checked
@@ -56,7 +56,9 @@ public:
    * @param label The label describing the attribute.
    * @param label_checked The label describing the checked state of the attribute.
    */
-  BoolAttribute(bool value, const std::string &label, const std::string &label_checked);
+  BoolAttribute(const std::string &label,
+                const std::string &label_checked,
+                const bool         value);
 
   /**
    * @brief Get the label describing the checked state of the attribute.
@@ -84,7 +86,7 @@ public:
    *
    * @return std::string The string representation of the boolean value.
    */
-  std::string to_string() { return this->value ? "true" : "false"; }
+  std::string to_string() override { return this->value ? "true" : "false"; }
 
   /**
    * @brief Deserialize the attribute from a JSON object.
