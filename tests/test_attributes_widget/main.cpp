@@ -15,8 +15,9 @@ int main(int argc, char *argv[])
 
   attr::Logger::log()->info("Starting test application...");
 
+  // --- start with base attributes
+
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0 = {};
-  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
 
   map0["bool base"] = attr::create_attr<attr::BoolAttribute>("unique label", false);
   map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("option1",
@@ -32,16 +33,21 @@ int main(int argc, char *argv[])
 
   std::cout << map0.at("choice").get()->json_to().dump(4) << "\n";
 
-  // map0["float"] = attr::create_attr<attr::FloatAttribute>(1,
-  //                                                        0,
-  //                                                        10,
-  //                                                        "float",
-  //                                                        attr::BoundCheck::UPPER_LOWER);
   // map0["int"] = attr::create_attr<attr::IntAttribute>(1,
   //                                                    0,
   //                                                    10,
   //                                                    "int",
   //                                                    attr::BoundCheck::UPPER_LOWER);
+
+  // map0["float"] = attr::create_attr<attr::FloatAttribute>(1,
+  //                                                        0,
+  //                                                        10,
+  //                                                        "float",
+  //                                                        attr::BoundCheck::UPPER_LOWER);
+
+  // --- more complex attributes
+
+  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
 
   map["color"] = attr::create_attr<attr::ColorAttribute>(1.f, 0.f, 0.f, 1.f, "color");
 

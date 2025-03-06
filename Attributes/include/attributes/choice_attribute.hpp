@@ -65,6 +65,11 @@ public:
    */
   ChoiceAttribute(const std::string &label, const std::vector<std::string> choice_list);
 
+  /**
+   * @brief Convert the selected value to a string.
+   *
+   * @return std::string The string representation of the selected value.
+   */
   std::vector<std::string> get_choice_list() const { return this->choice_list; }
 
   /**
