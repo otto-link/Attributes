@@ -1,6 +1,10 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <QFont>
+#include <QFrame>
+#include <QLabel>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 #include "attributes/widgets/attributes_widget.hpp"
@@ -23,6 +27,7 @@
 #include "attributes/widgets/vec_int_widget.hpp"
 #include "attributes/widgets/wave_nb_widget.hpp"
 
+// Helper macro to simplify widget creation
 #define RETURN_IF_MATCH(attr_type, widget_class, attribute_class, p_attr)                \
   if ((p_attr)->get_type() == AttributeType::attr_type)                                  \
     return new widget_class(dynamic_cast<attribute_class *>((p_attr)));
@@ -62,41 +67,40 @@ AttributesWidget::AttributesWidget(
 {
   this->setWindowTitle("Attribute settings");
 
-  // define the attribute order either on the key map order or on a
-  // given order provided as a key list (optional)
-  std::vector<std::string> attr_key_queue = {};
-  bool                     check_count = false;
+  // Define the attribute order either on the key map order or on a given order provided
+  // as a key list (optional)
+  std::vector<std::string> attr_key_queue = p_attr_ordered_key &&
+                                                    !p_attr_ordered_key->empty()
+                                                ? *p_attr_ordered_key
+                                                : [&]()
+  {
+    std::vector<std::string> keys;
+    for (const auto &[k, _] : *p_attr_map)
+      keys.push_back(k);
+    return keys;
+  }();
 
-  for (auto &[k, v] : *p_attr_map)
-    attr_key_queue.push_back(k);
-
-  if (p_attr_ordered_key)
-    if (p_attr_ordered_key->size() > 0)
-    {
-      attr_key_queue = *p_attr_ordered_key;
-      check_count = true;
-    }
-
-  // setup layout
+  // Setup layout
   QVBoxLayout *layout = new QVBoxLayout(this);
 
-  // update button
-  QPushButton *update_button = new QPushButton("Force update");
+  // Update button
+  QPushButton *update_button = new QPushButton("Force update", this);
   layout->addWidget(update_button);
 
-  connect(update_button,
-          &QPushButton::released,
-          [this]() { Q_EMIT this->update_button_released(); });
+  this->connect(update_button,
+                &QPushButton::released,
+                this,
+                &AttributesWidget::update_button_released);
 
-  // to check the number of widgets corresponds to the number of keys
-  // in "p_attr_ordered_key"
+  // To check the number of widgets corresponds to the number of keys in
+  // "p_attr_ordered_key"
   int count = 0;
 
-  for (auto &key : attr_key_queue)
+  for (const auto &key : attr_key_queue)
   {
     if (key == "_SEPARATOR_")
     {
-      QFrame *line = new QFrame;
+      QFrame *line = new QFrame(this);
       line->setFrameShape(QFrame::HLine);
       line->setFrameShadow(QFrame::Plain);
       line->setFixedHeight(1);
@@ -110,33 +114,34 @@ AttributesWidget::AttributesWidget(
 
       this->connect(widget,
                     &AbstractWidget::value_changed,
-                    [this, p_attr]() { Q_EMIT this->value_changed(); });
+                    this,
+                    &AttributesWidget::value_changed);
 
       count++;
     }
     else
     {
       Logger::log()->critical(
-          "unknown attribute key {} in AttributesWidget (check attr_ordered_key)",
+          "Unknown attribute key {} in AttributesWidget (check attr_ordered_key)",
           key);
     }
   }
 
-  if (check_count && count != (int)this->p_attr_map->size())
+  if (p_attr_ordered_key && count != static_cast<int>(p_attr_map->size()))
   {
     Logger::log()->critical(
-        "missing attributes in AttributesWidget (check attr_ordered_key)");
+        "Missing attributes in AttributesWidget (check attr_ordered_key)");
     throw std::runtime_error(
-        "missing attributes in AttributesWidget (check attr_ordered_key)");
+        "Missing attributes in AttributesWidget (check attr_ordered_key)");
   }
 
-  // as a last resort, for empty "settings"
-  if (p_attr_map->size() == 0)
+  // As a last resort, for empty "settings"
+  if (p_attr_map->empty())
   {
-    QLabel *widget = new QLabel("no settings");
-    QFont   f = widget->font();
-    f.setItalic(true);
-    widget->setFont(f);
+    QLabel *widget = new QLabel("No settings", this);
+    QFont   font = widget->font();
+    font.setItalic(true);
+    widget->setFont(font);
     layout->addWidget(widget);
   }
 

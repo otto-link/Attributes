@@ -16,7 +16,7 @@ void validate_choice_list(const std::vector<std::string> &choice_list)
   if (choice_list.empty())
   {
     std::string msg = "Choice list cannot be empty";
-    Logger::log()->error(msg);
+    Logger::log()->critical(msg);
     throw std::invalid_argument(msg);
   }
 }
@@ -26,7 +26,7 @@ void validate_value(const std::vector<std::string> &choice_list, const std::stri
   if (std::find(choice_list.begin(), choice_list.end(), value) == choice_list.end())
   {
     std::string msg = "Value '" + value + "' is not in the choice list";
-    Logger::log()->error(msg);
+    Logger::log()->critical(msg);
     throw std::invalid_argument(msg);
   }
 }
