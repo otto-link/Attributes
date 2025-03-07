@@ -33,6 +33,8 @@ ChoiceWidget::ChoiceWidget(ChoiceAttribute *p_attr) : p_attr(p_attr)
     radio->setChecked(this->p_attr->get_value() == choices[k]);
     button_group->addButton(radio, static_cast<int>(k));
     layout->addWidget(radio);
+
+    this->button_list.push_back(radio);
   }
 
   // connect the button group's clicked signal to update the attribute
@@ -47,6 +49,17 @@ ChoiceWidget::ChoiceWidget(ChoiceAttribute *p_attr) : p_attr(p_attr)
 
   // set the layout for the widget
   this->setLayout(layout);
+}
+
+void ChoiceWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+
+  for (size_t k = 0; k < button_list.size(); ++k)
+  {
+    bool checked = this->p_attr->get_choice_list()[k] == this->p_attr->get_value();
+    this->button_list[k]->setChecked(checked);
+  }
 }
 
 void ChoiceWidget::update_attribute_from_widget(const std::string &new_value)

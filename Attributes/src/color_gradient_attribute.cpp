@@ -9,14 +9,13 @@ namespace attr
 {
 
 ColorGradientAttribute::ColorGradientAttribute(const std::string &label)
-    : AbstractAttribute(AttributeType::COLOR_GRADIENT, label, BoundCheck::UNCHECKED)
+    : AbstractAttribute(AttributeType::COLOR_GRADIENT, label)
 {
 }
 
 ColorGradientAttribute::ColorGradientAttribute(std::vector<std::vector<float>> value,
                                                const std::string              &label)
-    : AbstractAttribute(AttributeType::COLOR_GRADIENT, label, BoundCheck::UNCHECKED),
-      value(value)
+    : AbstractAttribute(AttributeType::COLOR_GRADIENT, label), value(value)
 {
 }
 

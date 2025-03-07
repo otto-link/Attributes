@@ -30,6 +30,9 @@ public:
   AttributesWidget(std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map,
                    std::vector<std::string> *p_attr_ordered_key = nullptr);
 
+public Q_SLOTS:
+  void on_reset_button_released();
+
 Q_SIGNALS:
   void value_changed();
 
@@ -38,6 +41,8 @@ Q_SIGNALS:
 private:
   std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map;
   std::vector<std::string>                                  *p_attr_ordered_key;
+
+  std::vector<AbstractWidget *> widget_list = {};
 };
 
 AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr);

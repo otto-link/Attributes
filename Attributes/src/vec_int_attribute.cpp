@@ -11,8 +11,8 @@ VecIntAttribute::VecIntAttribute(std::vector<int>   value,
                                  int                vmin,
                                  int                vmax,
                                  const std::string &label)
-    : AbstractAttribute(AttributeType::VEC_INT, label, BoundCheck::UPPER_LOWER),
-      value(value), vmin(vmin), vmax(vmax)
+    : AbstractAttribute(AttributeType::VEC_INT, label), value(value), vmin(vmin),
+      vmax(vmax)
 {
 }
 

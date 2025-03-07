@@ -64,15 +64,7 @@ public:
                  float              vmin,
                  float              vmax,
                  const std::string &label = "",
-                 bool               is_active = true,
-                 const BoundCheck  &bound_check = BoundCheck::UPPER_LOWER);
-
-  /**
-   * @brief Get the type of bound check used for the range.
-   *
-   * @return BoundCheck The bound check type (e.g., upper, lower, or both).
-   */
-  BoundCheck get_bound_check() const { return this->bound_check; }
+                 bool               is_active = true);
 
   /**
    * @brief Get the active state of the attribute.

@@ -92,6 +92,14 @@ AttributesWidget::AttributesWidget(
                 this,
                 &AttributesWidget::update_button_released);
 
+  QPushButton *reset_button = new QPushButton("Reset values", this);
+  layout->addWidget(reset_button);
+
+  this->connect(reset_button,
+                &QPushButton::released,
+                this,
+                &AttributesWidget::on_reset_button_released);
+
   // To check the number of widgets corresponds to the number of keys in
   // "p_attr_ordered_key"
   int count = 0;
@@ -116,6 +124,8 @@ AttributesWidget::AttributesWidget(
                     &AbstractWidget::value_changed,
                     this,
                     &AttributesWidget::value_changed);
+
+      this->widget_list.push_back(widget);
 
       count++;
     }
@@ -146,6 +156,16 @@ AttributesWidget::AttributesWidget(
   }
 
   this->setLayout(layout);
+}
+
+void AttributesWidget::on_reset_button_released()
+{
+  Logger::log()->trace("AttributesWidget::on_reset_button_released");
+
+  for (AbstractWidget *w : this->widget_list)
+    w->reset_value();
+
+  Q_EMIT this->value_changed();
 }
 
 } // namespace attr

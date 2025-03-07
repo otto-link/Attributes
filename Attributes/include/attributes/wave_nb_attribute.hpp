@@ -56,15 +56,7 @@ public:
                   float              vmin,
                   float              vmax,
                   bool               link_xy = true,
-                  const std::string &label = "",
-                  const BoundCheck  &bound_check = BoundCheck::LOWER_ONLY);
-
-  /**
-   * @brief Get the bound checking mode.
-   *
-   * @return BoundCheck The current bound check mode.
-   */
-  BoundCheck get_bound_check() const { return this->bound_check; }
+                  const std::string &label = "");
 
   /**
    * @brief Get the link_xy flag.

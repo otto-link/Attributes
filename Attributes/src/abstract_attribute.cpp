@@ -7,10 +7,8 @@
 namespace attr
 {
 
-AbstractAttribute::AbstractAttribute(const AttributeType &type,
-                                     const std::string   &label,
-                                     const BoundCheck    &bound_check)
-    : type(type), label(label), bound_check(bound_check)
+AbstractAttribute::AbstractAttribute(const AttributeType &type, const std::string &label)
+    : type(type), label(label)
 {
 }
 
@@ -18,7 +16,6 @@ void AbstractAttribute::json_from(nlohmann::json const &json)
 {
   this->type = json["type"].get<AttributeType>();
   this->label = json["label"];
-  this->bound_check = json["bound_check"].get<BoundCheck>();
 }
 
 nlohmann::json AbstractAttribute::json_to() const
@@ -27,8 +24,25 @@ nlohmann::json AbstractAttribute::json_to() const
   json["type"] = this->type;
   json["type_string"] = attribute_type_map.at(this->type);
   json["label"] = this->label;
-  json["bound_check"] = this->bound_check;
   return json;
+}
+
+void AbstractAttribute::reset_to_save_state()
+{
+  if (this->attribute_state.is_null())
+  {
+    Logger::log()->error(
+        "empty saved state, could not reset attribute state. attribute label: {}",
+        this->label);
+  }
+  else
+    this->json_from(this->attribute_state);
+}
+
+void AbstractAttribute::save_state()
+{
+  // serialize current state
+  this->attribute_state = this->json_to();
 }
 
 } // namespace attr

@@ -22,6 +22,8 @@
 #pragma once
 #include <QWidget>
 
+#include "attributes/logger.hpp"
+
 #define CANVAS_WIDTH 384
 #define CANVAS_BGCOLOR QColor(42, 42, 42, 255)
 #define CANVAS_MARGIN 20
@@ -52,6 +54,12 @@ public:
    * Creates an AbstractWidget instance with default settings.
    */
   AbstractWidget() = default;
+
+  // TODO = 0
+  virtual void reset_value()
+  {
+    Logger::log()->error("reset_value method not implemented");
+  }
 
 Q_SIGNALS:
   /**

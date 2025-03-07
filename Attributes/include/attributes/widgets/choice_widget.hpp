@@ -12,6 +12,8 @@
  */
 
 #pragma once
+#include <QRadioButton>
+
 #include "attributes/choice_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
@@ -25,8 +27,11 @@ public:
 
   ChoiceWidget(ChoiceAttribute *p_attr);
 
+  void reset_value() override;
+
 private:
-  ChoiceAttribute *p_attr;
+  ChoiceAttribute            *p_attr;
+  std::vector<QRadioButton *> button_list;
 
   void update_attribute_from_widget(const std::string &new_value);
 };

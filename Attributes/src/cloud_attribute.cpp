@@ -8,14 +8,13 @@ namespace attr
 {
 
 CloudAttribute::CloudAttribute(const std::string &label)
-    : AbstractAttribute(AttributeType::HMAP_CLOUD, label, BoundCheck::UNCHECKED)
+    : AbstractAttribute(AttributeType::HMAP_CLOUD, label)
 {
   this->value = hmap::Cloud();
 }
 
 CloudAttribute::CloudAttribute(const hmap::Cloud &value, const std::string &label)
-    : AbstractAttribute(AttributeType::HMAP_CLOUD, label, BoundCheck::UNCHECKED),
-      value(value)
+    : AbstractAttribute(AttributeType::HMAP_CLOUD, label), value(value)
 {
 }
 

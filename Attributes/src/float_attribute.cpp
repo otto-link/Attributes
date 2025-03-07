@@ -13,6 +13,7 @@ FloatAttribute::FloatAttribute(const std::string &label,
                                float              vmax)
     : AbstractAttribute(AttributeType::FLOAT, label), value(value), vmin(vmin), vmax(vmax)
 {
+  this->save_state();
 }
 
 void FloatAttribute::json_from(nlohmann::json const &json)

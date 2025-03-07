@@ -86,21 +86,6 @@ static std::map<AttributeType, std::string> attribute_type_map = {
 };
 
 /**
- * @enum BoundCheck
- * @brief Enumeration for checking the bounds of an attribute.
- *
- * Specifies whether bound checking is enabled for the attribute, and if so,
- * whether it's applied to the upper bound, lower bound, or both.
- */
-enum BoundCheck
-{
-  UNCHECKED,   /**< No bounds checking */
-  UPPER_ONLY,  /**< Only upper bound checked */
-  LOWER_ONLY,  /**< Only lower bound checked */
-  UPPER_LOWER, /**< Both upper and lower bounds checked */
-};
-
-/**
  * @class AbstractAttribute
  * @brief A base class for defining attributes with labels, types, and bound checking.
  *
@@ -122,9 +107,7 @@ public:
    * @param label A label describing the attribute.
    * @param bound_check The bound check policy for this attribute.
    */
-  AbstractAttribute(const AttributeType &type,
-                    const std::string   &label,
-                    const BoundCheck    &bound_check = BoundCheck::UNCHECKED);
+  AbstractAttribute(const AttributeType &type, const std::string &label);
 
   /**
    * @brief Get the label of the attribute.
@@ -203,10 +186,14 @@ public:
    */
   virtual std::string to_string() = 0;
 
+  void reset_to_save_state();
+
 protected:
-  AttributeType type = AttributeType::INVALID; /**< The type of the attribute */
-  std::string   label = "";                    /**< The label describing the attribute */
-  BoundCheck    bound_check; /**< The bound check policy for this attribute */
+  AttributeType  type = AttributeType::INVALID; /**< The type of the attribute */
+  std::string    label = "";                    /**< The label describing the attribute */
+  nlohmann::json attribute_state;
+
+  void save_state();
 };
 
 /**

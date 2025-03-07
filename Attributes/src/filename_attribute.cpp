@@ -11,8 +11,8 @@ FilenameAttribute::FilenameAttribute(std::filesystem::path value,
                                      bool                  for_saving,
                                      std::string           filter,
                                      std::string           label)
-    : AbstractAttribute(AttributeType::FILENAME, label, BoundCheck::UNCHECKED),
-      value(value), for_saving(for_saving), filter(filter)
+    : AbstractAttribute(AttributeType::FILENAME, label), value(value),
+      for_saving(for_saving), filter(filter)
 {
 }
 

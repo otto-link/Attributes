@@ -8,14 +8,13 @@ namespace attr
 {
 
 PathAttribute::PathAttribute(const std::string &label)
-    : AbstractAttribute(AttributeType::HMAP_PATH, label, BoundCheck::UNCHECKED)
+    : AbstractAttribute(AttributeType::HMAP_PATH, label)
 {
   this->value = hmap::Path();
 }
 
 PathAttribute::PathAttribute(const hmap::Path &value, const std::string &label)
-    : AbstractAttribute(AttributeType::HMAP_PATH, label, BoundCheck::UNCHECKED),
-      value(value)
+    : AbstractAttribute(AttributeType::HMAP_PATH, label), value(value)
 {
 }
 

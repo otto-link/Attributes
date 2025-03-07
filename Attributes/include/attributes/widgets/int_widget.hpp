@@ -16,7 +16,6 @@
 
 #include "intslider.hpp"
 
-#include "attributes/helpers.hpp"
 #include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -30,6 +29,8 @@ public:
   IntWidget() = delete;
 
   IntWidget(IntAttribute *p_attr);
+
+  void reset_value() override;
 
 private:
   IntAttribute *p_attr;

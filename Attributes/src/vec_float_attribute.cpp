@@ -1,7 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
 #include "attributes/vec_float_attribute.hpp"
 
 namespace attr
@@ -11,8 +10,8 @@ VecFloatAttribute::VecFloatAttribute(std::vector<float> value,
                                      float              vmin,
                                      float              vmax,
                                      const std::string &label)
-    : AbstractAttribute(AttributeType::VEC_FLOAT, label, BoundCheck::UPPER_LOWER),
-      value(value), vmin(vmin), vmax(vmax)
+    : AbstractAttribute(AttributeType::VEC_FLOAT, label), value(value), vmin(vmin),
+      vmax(vmax)
 {
 }
 

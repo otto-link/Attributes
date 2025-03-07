@@ -65,13 +65,6 @@ public:
                      const std::string &label = "");
 
   /**
-   * @brief Get the bound checking mode.
-   *
-   * @return BoundCheck The current bound check mode.
-   */
-  BoundCheck get_bound_check() const { return this->bound_check; }
-
-  /**
    * @brief Get the current 2D vector value.
    *
    * @return std::vector<float> The current vector of two float values (X, Y).

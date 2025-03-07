@@ -9,7 +9,7 @@ namespace attr
 {
 
 ColorAttribute::ColorAttribute(std::vector<float> value, const std::string &label)
-    : AbstractAttribute(AttributeType::COLOR, label, BoundCheck::UNCHECKED), value(value)
+    : AbstractAttribute(AttributeType::COLOR, label), value(value)
 {
 }
 
@@ -18,8 +18,7 @@ ColorAttribute::ColorAttribute(float              r,
                                float              b,
                                float              a,
                                const std::string &label)
-    : AbstractAttribute(AttributeType::COLOR, label, BoundCheck::UNCHECKED),
-      value({r, g, b, a})
+    : AbstractAttribute(AttributeType::COLOR, label), value({r, g, b, a})
 {
 }
 

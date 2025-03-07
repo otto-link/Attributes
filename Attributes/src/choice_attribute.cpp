@@ -54,6 +54,8 @@ ChoiceAttribute::ChoiceAttribute(const std::string             &label,
 
   this->choice_list = choice_list;
   this->value = value;
+
+  this->save_state();
 }
 
 ChoiceAttribute::ChoiceAttribute(const std::string             &label,

@@ -12,6 +12,8 @@
  */
 
 #pragma once
+#include <QPushButton>
+
 #include "attributes/bool_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
@@ -25,8 +27,11 @@ public:
 
   BoolWidget(BoolAttribute *p_attr);
 
+  void reset_value() override;
+
 private:
   BoolAttribute *p_attr;
+  QPushButton   *button, *button1, *button2;
 
   void update_attribute_from_widget(const bool new_value);
 };

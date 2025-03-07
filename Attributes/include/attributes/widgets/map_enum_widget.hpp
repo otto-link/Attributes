@@ -15,7 +15,6 @@
 #include <QComboBox>
 #include <QHBoxLayout>
 
-#include "attributes/helpers.hpp"
 #include "attributes/logger.hpp"
 #include "attributes/map_enum_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"

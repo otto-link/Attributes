@@ -26,7 +26,9 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
   }
 
   // sliders
-  ValueSliders::BoundMode bcheck = convert_bound_check(this->p_attr->get_bound_check());
+
+  // TODO
+  ValueSliders::BoundMode bcheck = ValueSliders::BoundMode::UPPER_LOWER;
 
   this->slider_x = new ValueSliders::DoubleSlider("X",
                                                   this->p_attr->get_value()[0],

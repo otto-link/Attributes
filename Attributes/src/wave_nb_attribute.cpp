@@ -8,8 +8,8 @@ namespace attr
 {
 
 WaveNbAttribute::WaveNbAttribute()
-    : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber", BoundCheck::LOWER_ONLY),
-      value({2.f, 2.f}), vmin(0.f), vmax(16.f), link_xy(true)
+    : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber"), value({2.f, 2.f}),
+      vmin(0.f), vmax(16.f), link_xy(true)
 {
 }
 
@@ -17,10 +17,9 @@ WaveNbAttribute::WaveNbAttribute(std::vector<float> value,
                                  float              vmin,
                                  float              vmax,
                                  bool               link_xy,
-                                 const std::string &label,
-                                 const BoundCheck  &bound_check)
-    : AbstractAttribute(AttributeType::WAVE_NB, label, bound_check), value(value),
-      vmin(vmin), vmax(vmax), link_xy(link_xy)
+                                 const std::string &label)
+    : AbstractAttribute(AttributeType::WAVE_NB, label), value(value), vmin(vmin),
+      vmax(vmax), link_xy(link_xy)
 {
 }
 

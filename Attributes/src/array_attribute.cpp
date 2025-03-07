@@ -8,14 +8,13 @@ namespace attr
 {
 
 ArrayAttribute::ArrayAttribute(const std::string &label, const hmap::Vec2<int> &shape)
-    : AbstractAttribute(AttributeType::HMAP_ARRAY, label, BoundCheck::UNCHECKED)
+    : AbstractAttribute(AttributeType::HMAP_ARRAY, label)
 {
   this->value = hmap::Array(shape);
 }
 
 ArrayAttribute::ArrayAttribute(const hmap::Array &value, const std::string &label)
-    : AbstractAttribute(AttributeType::HMAP_ARRAY, label, BoundCheck::UNCHECKED),
-      value(value)
+    : AbstractAttribute(AttributeType::HMAP_ARRAY, label), value(value)
 {
 }
 

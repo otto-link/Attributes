@@ -1,7 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-#include <QButtonGroup>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -19,65 +18,65 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
   {
     // --- basic toggle button on/off
 
-    QPushButton *button = new QPushButton(this->p_attr->get_label().c_str(), this);
-    button->setCheckable(true);
-    button->setChecked(p_attr->get_value());
+    this->button = new QPushButton(this->p_attr->get_label().c_str(), this);
+    this->button->setCheckable(true);
+    this->button->setChecked(p_attr->get_value());
 
-    this->connect(button,
+    this->connect(this->button,
                   &QPushButton::toggled,
                   this,
                   [this](bool checked) { this->update_attribute_from_widget(checked); });
 
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->addWidget(button);
+    layout->addWidget(this->button);
     this->setLayout(layout);
   }
   else
   {
     // --- two exclusive push buttons
 
-    QPushButton *button1 = new QPushButton(this->p_attr->get_label_true().c_str(), this);
-    QPushButton *button2 = new QPushButton(this->p_attr->get_label_false().c_str(), this);
+    this->button1 = new QPushButton(this->p_attr->get_label_true().c_str(), this);
+    this->button2 = new QPushButton(this->p_attr->get_label_false().c_str(), this);
 
     // make the buttons checkable
-    button1->setCheckable(true);
-    button2->setCheckable(true);
+    this->button1->setCheckable(true);
+    this->button2->setCheckable(true);
 
     // set the initial state of the buttons based on the attribute value
-    button1->setChecked(this->p_attr->get_value());
-    button2->setChecked(!this->p_attr->get_value());
+    this->button1->setChecked(this->p_attr->get_value());
+    this->button2->setChecked(!this->p_attr->get_value());
 
     // connect the buttons' clicked signals to update the state
-    this->connect(button1,
+    this->connect(this->button1,
                   &QPushButton::clicked,
                   this,
-                  [this, button1, button2]()
+                  [this]()
                   {
-                    if (button1->isChecked())
+                    if (this->button1->isChecked())
                     {
-                      button2->setChecked(false);
+                      this->button2->setChecked(false);
                       this->update_attribute_from_widget(false);
                     }
                     else
                     {
                       // ensure at least one button is always checked
-                      button1->setChecked(true);
+                      this->button1->setChecked(true);
                     }
                   });
 
-    this->connect(button2,
+    this->connect(this->button2,
                   &QPushButton::clicked,
                   this,
-                  [this, button1, button2]()
+                  [this]()
                   {
-                    if (button2->isChecked())
+                    if (this->button2->isChecked())
                     {
-                      button1->setChecked(false);
+                      this->button1->setChecked(false);
                       this->update_attribute_from_widget(true);
                     }
                     else
                     {
-                      button2->setChecked(true);
+                      this->button2->setChecked(true);
                     }
                   });
 
@@ -92,9 +91,24 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
       layout->addWidget(label, row++, 0, 1, 2);
     }
 
-    layout->addWidget(button1, row, 0);
-    layout->addWidget(button2, row, 1);
+    layout->addWidget(this->button1, row, 0);
+    layout->addWidget(this->button2, row, 1);
     this->setLayout(layout);
+  }
+}
+
+void BoolWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+
+  if (this->p_attr->get_label_true() == "")
+  {
+    this->button->setChecked(p_attr->get_value());
+  }
+  else
+  {
+    this->button1->setChecked(this->p_attr->get_value());
+    this->button2->setChecked(!this->p_attr->get_value());
   }
 }
 

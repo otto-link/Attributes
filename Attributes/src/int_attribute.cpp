@@ -10,6 +10,7 @@ namespace attr
 IntAttribute::IntAttribute(const std::string &label, int value, int vmin, int vmax)
     : AbstractAttribute(AttributeType::INT, label), value(value), vmin(vmin), vmax(vmax)
 {
+  this->save_state();
 }
 
 void IntAttribute::json_from(nlohmann::json const &json)

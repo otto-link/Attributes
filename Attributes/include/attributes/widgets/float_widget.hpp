@@ -27,6 +27,8 @@ public:
 
   FloatWidget(FloatAttribute *p_attr);
 
+  void reset_value() override;
+
 private:
   FloatAttribute *p_attr;
 

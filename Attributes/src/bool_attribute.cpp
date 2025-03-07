@@ -10,6 +10,7 @@ BoolAttribute::BoolAttribute(const std::string &label, bool value)
     : AbstractAttribute(AttributeType::BOOL, label), value(value), label_true(""),
       label_false("")
 {
+  this->save_state();
 }
 
 BoolAttribute::BoolAttribute(const std::string &label,
@@ -19,6 +20,7 @@ BoolAttribute::BoolAttribute(const std::string &label,
     : AbstractAttribute(AttributeType::BOOL, label), value(value), label_true(label_true),
       label_false(label_false)
 {
+  this->save_state();
 }
 
 void BoolAttribute::json_from(nlohmann::json const &json)

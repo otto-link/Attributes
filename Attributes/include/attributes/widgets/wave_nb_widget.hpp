@@ -16,7 +16,6 @@
 
 #include "doubleslider.hpp"
 
-#include "attributes/helpers.hpp"
 #include "attributes/wave_nb_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 

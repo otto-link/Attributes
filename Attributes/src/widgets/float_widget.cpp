@@ -1,10 +1,8 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
 #include <QHBoxLayout>
 
-#include "attributes/helpers.hpp"
 #include "attributes/widgets/float_widget.hpp"
 
 namespace attr
@@ -53,6 +51,12 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
   QFontMetrics font_metrics(font);
   QSize size = font_metrics.size(Qt::TextSingleLine, this->p_attr->get_label().c_str());
   this->setMinimumWidth(4.f * size.width());
+}
+
+void FloatWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+  this->slider->setVal(this->p_attr->get_value());
 }
 
 void FloatWidget::update_attribute_from_widget()

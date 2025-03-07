@@ -9,7 +9,7 @@ namespace attr
 
 MapEnumAttribute::MapEnumAttribute(std::map<std::string, int> map,
                                    const std::string         &label)
-    : AbstractAttribute(AttributeType::MAP_ENUM, label, BoundCheck::UNCHECKED), map(map)
+    : AbstractAttribute(AttributeType::MAP_ENUM, label), map(map)
 {
   this->choice = map.begin()->first;
   this->value = map.begin()->second;
@@ -18,8 +18,7 @@ MapEnumAttribute::MapEnumAttribute(std::map<std::string, int> map,
 MapEnumAttribute::MapEnumAttribute(std::string                choice,
                                    std::map<std::string, int> map,
                                    const std::string         &label)
-    : AbstractAttribute(AttributeType::MAP_ENUM, label, BoundCheck::UNCHECKED),
-      choice(choice), map(map)
+    : AbstractAttribute(AttributeType::MAP_ENUM, label), choice(choice), map(map)
 {
   auto it = this->map.find(this->choice);
 
