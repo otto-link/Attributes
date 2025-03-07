@@ -43,21 +43,10 @@ public:
    * @param bound_check Specifies whether bounds checking is enabled (optional, defaults
    * to UPPER_LOWER).
    */
-  FloatAttribute(float              value,
-                 float              vmin,
-                 float              vmax,
-                 const std::string &label,
-                 const BoundCheck  &bound_check = BoundCheck::UPPER_LOWER);
-
-  /**
-   * @brief Get the current bounds check mode for the attribute.
-   *
-   * Returns the current bounds checking mode, which determines how the attribute value
-   * is checked against its minimum and maximum bounds.
-   *
-   * @return BoundCheck The current bounds checking mode.
-   */
-  BoundCheck get_bound_check() const { return this->bound_check; }
+  FloatAttribute(const std::string &label,
+                 float              value,
+                 float              vmin = -FLT_MAX,
+                 float              vmax = FLT_MAX);
 
   /**
    * @brief Get the floating-point value of the attribute.

@@ -15,7 +15,7 @@ IntWidget::IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
   int                     vmin = this->p_attr->get_vmin();
   int                     vmax = this->p_attr->get_vmax();
 
-  if (this->p_attr->get_vmin() == INT_MIN && this->p_attr->get_vmax() == INT_MAX)
+  if (this->p_attr->get_vmin() == -INT_MAX && this->p_attr->get_vmax() == INT_MAX)
   {
     bcheck = ValueSliders::BoundMode::UNCHECKED;
     vmin = -10;
@@ -26,7 +26,7 @@ IntWidget::IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
     bcheck = ValueSliders::BoundMode::LOWER_ONLY;
     vmax = this->p_attr->get_value() + 10;
   }
-  else if (this->p_attr->get_vmin() == INT_MIN)
+  else if (this->p_attr->get_vmin() == -INT_MAX)
   {
     bcheck = ValueSliders::BoundMode::UPPER_ONLY;
     vmin = this->p_attr->get_value() - 10;

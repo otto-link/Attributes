@@ -18,8 +18,9 @@
  */
 
 #pragma once
+#include <cfloat>  // FLT_MAX
+#include <climits> // INT_MAX
 #include <iostream>
-#include <limits>
 #include <string>
 
 #include "attributes/logger.hpp"

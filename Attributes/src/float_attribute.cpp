@@ -7,13 +7,11 @@
 namespace attr
 {
 
-FloatAttribute::FloatAttribute(float              value,
+FloatAttribute::FloatAttribute(const std::string &label,
+                               float              value,
                                float              vmin,
-                               float              vmax,
-                               const std::string &label,
-                               const BoundCheck  &bound_check)
-    : AbstractAttribute(AttributeType::FLOAT, label, bound_check), value(value),
-      vmin(vmin), vmax(vmax)
+                               float              vmax)
+    : AbstractAttribute(AttributeType::FLOAT, label), value(value), vmin(vmin), vmax(vmax)
 {
 }
 

@@ -31,23 +31,26 @@ int main(int argc, char *argv[])
                                                                         false);
 
   // int
-  map0["int no_bound"] = attr::create_attr<attr::IntAttribute>("label int no_bound", 1);
 
-  map0["int bound_inf"] = attr::create_attr<attr::IntAttribute>("label int bound_inf",
-                                                                1,
-                                                                0);
-  map0["int bound_sup"] = attr::create_attr<attr::IntAttribute>("label int bound_sup",
-                                                                1,
-                                                                INT_MIN,
-                                                                20);
-  map0["int bound_both"] = attr::create_attr<attr::IntAttribute>("label int bound_both",
-                                                                 1,
-                                                                 0,
-                                                                 10);
+  // clang-format off
+  map0["int no_bound"] = attr::create_attr<attr::IntAttribute>("label int no_bound", 1);
+  map0["int bound_inf"] = attr::create_attr<attr::IntAttribute>("label int bound_inf", 1, 0);
+  map0["int bound_sup"] = attr::create_attr<attr::IntAttribute>("label int bound_sup", 1, -INT_MAX, 20);
+  map0["int bound_both"] = attr::create_attr<attr::IntAttribute>("label int bound_both", 1, 0, 10);
+  // clang-format on
 
   std::cout << map0.at("int bound_inf").get()->json_to().dump(4) << "\n";
 
   // float
+
+  // clang-format off
+  map0["float no_bound"] = attr::create_attr<attr::FloatAttribute>("label float no_bound", 1);
+  map0["float bound_inf"] = attr::create_attr<attr::FloatAttribute>("label float bound_inf", 1.f, 0.f);
+  map0["float bound_sup"] = attr::create_attr<attr::FloatAttribute>("label float bound_sup", 1.f, -FLT_MAX, 20.f);
+  map0["float bound_both"] = attr::create_attr<attr::FloatAttribute>("label float bound_both", 1.f, 0.f, 10.f);
+  // clang-format on
+
+  // choices
 
   std::vector<std::string> choice_list = {"A", "B", "3"};
   map0["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice",

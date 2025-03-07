@@ -45,7 +45,7 @@ public:
    */
   IntAttribute(const std::string &label,
                int                value,
-               int                vmin = INT_MIN,
+               int                vmin = -INT_MAX,
                int                vmax = INT_MAX);
 
   /**
