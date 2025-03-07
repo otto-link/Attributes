@@ -19,6 +19,7 @@
 
 #pragma once
 #include <iostream>
+#include <limits>
 #include <string>
 
 #include "attributes/logger.hpp"

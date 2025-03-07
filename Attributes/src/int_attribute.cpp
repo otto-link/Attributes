@@ -1,18 +1,14 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+
 #include "attributes/int_attribute.hpp"
 
 namespace attr
 {
 
-IntAttribute::IntAttribute(int                value,
-                           int                vmin,
-                           int                vmax,
-                           const std::string &label,
-                           const BoundCheck  &bound_check)
-    : AbstractAttribute(AttributeType::INT, label, bound_check), value(value), vmin(vmin),
-      vmax(vmax)
+IntAttribute::IntAttribute(const std::string &label, int value, int vmin, int vmax)
+    : AbstractAttribute(AttributeType::INT, label), value(value), vmin(vmin), vmax(vmax)
 {
 }
 

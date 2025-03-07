@@ -11,12 +11,31 @@ namespace attr
 
 IntWidget::IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
 {
-  ValueSliders::BoundMode bcheck = convert_bound_check(this->p_attr->get_bound_check());
+  ValueSliders::BoundMode bcheck = ValueSliders::BoundMode::UPPER_LOWER;
+  int                     vmin = this->p_attr->get_vmin();
+  int                     vmax = this->p_attr->get_vmax();
+
+  if (this->p_attr->get_vmin() == INT_MIN && this->p_attr->get_vmax() == INT_MAX)
+  {
+    bcheck = ValueSliders::BoundMode::UNCHECKED;
+    vmin = -10;
+    vmax = 10;
+  }
+  else if (this->p_attr->get_vmax() == INT_MAX)
+  {
+    bcheck = ValueSliders::BoundMode::LOWER_ONLY;
+    vmax = this->p_attr->get_value() + 10;
+  }
+  else if (this->p_attr->get_vmin() == INT_MIN)
+  {
+    bcheck = ValueSliders::BoundMode::UPPER_ONLY;
+    vmin = this->p_attr->get_value() - 10;
+  }
 
   this->slider = new ValueSliders::IntSlider(this->p_attr->get_label().c_str(),
                                              this->p_attr->get_value(),
-                                             this->p_attr->get_vmin(),
-                                             this->p_attr->get_vmax(),
+                                             vmin,
+                                             vmax + 1,
                                              bcheck);
 
   this->connect(this->slider,

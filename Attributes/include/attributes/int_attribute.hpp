@@ -43,21 +43,10 @@ public:
    * @param bound_check Specifies whether bounds checking is enabled (optional, defaults
    * to UPPER_LOWER).
    */
-  IntAttribute(int                value,
-               int                vmin,
-               int                vmax,
-               const std::string &label,
-               const BoundCheck  &bound_check = BoundCheck::UPPER_LOWER);
-
-  /**
-   * @brief Get the current bounds check mode for the attribute.
-   *
-   * Returns the current bounds checking mode, which determines how the attribute value
-   * is checked against its minimum and maximum bounds.
-   *
-   * @return BoundCheck The current bounds checking mode.
-   */
-  BoundCheck get_bound_check() const { return this->bound_check; }
+  IntAttribute(const std::string &label,
+               int                value,
+               int                vmin = INT_MIN,
+               int                vmax = INT_MAX);
 
   /**
    * @brief Get the integer value of the attribute.

@@ -19,10 +19,30 @@ int main(int argc, char *argv[])
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0 = {};
 
+  // bool
   map0["bool base"] = attr::create_attr<attr::BoolAttribute>("unique label", false);
   map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("option1",
                                                                "option2",
                                                                false);
+
+  // int
+  map0["int no_bound"] = attr::create_attr<attr::IntAttribute>("label int no_bound", 1);
+
+  map0["int bound_inf"] = attr::create_attr<attr::IntAttribute>("label int bound_inf",
+                                                                1,
+                                                                0);
+  map0["int bound_sup"] = attr::create_attr<attr::IntAttribute>("label int bound_sup",
+                                                                1,
+                                                                INT_MIN,
+                                                                20);
+  map0["int bound_both"] = attr::create_attr<attr::IntAttribute>("label int bound_both",
+                                                                 1,
+                                                                 0,
+                                                                 10);
+
+  std::cout << map0.at("int bound_inf").get()->json_to().dump(4) << "\n";
+
+  // float
 
   std::vector<std::string> choice_list = {"A", "B", "3"};
   map0["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice",
@@ -30,14 +50,7 @@ int main(int argc, char *argv[])
                                                             "B");
 
   std::cout << map0.at("choice").get()->to_string() << "\n";
-
   std::cout << map0.at("choice").get()->json_to().dump(4) << "\n";
-
-  // map0["int"] = attr::create_attr<attr::IntAttribute>(1,
-  //                                                    0,
-  //                                                    10,
-  //                                                    "int",
-  //                                                    attr::BoundCheck::UPPER_LOWER);
 
   // map0["float"] = attr::create_attr<attr::FloatAttribute>(1,
   //                                                        0,
