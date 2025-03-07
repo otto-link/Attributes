@@ -7,10 +7,10 @@
  * @author Otto Link (otto.link.bv@gmail.com)
  * @brief Defines a color attribute class derived from AbstractAttribute.
  *
- * This file contains the definition of the ColorAttribute class, which represents
+ * This file contains the definition of the `ColorAttribute` class, which represents
  * an attribute that stores a color value as a vector of floats. The class provides
- * functions for setting and getting the color value, JSON serialization/deserialization,
- * and string conversion of the color value.
+ * functionality for setting and getting the color value, JSON serialization and
+ * deserialization, and converting the color value to a string representation.
  *
  * @copyright Copyright (c) 2024 Otto Link
  */
@@ -23,70 +23,76 @@ namespace attr
 
 /**
  * @class ColorAttribute
- * @brief A class representing a color attribute.
+ * @brief A class representing a color attribute derived from `AbstractAttribute`.
  *
- * ColorAttribute is derived from AbstractAttribute and is used to manage attributes
- * that represent RGBA color values stored as a vector of floats. It provides methods to
- * access and modify the color value, serialize and deserialize to/from JSON, and convert
- * the color to a string representation.
+ * The `ColorAttribute` class manages attributes that represent RGBA color values,
+ * stored as a vector of four floats. It provides methods to:
+ * - Set and get the color value.
+ * - Serialize and deserialize the attribute to/from JSON.
+ * - Convert the color value to a string representation.
+ *
+ * The default color value is white (1.0, 1.0, 1.0, 1.0).
  */
 class ColorAttribute : public AbstractAttribute
 {
 public:
   /**
-   * @brief Constructor to initialize a ColorAttribute with a color value and label.
+   * @brief Constructs a `ColorAttribute` with a label and an initial RGBA color value.
    *
-   * Initializes the color value with a vector of 4 floats (representing RGBA) and
-   * associates a label with the attribute.
+   * Initializes the color value with a vector of four floats representing the RGBA
+   * components and associates a label with the attribute.
    *
-   * @param value A vector of floats representing the RGBA color.
    * @param label A label describing the attribute.
+   * @param value A vector of four floats representing the RGBA color (red, green, blue,
+   * alpha).
    */
-  ColorAttribute(std::vector<float> value, const std::string &label);
+  ColorAttribute(const std::string &label, const std::vector<float> &value);
 
   /**
-   * @brief Constructor to initialize a ColorAttribute with individual RGBA components and
-   * a label.
+   * @brief Constructs a `ColorAttribute` with a label and individual RGBA components.
    *
    * Initializes the color value using individual red, green, blue, and alpha components.
    *
+   * @param label A label describing the attribute.
    * @param r The red component of the color (0.0 to 1.0).
    * @param g The green component of the color (0.0 to 1.0).
    * @param b The blue component of the color (0.0 to 1.0).
    * @param a The alpha (transparency) component of the color (0.0 to 1.0).
-   * @param label A label describing the attribute.
    */
-  ColorAttribute(float r, float g, float b, float a, const std::string &label);
+  ColorAttribute(const std::string &label,
+                 const float        r,
+                 const float        g,
+                 const float        b,
+                 const float        a);
 
   /**
-   * @brief Get the color value of the attribute.
+   * @brief Gets the current RGBA color value of the attribute.
    *
-   * Returns the color value as a vector of 4 floats representing the RGBA components.
-   *
-   * @return std::vector<float> The RGBA color value.
+   * @return std::vector<float> A vector of four floats representing the RGBA color value.
    */
   std::vector<float> get_value() const { return this->value; }
 
   /**
-   * @brief Set the color value of the attribute.
+   * @brief Sets the RGBA color value of the attribute.
    *
-   * Updates the color value with a new vector of RGBA floats.
+   * Updates the color value with a new vector of four floats representing the RGBA
+   * components.
    *
-   * @param new_value A vector of floats representing the new RGBA color value.
+   * @param new_value A vector of four floats representing the new RGBA color value.
    */
   void set_value(const std::vector<float> &new_value) { this->value = new_value; }
 
   /**
-   * @brief Deserialize the attribute from a JSON object.
+   * @brief Deserializes the attribute from a JSON object.
    *
-   * Loads the attribute's state from a provided JSON object, including its RGBA value.
+   * Loads the attribute's state, including its RGBA value, from the provided JSON object.
    *
    * @param json The JSON object containing the attribute data.
    */
   void json_from(nlohmann::json const &json) override;
 
   /**
-   * @brief Serialize the attribute to a JSON object.
+   * @brief Serializes the attribute to a JSON object.
    *
    * Generates a JSON representation of the attribute's current RGBA value.
    *
@@ -95,7 +101,7 @@ public:
   nlohmann::json json_to() const override;
 
   /**
-   * @brief Convert the color value to a string representation.
+   * @brief Converts the color value to a string representation.
    *
    * Returns the color value as a formatted string in the form "r, g, b, a".
    *
@@ -104,8 +110,11 @@ public:
   std::string to_string();
 
 private:
-  std::vector<float> value =
-      {1.f, 1.f, 1.f, 1.f}; /**< The RGBA color value, default is white (1,1,1,1) */
+  std::vector<float> value = {
+      1.f,
+      1.f,
+      1.f,
+      1.f}; /**< The RGBA color value, defaulting to white (1.0, 1.0, 1.0, 1.0). */
 };
 
 } // namespace attr

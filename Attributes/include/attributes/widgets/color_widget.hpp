@@ -27,12 +27,18 @@ public:
 
   ColorWidget(ColorAttribute *p_attr);
 
+  void reset_value() override;
+
 private:
   ColorAttribute *p_attr;
 
   QLabel *label;
 
-  void update_attribute_from_widget(QColor color);
+  void on_color_pick_button_released();
+
+  void update_attribute_from_widget(const QColor &color);
+
+  void update_label_color();
 };
 
 } // namespace attr

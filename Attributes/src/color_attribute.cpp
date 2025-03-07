@@ -8,18 +8,20 @@
 namespace attr
 {
 
-ColorAttribute::ColorAttribute(std::vector<float> value, const std::string &label)
+ColorAttribute::ColorAttribute(const std::string &label, const std::vector<float> &value)
     : AbstractAttribute(AttributeType::COLOR, label), value(value)
 {
+  this->save_state();
 }
 
-ColorAttribute::ColorAttribute(float              r,
-                               float              g,
-                               float              b,
-                               float              a,
-                               const std::string &label)
+ColorAttribute::ColorAttribute(const std::string &label,
+                               const float        r,
+                               const float        g,
+                               const float        b,
+                               const float        a)
     : AbstractAttribute(AttributeType::COLOR, label), value({r, g, b, a})
 {
+  this->save_state();
 }
 
 void ColorAttribute::json_from(nlohmann::json const &json)

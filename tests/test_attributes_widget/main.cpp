@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 
   attr::Logger::log()->info("Starting test application...");
 
-  // --- start with base attributes
+  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1;
 
-  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0 = {};
+  // --- start with base attributes
 
   // bool
   map0["bool base"] = attr::create_attr<attr::BoolAttribute>("unique label", false);
@@ -60,53 +60,56 @@ int main(int argc, char *argv[])
   std::cout << map0.at("choice").get()->to_string() << "\n";
   std::cout << map0.at("choice").get()->json_to().dump(4) << "\n";
 
-  // map0["float"] = attr::create_attr<attr::FloatAttribute>(1,
-  //                                                        0,
-  //                                                        10,
-  //                                                        "float",
-  //                                                        attr::BoundCheck::UPPER_LOWER);
+  // --- colors
+
+  // clang-format off
+  map1["color1"] = attr::create_attr<attr::ColorAttribute>("label color1", std::vector({1.f, 0.f, 0.f, 1.f}));
+  map1["color2"] = attr::create_attr<attr::ColorAttribute>("label color2", 0.f, 1.f, 0.f, 1.f);
+  // clang-format on
 
   // --- more complex attributes
 
-  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
+  // std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
 
-  map["color"] = attr::create_attr<attr::ColorAttribute>(1.f, 0.f, 0.f, 1.f, "color");
+  // map["color"] = attr::create_attr<attr::ColorAttribute>(1.f, 0.f, 0.f, 1.f, "color");
 
-  std::map<std::string, int> choices = {{"choice 1", 0}, {"choice 2", 1}};
-  map["enum"] = attr::create_attr<attr::MapEnumAttribute>("choice2", choices, "MapEnum");
-  // map["range"] = attr::create_attr<attr::RangeAttribute>("remap");
-  map["seed"] = attr::create_attr<attr::SeedAttribute>();
-  // map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
+  // std::map<std::string, int> choices = {{"choice 1", 0}, {"choice 2", 1}};
+  // map["enum"] = attr::create_attr<attr::MapEnumAttribute>("choice2", choices,
+  // "MapEnum");
+  // // map["range"] = attr::create_attr<attr::RangeAttribute>("remap");
+  // map["seed"] = attr::create_attr<attr::SeedAttribute>();
+  // // map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
 
-  map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
-  map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my file");
+  // map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
+  // map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my
+  // file");
 
-  if (false)
-  {
-    std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
-                                                        {1.f, 0.f, 1.f, 0.f, 1.f}};
+  // if (false)
+  // {
+  //   std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
+  //                                                       {1.f, 0.f, 1.f, 0.f, 1.f}};
 
-    map["gradient"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
-    std::cout << map.at("gradient").get()->to_string() << "\n";
-    std::cout << map.at("gradient").get()->json_to().dump(4) << "\n";
-  }
+  //   map["gradient"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
+  //   std::cout << map.at("gradient").get()->to_string() << "\n";
+  //   std::cout << map.at("gradient").get()->json_to().dump(4) << "\n";
+  // }
 
-  std::vector<float> v0 = {0.2f, 0.5f, 1.f};
-  map["vec_float"] = attr::create_attr<attr::VecFloatAttribute>(v0,
-                                                                0.f,
-                                                                1.f,
-                                                                "vec_float");
-  std::cout << map.at("vec_float").get()->to_string() << "\n";
-  std::cout << map.at("vec_float").get()->json_to().dump(4) << "\n";
+  // std::vector<float> v0 = {0.2f, 0.5f, 1.f};
+  // map["vec_float"] = attr::create_attr<attr::VecFloatAttribute>(v0,
+  //                                                               0.f,
+  //                                                               1.f,
+  //                                                               "vec_float");
+  // std::cout << map.at("vec_float").get()->to_string() << "\n";
+  // std::cout << map.at("vec_float").get()->json_to().dump(4) << "\n";
 
-  std::vector<int> vi0 = {4, 5, 8};
-  map["vec_int"] = attr::create_attr<attr::VecIntAttribute>(vi0, 3, 10, "vec_int");
+  // std::vector<int> vi0 = {4, 5, 8};
+  // map["vec_int"] = attr::create_attr<attr::VecIntAttribute>(vi0, 3, 10, "vec_int");
 
-  // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
-  //                                                       hmap::Vec2<int>(256, 256));
+  // // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
+  // //                                                       hmap::Vec2<int>(256, 256));
 
-  auto cloud = hmap::Cloud(10, 0);
-  map["zcloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
+  // auto cloud = hmap::Cloud(10, 0);
+  // map["zcloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
 
   // auto path = hmap::Path(); // 10, 1);
   // map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");
@@ -124,6 +127,9 @@ int main(int argc, char *argv[])
 
   auto aw0 = new attr::AttributesWidget(&map0);
   aw0->show();
+
+  auto aw1 = new attr::AttributesWidget(&map1);
+  aw1->show();
 
   // QWidget *inspector = new attr::InspectorWidget(&map);
   // inspector->show();
