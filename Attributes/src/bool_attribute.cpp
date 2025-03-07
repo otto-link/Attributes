@@ -6,21 +6,18 @@
 namespace attr
 {
 
-BoolAttribute::BoolAttribute(const bool value)
-    : AbstractAttribute(AttributeType::BOOL, ""), value(value), label_checked("")
-{
-}
-
 BoolAttribute::BoolAttribute(const std::string &label, bool value)
-    : AbstractAttribute(AttributeType::BOOL, label), value(value), label_checked(label)
+    : AbstractAttribute(AttributeType::BOOL, label), value(value), label_true(""),
+      label_false("")
 {
 }
 
 BoolAttribute::BoolAttribute(const std::string &label,
-                             const std::string &label_checked,
+                             const std::string &label_true,
+                             const std::string &label_false,
                              const bool         value)
-    : AbstractAttribute(AttributeType::BOOL, label), value(value),
-      label_checked(label_checked)
+    : AbstractAttribute(AttributeType::BOOL, label), value(value), label_true(label_true),
+      label_false(label_false)
 {
 }
 
@@ -28,14 +25,16 @@ void BoolAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
   this->value = json["value"];
-  this->label_checked = json["label_checked"];
+  this->label_true = json["label_true"];
+  this->label_false = json["label_false"];
 }
 
 nlohmann::json BoolAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
   json["value"] = this->value;
-  json["label_checked"] = this->label_checked;
+  json["label_true"] = this->label_true;
+  json["label_false"] = this->label_false;
   return json;
 }
 

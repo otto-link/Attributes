@@ -21,9 +21,14 @@ int main(int argc, char *argv[])
 
   // bool
   map0["bool base"] = attr::create_attr<attr::BoolAttribute>("unique label", false);
-  map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("option1",
-                                                               "option2",
+  map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("toggle label",
+                                                               "option1 true",
+                                                               "option2 false",
                                                                false);
+  map0["bool toggle no label"] = attr::create_attr<attr::BoolAttribute>("",
+                                                                        "option1 true",
+                                                                        "option2 false",
+                                                                        false);
 
   // int
   map0["int no_bound"] = attr::create_attr<attr::IntAttribute>("label int no_bound", 1);
