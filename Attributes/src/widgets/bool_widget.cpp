@@ -35,48 +35,48 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
   {
     // --- two exclusive push buttons
 
-    this->button1 = new QPushButton(this->p_attr->get_label_true().c_str(), this);
-    this->button2 = new QPushButton(this->p_attr->get_label_false().c_str(), this);
+    this->button_true = new QPushButton(this->p_attr->get_label_true().c_str(), this);
+    this->button_false = new QPushButton(this->p_attr->get_label_false().c_str(), this);
 
     // make the buttons checkable
-    this->button1->setCheckable(true);
-    this->button2->setCheckable(true);
+    this->button_true->setCheckable(true);
+    this->button_false->setCheckable(true);
 
     // set the initial state of the buttons based on the attribute value
-    this->button1->setChecked(this->p_attr->get_value());
-    this->button2->setChecked(!this->p_attr->get_value());
+    this->button_true->setChecked(this->p_attr->get_value());
+    this->button_false->setChecked(!this->p_attr->get_value());
 
     // connect the buttons' clicked signals to update the state
-    this->connect(this->button1,
+    this->connect(this->button_true,
                   &QPushButton::clicked,
                   this,
                   [this]()
                   {
-                    if (this->button1->isChecked())
+                    if (this->button_true->isChecked())
                     {
-                      this->button2->setChecked(false);
+                      this->button_false->setChecked(false);
                       this->update_attribute_from_widget(false);
                     }
                     else
                     {
                       // ensure at least one button is always checked
-                      this->button1->setChecked(true);
+                      this->button_true->setChecked(true);
                     }
                   });
 
-    this->connect(this->button2,
+    this->connect(this->button_false,
                   &QPushButton::clicked,
                   this,
                   [this]()
                   {
-                    if (this->button2->isChecked())
+                    if (this->button_false->isChecked())
                     {
-                      this->button1->setChecked(false);
+                      this->button_true->setChecked(false);
                       this->update_attribute_from_widget(true);
                     }
                     else
                     {
-                      this->button2->setChecked(true);
+                      this->button_false->setChecked(true);
                     }
                   });
 
@@ -91,8 +91,8 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
       layout->addWidget(label, row++, 0, 1, 2);
     }
 
-    layout->addWidget(this->button1, row, 0);
-    layout->addWidget(this->button2, row, 1);
+    layout->addWidget(this->button_true, row, 0);
+    layout->addWidget(this->button_false, row, 1);
     this->setLayout(layout);
   }
 }
@@ -107,8 +107,8 @@ void BoolWidget::reset_value()
   }
   else
   {
-    this->button1->setChecked(this->p_attr->get_value());
-    this->button2->setChecked(!this->p_attr->get_value());
+    this->button_true->setChecked(this->p_attr->get_value());
+    this->button_false->setChecked(!this->p_attr->get_value());
   }
 }
 

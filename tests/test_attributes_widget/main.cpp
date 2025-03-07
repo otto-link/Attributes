@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("toggle label",
                                                                "option1 true",
                                                                "option2 false",
-                                                               false);
+                                                               true);
   map0["bool toggle no label"] = attr::create_attr<attr::BoolAttribute>("",
                                                                         "option1 true",
                                                                         "option2 false",

@@ -31,7 +31,7 @@ public:
 
 private:
   BoolAttribute *p_attr;
-  QPushButton   *button, *button1, *button2;
+  QPushButton   *button, *button_true, *button_false;
 
   void update_attribute_from_widget(const bool new_value);
 };
