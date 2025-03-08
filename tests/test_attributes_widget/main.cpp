@@ -7,6 +7,8 @@
 #include "attributes/widgets/attributes_widget.hpp"
 #include "attributes/widgets/inspector_widget.hpp"
 
+#include "highmap/primitives.hpp"
+
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -15,7 +17,7 @@ int main(int argc, char *argv[])
 
   attr::Logger::log()->info("Starting test application...");
 
-  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2;
+  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3;
 
   // --- numbers
 
@@ -64,6 +66,15 @@ int main(int argc, char *argv[])
   // clang-format off
   map2["gradient0"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
   map2["gradient1"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient with input", default_gradient);
+  // clang-format on
+
+  // --- HighMap attributes
+
+  hmap::Array input_value = hmap::white(hmap::Vec2<int>(256, 256), 0.f, 1.f, 0);
+
+  // clang-format off
+  map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", hmap::Vec2<int>(256, 256));
+  map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_value);
   // clang-format on
 
   // --- more complex attributes
@@ -132,6 +143,9 @@ int main(int argc, char *argv[])
 
   auto aw2 = new attr::AttributesWidget(&map2);
   aw2->show();
+
+  auto aw3 = new attr::AttributesWidget(&map3);
+  aw3->show();
 
   // QWidget *inspector = new attr::InspectorWidget(&map);
   // inspector->show();

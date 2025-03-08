@@ -23,7 +23,7 @@ class ArrayAttribute : public AbstractAttribute
 public:
   ArrayAttribute(const std::string &label, const hmap::Vec2<int> &shape);
 
-  ArrayAttribute(const hmap::Array &value, const std::string &label = "Array");
+  ArrayAttribute(const std::string &label, const hmap::Array &value);
 
   hmap::Vec2<int> get_shape() const { return this->value.shape; }
 

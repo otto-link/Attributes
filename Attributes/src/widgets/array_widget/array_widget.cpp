@@ -128,10 +128,22 @@ void ArrayWidget::on_canvas_edit_ended(QImage *p_image)
 
   for (int i = 0; i < p_array->shape.x; i++)
     for (int j = 0; j < p_array->shape.y; j++)
-      (*p_array)(i, j) = (float)qGray(scaled_image.pixel(i, p_array->shape.y - 1 - j)) /
-                         255.f;
+    {
+      QColor color = scaled_image.pixelColor(i, p_array->shape.y - 1 - j);
+      (*p_array)(i, j) = color.lightnessF();
+    }
+
+  p_array->to_png_grayscale("out.png", CV_16U);
 
   Q_EMIT this->value_changed();
+}
+
+void ArrayWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+
+  this->canvas->set_image(this->array_to_image());
+  this->canvas->update();
 }
 
 void ArrayWidget::smooth_array()

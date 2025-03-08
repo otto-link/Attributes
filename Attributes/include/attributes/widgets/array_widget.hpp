@@ -116,6 +116,8 @@ public:
 
   ArrayWidget(ArrayAttribute *p_attr);
 
+  void reset_value() override;
+
 public Q_SLOTS:
   void on_canvas_edit_ended(QImage *p_image);
 
