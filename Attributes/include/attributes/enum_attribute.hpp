@@ -30,7 +30,7 @@ namespace attr
  * provides methods to get and set the current choice, modify the integer value associated
  * with a choice, serialize/deserialize to/from JSON, and convert the choice to a string.
  */
-class MapEnumAttribute : public AbstractAttribute
+class EnumAttribute : public AbstractAttribute
 {
 public:
   /**
@@ -41,7 +41,7 @@ public:
    * the enumeration.
    * @param label A label describing the attribute (optional).
    */
-  MapEnumAttribute(std::map<std::string, int> map, const std::string &label = "");
+  EnumAttribute(std::map<std::string, int> map, const std::string &label = "");
 
   /**
    * @brief Constructor to initialize a MapEnumAttribute with a specific choice, map of
@@ -52,9 +52,9 @@ public:
    * the enumeration.
    * @param label A label describing the attribute (optional).
    */
-  MapEnumAttribute(std::string                choice,
-                   std::map<std::string, int> map,
-                   const std::string         &label = "");
+  EnumAttribute(std::string                choice,
+                std::map<std::string, int> map,
+                const std::string         &label = "");
 
   /**
    * @brief Get the current choice of the attribute.

@@ -43,7 +43,10 @@ int main(int argc, char *argv[])
 
   // --- texts and choices
 
-  std::vector<std::string> choice_list = {"A", "B", "3"};
+  std::vector<std::string>   choice_list = {"A", "B", "3"};
+  std::map<std::string, int> choice_enum = {{"choice 1", 0},
+                                            {"choice 2", 1},
+                                            {"choice 3", 2}};
 
   // clang-format off
   map1["fname0"] = attr::create_attr<attr::FilenameAttribute>("my file", "./toto.csv", "*", false);   // load
@@ -51,6 +54,7 @@ int main(int argc, char *argv[])
   map1["fname2"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", true);  // save
 
   map1["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice", choice_list, "B");
+  map1["enum"] = attr::create_attr<attr::EnumAttribute>("A list of enum", choice_enum, "B");
   // clang-format on
 
   // --- colors
@@ -141,8 +145,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
-  // aw1->show();
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
+  aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
@@ -150,8 +154,8 @@ int main(int argc, char *argv[])
   // auto aw3 = new attr::AttributesWidget(&map3);
   // aw3->show();
 
-  auto aw4 = new attr::AttributesWidget(&map4);
-  aw4->show();
+  // auto aw4 = new attr::AttributesWidget(&map4);
+  // aw4->show();
 
   if (false)
   {

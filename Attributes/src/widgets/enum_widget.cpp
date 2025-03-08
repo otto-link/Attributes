@@ -3,12 +3,12 @@
  * this software. */
 #include <QLabel>
 
-#include "attributes/widgets/map_enum_widget.hpp"
+#include "attributes/widgets/enum_widget.hpp"
 
 namespace attr
 {
 
-MapEnumWidget::MapEnumWidget(MapEnumAttribute *p_attr) : p_attr(p_attr)
+EnumWidget::EnumWidget(EnumAttribute *p_attr) : p_attr(p_attr)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -32,20 +32,25 @@ MapEnumWidget::MapEnumWidget(MapEnumAttribute *p_attr) : p_attr(p_attr)
   connect(this->combobox,
           QOverload<int>::of(&QComboBox::currentIndexChanged),
           this,
-          &MapEnumWidget::update_attribute_from_widget);
+          &EnumWidget::update_attribute_from_widget);
 
   layout->addWidget(this->combobox);
 
   this->setLayout(layout);
 }
 
-void MapEnumWidget::update_attribute_from_widget()
+void EnumWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+  this->combobox->setCurrentText(QString::fromStdString(this->p_attr->get_choice()));
+}
+
+void EnumWidget::update_attribute_from_widget()
 {
   std::string current_choice = this->combobox->currentText().toStdString();
 
   this->p_attr->set_choice(current_choice);
   this->p_attr->set_value(p_attr->get_map().at(current_choice));
-  Logger::log()->trace("{}", p_attr->to_string());
   Q_EMIT this->value_changed();
 }
 

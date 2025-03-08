@@ -15,22 +15,24 @@
 #include <QComboBox>
 #include <QHBoxLayout>
 
+#include "attributes/enum_attribute.hpp"
 #include "attributes/logger.hpp"
-#include "attributes/map_enum_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
 
-class MapEnumWidget : public AbstractWidget
+class EnumWidget : public AbstractWidget
 {
 public:
-  MapEnumWidget() = delete;
+  EnumWidget() = delete;
 
-  MapEnumWidget(MapEnumAttribute *p_attr);
+  EnumWidget(EnumAttribute *p_attr);
+
+  void reset_value();
 
 private:
-  MapEnumAttribute *p_attr;
+  EnumAttribute *p_attr;
 
   QComboBox *combobox;
 

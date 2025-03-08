@@ -2,23 +2,24 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 
-#include "attributes/map_enum_attribute.hpp"
+#include "attributes/enum_attribute.hpp"
 
 namespace attr
 {
 
-MapEnumAttribute::MapEnumAttribute(std::map<std::string, int> map,
-                                   const std::string         &label)
-    : AbstractAttribute(AttributeType::MAP_ENUM, label), map(map)
+EnumAttribute::EnumAttribute(std::map<std::string, int> map, const std::string &label)
+    : AbstractAttribute(AttributeType::ENUM, label), map(map)
 {
   this->choice = map.begin()->first;
   this->value = map.begin()->second;
+
+  this->save_state();
 }
 
-MapEnumAttribute::MapEnumAttribute(std::string                choice,
-                                   std::map<std::string, int> map,
-                                   const std::string         &label)
-    : AbstractAttribute(AttributeType::MAP_ENUM, label), choice(choice), map(map)
+EnumAttribute::EnumAttribute(std::string                choice,
+                             std::map<std::string, int> map,
+                             const std::string         &label)
+    : AbstractAttribute(AttributeType::ENUM, label), choice(choice), map(map)
 {
   auto it = this->map.find(this->choice);
 
@@ -33,16 +34,18 @@ MapEnumAttribute::MapEnumAttribute(std::string                choice,
         "(choice: {}).",
         this->choice);
   }
+
+  this->save_state();
 }
 
-void MapEnumAttribute::json_from(nlohmann::json const &json)
+void EnumAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
   this->value = json["value"];
   this->choice = json["choice"];
 }
 
-nlohmann::json MapEnumAttribute::json_to() const
+nlohmann::json EnumAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
   json["value"] = this->value;

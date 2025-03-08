@@ -43,13 +43,13 @@ enum AttributeType
   CHOICE, /**< Choice attribute */
   COLOR,  /**< Color attribute */
   COLOR_GRADIENT,
-  INT,      /**< Integer attribute */
+  ENUM,     /**< Enum attribute */
   FILENAME, /**< Filename attribute */
   FLOAT,    /**< Floating-point number attribute */
   HMAP_ARRAY,
   HMAP_CLOUD,
   HMAP_PATH,
-  MAP_ENUM,  /**< Enum attribute */
+  INT,       /**< Integer attribute */
   RANGE,     /**< Range attribute */
   SEED,      /**< Random seed attribute */
   VEC_FLOAT, /**< Vector of floats */
@@ -70,13 +70,13 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::CHOICE, "Choice"},
     {AttributeType::COLOR, "Color"},
     {AttributeType::COLOR_GRADIENT, "Color gradient"},
-    {AttributeType::INT, "Integer"},
+    {AttributeType::ENUM, "Enumeration"},
     {AttributeType::FILENAME, "Filename"},
     {AttributeType::FLOAT, "Float"},
     {AttributeType::HMAP_ARRAY, "Array"},
     {AttributeType::HMAP_CLOUD, "Cloud"},
     {AttributeType::HMAP_PATH, "Path"},
-    {AttributeType::MAP_ENUM, "Enumeration"},
+    {AttributeType::INT, "Integer"},
     {AttributeType::RANGE, "Value range"},
     {AttributeType::SEED, "Random seed number"},
     {AttributeType::VEC_FLOAT, "Vector of floats"},
