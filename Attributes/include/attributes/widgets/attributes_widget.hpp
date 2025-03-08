@@ -28,7 +28,8 @@ public:
   AttributesWidget() = delete;
 
   AttributesWidget(std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map,
-                   std::vector<std::string> *p_attr_ordered_key = nullptr);
+                   std::vector<std::string> *p_attr_ordered_key = nullptr,
+                   const std::string        &widget_title = "");
 
 public Q_SLOTS:
   void on_reset_button_released();

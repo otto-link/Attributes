@@ -62,10 +62,12 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
 
 AttributesWidget::AttributesWidget(
     std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map,
-    std::vector<std::string>                                  *p_attr_ordered_key)
+    std::vector<std::string>                                  *p_attr_ordered_key,
+    const std::string                                         &widget_title)
     : p_attr_map(p_attr_map), p_attr_ordered_key(p_attr_ordered_key)
 {
-  this->setWindowTitle("Attribute settings");
+  std::string title = widget_title.empty() ? "Attribute settings" : widget_title;
+  this->setWindowTitle(title.c_str());
 
   // Define the attribute order either on the key map order or on a given order provided
   // as a key list (optional)

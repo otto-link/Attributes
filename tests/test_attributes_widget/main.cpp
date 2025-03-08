@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
   auto aw0 = new attr::AttributesWidget(&map0);
   aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1);
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Color widgets");
   aw1->show();
 
   // QWidget *inspector = new attr::InspectorWidget(&map);
