@@ -32,8 +32,11 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
   QPushButton *add_button = new QPushButton("Add color", this);
   QPushButton *remove_button = new QPushButton("Remove selected", this);
 
-  connect(add_button, &QPushButton::clicked, this, &ColorGradientWidget::add_color);
-  connect(remove_button, &QPushButton::clicked, this, &ColorGradientWidget::remove_color);
+  this->connect(add_button, &QPushButton::clicked, this, &ColorGradientWidget::add_color);
+  this->connect(remove_button,
+                &QPushButton::clicked,
+                this,
+                &ColorGradientWidget::remove_color);
 
   layout->addWidget(add_button, row, 0);
   layout->addWidget(remove_button, row, 1);
@@ -42,10 +45,10 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
   this->color_list = new QListWidget(this);
   this->update_color_list();
 
-  connect(this->color_list,
-          &QListWidget::itemDoubleClicked,
-          this,
-          &ColorGradientWidget::on_item_double_click);
+  this->connect(this->color_list,
+                &QListWidget::itemDoubleClicked,
+                this,
+                &ColorGradientWidget::on_item_double_click);
 
   layout->addWidget(this->color_list, row, 0, 1, 2);
 
@@ -125,6 +128,13 @@ void ColorGradientWidget::remove_color()
     delete selected_item;
     this->update();
   }
+}
+
+void ColorGradientWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+  this->colorbar->update_colors(this->p_attr->get_value());
+  this->update_color_list();
 }
 
 void ColorGradientWidget::update()

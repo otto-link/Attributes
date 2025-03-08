@@ -42,7 +42,8 @@ public:
    * point consists of (x, r, g, b, a).
    * @param label The label for the attribute.
    */
-  ColorGradientAttribute(std::vector<std::vector<float>> value, const std::string &label);
+  ColorGradientAttribute(const std::string                     &label,
+                         const std::vector<std::vector<float>> &value);
 
   /**
    * @brief Retrieves the current gradient value.

@@ -19,17 +19,17 @@ ColorWidget::ColorWidget(ColorAttribute *p_attr) : p_attr(p_attr)
 
   // color label
   this->label = new QLabel();
-  update_label_color();
+  this->update_label_color();
   layout->addWidget(this->label, 1, 1, 1, 2);
 
   // color picking button
   QPushButton *button = new QPushButton("Pick color");
   layout->addWidget(button, 1, 0);
 
-  connect(button,
-          &QPushButton::released,
-          this,
-          &ColorWidget::on_color_pick_button_released);
+  this->connect(button,
+                &QPushButton::released,
+                this,
+                &ColorWidget::on_color_pick_button_released);
 
   this->setLayout(layout);
 }
@@ -41,13 +41,13 @@ void ColorWidget::on_color_pick_button_released()
   QColor color = color_dialog.getColor();
 
   if (color.isValid())
-    update_attribute_from_widget(color);
+    this->update_attribute_from_widget(color);
 }
 
 void ColorWidget::reset_value()
 {
   this->p_attr->reset_to_save_state();
-  update_label_color();
+  this->update_label_color();
 }
 
 void ColorWidget::update_attribute_from_widget(const QColor &color)
@@ -61,7 +61,7 @@ void ColorWidget::update_attribute_from_widget(const QColor &color)
                              static_cast<float>(color.alpha()) / 255.f};
 
   this->p_attr->set_value(rgba);
-  update_label_color();
+  this->update_label_color();
   Q_EMIT this->value_changed();
 }
 

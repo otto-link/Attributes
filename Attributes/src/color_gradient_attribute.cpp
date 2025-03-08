@@ -11,12 +11,15 @@ namespace attr
 ColorGradientAttribute::ColorGradientAttribute(const std::string &label)
     : AbstractAttribute(AttributeType::COLOR_GRADIENT, label)
 {
+  this->save_state();
 }
 
-ColorGradientAttribute::ColorGradientAttribute(std::vector<std::vector<float>> value,
-                                               const std::string              &label)
+ColorGradientAttribute::ColorGradientAttribute(
+    const std::string                     &label,
+    const std::vector<std::vector<float>> &value)
     : AbstractAttribute(AttributeType::COLOR_GRADIENT, label), value(value)
 {
+  this->save_state();
 }
 
 void ColorGradientAttribute::json_from(nlohmann::json const &json)

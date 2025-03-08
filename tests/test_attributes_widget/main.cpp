@@ -67,6 +67,15 @@ int main(int argc, char *argv[])
   map1["color2"] = attr::create_attr<attr::ColorAttribute>("label color2", 0.f, 1.f, 0.f, 1.f);
   // clang-format on
 
+  std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
+                                                      {0.5f, 1.f, 0.f, 0.f, 1.f},
+                                                      {1.f, 0.f, 0.f, 1.f, 1.f}};
+
+  // clang-format off
+  map1["gradient0"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
+  map1["gradient1"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient with input", default_gradient);
+  // clang-format on
+
   // --- more complex attributes
 
   // std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
