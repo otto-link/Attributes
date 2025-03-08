@@ -83,8 +83,12 @@ public:
 
   CloudWidget(CloudAttribute *p_attr);
 
+  void reset_value();
+
 private:
   CloudAttribute *p_attr;
+
+  CloudCanvasWidget *canvas;
 };
 
 } // namespace attr

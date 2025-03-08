@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
 
   attr::Logger::log()->info("Starting test application...");
 
-  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3;
+  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3,
+      map4;
 
   // --- numbers
 
@@ -75,6 +76,8 @@ int main(int argc, char *argv[])
   // clang-format off
   map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", hmap::Vec2<int>(256, 256));
   map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_array);
+
+  map4["cloud"] = attr::create_attr<attr::CloudAttribute>("cloud label");
   // clang-format on
 
   // --- more complex attributes
@@ -135,20 +138,26 @@ int main(int argc, char *argv[])
   // auto point = attr::get_attribute_widget(map.at("cloud").get());
   // point->show();
 
-  auto aw0 = new attr::AttributesWidget(&map0);
-  aw0->show();
+  // auto aw0 = new attr::AttributesWidget(&map0);
+  // aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
-  aw1->show();
+  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
+  // aw1->show();
 
-  auto aw2 = new attr::AttributesWidget(&map2);
-  aw2->show();
+  // auto aw2 = new attr::AttributesWidget(&map2);
+  // aw2->show();
 
-  auto aw3 = new attr::AttributesWidget(&map3);
-  aw3->show();
+  // auto aw3 = new attr::AttributesWidget(&map3);
+  // aw3->show();
 
-  // QWidget *inspector = new attr::InspectorWidget(&map);
-  // inspector->show();
+  auto aw4 = new attr::AttributesWidget(&map4);
+  aw4->show();
+
+  if (false)
+  {
+    QWidget *inspector = new attr::InspectorWidget(&map0);
+    inspector->show();
+  }
 
   return app.exec();
 }

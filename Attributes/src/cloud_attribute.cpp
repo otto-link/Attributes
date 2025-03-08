@@ -11,11 +11,13 @@ CloudAttribute::CloudAttribute(const std::string &label)
     : AbstractAttribute(AttributeType::HMAP_CLOUD, label)
 {
   this->value = hmap::Cloud();
+  this->save_state();
 }
 
-CloudAttribute::CloudAttribute(const hmap::Cloud &value, const std::string &label)
+CloudAttribute::CloudAttribute(const std::string &label, const hmap::Cloud &value)
     : AbstractAttribute(AttributeType::HMAP_CLOUD, label), value(value)
 {
+  this->save_state();
 }
 
 void CloudAttribute::json_from(nlohmann::json const &json)

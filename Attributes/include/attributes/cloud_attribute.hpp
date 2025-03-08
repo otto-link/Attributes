@@ -23,7 +23,7 @@ class CloudAttribute : public AbstractAttribute
 public:
   CloudAttribute(const std::string &label);
 
-  CloudAttribute(const hmap::Cloud &value, const std::string &label = "Cloud");
+  CloudAttribute(const std::string &label, const hmap::Cloud &value);
 
   hmap::Cloud get_value() const { return this->value; }
 

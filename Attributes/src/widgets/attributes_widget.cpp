@@ -86,7 +86,7 @@ AttributesWidget::AttributesWidget(
   QVBoxLayout *layout = new QVBoxLayout(this);
 
   // main buttons
-  QPushButton *reset_button = new QPushButton("Reset values", this);
+  QPushButton *reset_button = new QPushButton("Reset to save state", this);
   layout->addWidget(reset_button);
 
   this->connect(reset_button,
