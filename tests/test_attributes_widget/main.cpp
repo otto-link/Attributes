@@ -17,62 +17,37 @@ int main(int argc, char *argv[])
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2;
 
-  // --- start with base attributes
-
-  // bool
-  map0["bool base"] = attr::create_attr<attr::BoolAttribute>("unique label", false);
-  map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("toggle label",
-                                                               "option1 true",
-                                                               "option2 false",
-                                                               true);
-  map0["bool toggle no label"] = attr::create_attr<attr::BoolAttribute>("",
-                                                                        "option1 true",
-                                                                        "option2 false",
-                                                                        false);
-
-  // int
+  // --- numbers
 
   // clang-format off
+  map0["bool base"] = attr::create_attr<attr::BoolAttribute>("unique label", false);
+  map0["bool toggle"] = attr::create_attr<attr::BoolAttribute>("toggle label", "option1 true", "option2 false", true);
+  map0["bool toggle no label"] = attr::create_attr<attr::BoolAttribute>("", "option1 true", "option2 false", false);
+
   map0["int no_bound"] = attr::create_attr<attr::IntAttribute>("label int no_bound", 1);
   map0["int bound_inf"] = attr::create_attr<attr::IntAttribute>("label int bound_inf", 1, 0);
   map0["int bound_sup"] = attr::create_attr<attr::IntAttribute>("label int bound_sup", 1, -INT_MAX, 20);
   map0["int bound_both"] = attr::create_attr<attr::IntAttribute>("label int bound_both", 1, 0, 10);
-  // clang-format on
 
-  std::cout << map0.at("int bound_inf").get()->json_to().dump(4) << "\n";
-
-  // float
-
-  // clang-format off
   map0["float no_bound"] = attr::create_attr<attr::FloatAttribute>("label float no_bound", 1);
   map0["float bound_inf"] = attr::create_attr<attr::FloatAttribute>("label float bound_inf", 1.f, 0.f);
   map0["float bound_sup"] = attr::create_attr<attr::FloatAttribute>("label float bound_sup", 1.f, -FLT_MAX, 20.f);
   map0["float bound_both"] = attr::create_attr<attr::FloatAttribute>("label float bound_both", 1.f, 0.f, 10.f);
-  // clang-format on
 
-  // seed
-
-  // clang-format off
   map0["seed0"] = attr::create_attr<attr::SeedAttribute>();
   map0["seed1"] = attr::create_attr<attr::SeedAttribute>("label + default value", 10);
   // clang-format on
 
-  // choices
+  // --- texts and choices
 
   std::vector<std::string> choice_list = {"A", "B", "3"};
-  map0["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice",
-                                                            choice_list,
-                                                            "B");
-
-  std::cout << map0.at("choice").get()->to_string() << "\n";
-  std::cout << map0.at("choice").get()->json_to().dump(4) << "\n";
-
-  // --- texts
 
   // clang-format off
   map1["fname0"] = attr::create_attr<attr::FilenameAttribute>("my file", "./toto.csv", "*", false);   // load
   map1["fname1"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", false); // load
   map1["fname2"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", true);  // save
+
+  map1["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice", choice_list, "B");
   // clang-format on
 
   // --- colors
