@@ -11,11 +11,13 @@ PathAttribute::PathAttribute(const std::string &label)
     : AbstractAttribute(AttributeType::HMAP_PATH, label)
 {
   this->value = hmap::Path();
+  this->save_state();
 }
 
-PathAttribute::PathAttribute(const hmap::Path &value, const std::string &label)
+PathAttribute::PathAttribute(const std::string &label, const hmap::Path &value)
     : AbstractAttribute(AttributeType::HMAP_PATH, label), value(value)
 {
+  this->save_state();
 }
 
 void PathAttribute::json_from(nlohmann::json const &json)

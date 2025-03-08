@@ -25,10 +25,10 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
   }
 
   // canvas
-  PathCanvasWidget *canvas = new PathCanvasWidget(this->p_attr, this);
-  layout->addWidget(canvas, row++, 0, 1, 4);
+  this->canvas = new PathCanvasWidget(this->p_attr, this);
+  layout->addWidget(this->canvas, row++, 0, 1, 4);
 
-  this->connect(canvas,
+  this->connect(this->canvas,
                 &PathCanvasWidget::value_changed,
                 [this]() { Q_EMIT this->value_changed(); });
 
@@ -56,22 +56,31 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
   {
     QPushButton *button = new QPushButton("Randomize");
     layout->addWidget(button, row, 1);
-    this->connect(button, &QPushButton::pressed, [canvas]() { canvas->randomize(); });
+    this->connect(button, &QPushButton::pressed, [this]() { this->canvas->randomize(); });
   }
 
   // reorder
   {
     QPushButton *button = new QPushButton("Reorder (NNS)");
     layout->addWidget(button, row, 2);
-    this->connect(button, &QPushButton::pressed, [canvas]() { canvas->reorder_nns(); });
+    this->connect(button,
+                  &QPushButton::pressed,
+                  [this]() { this->canvas->reorder_nns(); });
   }
 
   // clear button
   {
     QPushButton *button = new QPushButton("Clear");
     layout->addWidget(button, row, 3);
-    this->connect(button, &QPushButton::pressed, [canvas]() { canvas->clear(); });
+    this->connect(button, &QPushButton::pressed, [this]() { this->canvas->clear(); });
   }
+}
+
+void PathWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+  this->canvas->update_widget_from_attribute();
+  this->canvas->update();
 }
 
 } // namespace attr
