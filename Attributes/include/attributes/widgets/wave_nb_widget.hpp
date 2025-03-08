@@ -29,6 +29,8 @@ public:
 
   WaveNbWidget(WaveNbAttribute *p_attr);
 
+  void reset_value() override;
+
 protected Q_SLOTS:
 
   void on_link_xy_state_change();

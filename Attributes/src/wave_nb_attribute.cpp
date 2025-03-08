@@ -9,18 +9,20 @@ namespace attr
 
 WaveNbAttribute::WaveNbAttribute()
     : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber"), value({2.f, 2.f}),
-      vmin(0.f), vmax(16.f), link_xy(true)
+      vmin(0.f), vmax(FLT_MAX), link_xy(true)
 {
+  this->save_state();
 }
 
-WaveNbAttribute::WaveNbAttribute(std::vector<float> value,
-                                 float              vmin,
-                                 float              vmax,
-                                 bool               link_xy,
-                                 const std::string &label)
+WaveNbAttribute::WaveNbAttribute(const std::string        &label,
+                                 const std::vector<float> &value,
+                                 const float               vmin,
+                                 const float               vmax,
+                                 const bool                link_xy)
     : AbstractAttribute(AttributeType::WAVE_NB, label), value(value), vmin(vmin),
       vmax(vmax), link_xy(link_xy)
 {
+  this->save_state();
 }
 
 void WaveNbAttribute::json_from(nlohmann::json const &json)

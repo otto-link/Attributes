@@ -27,19 +27,37 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
 
   // sliders
 
-  // TODO
   ValueSliders::BoundMode bcheck = ValueSliders::BoundMode::UPPER_LOWER;
+  float                   vmin = this->p_attr->get_vmin();
+  float                   vmax = this->p_attr->get_vmax();
+
+  if (this->p_attr->get_vmin() == -FLT_MAX && this->p_attr->get_vmax() == FLT_MAX)
+  {
+    bcheck = ValueSliders::BoundMode::UNCHECKED;
+    vmin = -10;
+    vmax = 10;
+  }
+  else if (this->p_attr->get_vmax() == FLT_MAX)
+  {
+    bcheck = ValueSliders::BoundMode::LOWER_ONLY;
+    vmax = this->p_attr->get_value().front() + 10.f;
+  }
+  else if (this->p_attr->get_vmin() == -FLT_MAX)
+  {
+    bcheck = ValueSliders::BoundMode::UPPER_ONLY;
+    vmin = this->p_attr->get_value().front() - 10.f;
+  }
 
   this->slider_x = new ValueSliders::DoubleSlider("X",
                                                   this->p_attr->get_value()[0],
-                                                  this->p_attr->get_vmin(),
-                                                  this->p_attr->get_vmax(),
+                                                  vmin,
+                                                  vmax,
                                                   bcheck);
 
   this->slider_y = new ValueSliders::DoubleSlider("Y",
                                                   this->p_attr->get_value()[1],
-                                                  this->p_attr->get_vmin(),
-                                                  this->p_attr->get_vmax(),
+                                                  vmin,
+                                                  vmax,
                                                   bcheck);
 
   this->connect(this->slider_x,
@@ -116,6 +134,26 @@ void WaveNbWidget::on_reset()
   this->update_attribute_from_widget();
 }
 
+void WaveNbWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+
+  Logger::log()->trace("here: {} {}",
+                       this->p_attr->get_value()[0],
+                       this->p_attr->get_value()[1]);
+
+  this->slider_y->setEnabled(!this->p_attr->get_link_xy());
+
+  this->slider_x->setVal((double)this->p_attr->get_value()[0]);
+  this->slider_y->setVal((double)this->p_attr->get_value()[1]);
+  this->slider_x->update();
+  this->slider_y->update();
+
+  // this shall be done after setting the value of the sliders because
+  // of its connections (see construction)
+  this->button_link_xy->setChecked(this->p_attr->get_link_xy());
+}
+
 void WaveNbWidget::update_attribute_from_widget()
 {
   float              x1 = (float)this->slider_x->getVal();
@@ -123,7 +161,6 @@ void WaveNbWidget::update_attribute_from_widget()
   std::vector<float> vec = {x1, x2};
 
   this->p_attr->set_value(vec);
-  Logger::log()->trace("{}", p_attr->to_string());
   Q_EMIT this->value_changed();
 }
 

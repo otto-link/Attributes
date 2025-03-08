@@ -52,11 +52,11 @@ public:
    * @param label An optional label for the attribute.
    * @param bound_check The type of bound checking to apply, default is LOWER_ONLY.
    */
-  WaveNbAttribute(std::vector<float> value,
-                  float              vmin,
-                  float              vmax,
-                  bool               link_xy = true,
-                  const std::string &label = "");
+  WaveNbAttribute(const std::string        &label,
+                  const std::vector<float> &value,
+                  const float               vmin,
+                  const float               vmax,
+                  const bool                link_xy = true);
 
   /**
    * @brief Get the link_xy flag.

@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   attr::Logger::log()->info("Starting test application...");
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3,
-      map4;
+      map4, map5;
 
   // --- numbers
 
@@ -85,7 +85,16 @@ int main(int argc, char *argv[])
   map4["path"] = attr::create_attr<attr::PathAttribute>("path label");
   // clang-format on
 
-  // --- more complex attributes
+  // --- vector-like attributes
+
+  std::vector<float> kw = {2.f, 4.f};
+
+  // clang-format off
+  map5["wnb0"] = attr::create_attr<attr::WaveNbAttribute>();
+  map5["wnb1"] = attr::create_attr<attr::WaveNbAttribute>("lower bound", kw, 0.f, FLT_MAX, false);
+  map5["wnb2"] = attr::create_attr<attr::WaveNbAttribute>("upper bound", kw, -FLT_MAX, 16.f, false);
+  map5["wnb3"] = attr::create_attr<attr::WaveNbAttribute>("both bound", kw, 0.f, 16.f, false);
+  // clang-format on
 
   // std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
 
@@ -146,8 +155,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
-  aw1->show();
+  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
+  // aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
@@ -155,8 +164,11 @@ int main(int argc, char *argv[])
   // auto aw3 = new attr::AttributesWidget(&map3);
   // aw3->show();
 
-  auto aw4 = new attr::AttributesWidget(&map4);
-  aw4->show();
+  // auto aw4 = new attr::AttributesWidget(&map4);
+  // aw4->show();
+
+  auto aw5 = new attr::AttributesWidget(&map5);
+  aw5->show();
 
   if (false)
   {
