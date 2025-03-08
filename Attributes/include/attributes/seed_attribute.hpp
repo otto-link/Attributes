@@ -45,7 +45,7 @@ public:
    * @param value The seed value (unsigned integer).
    * @param label The label describing the attribute.
    */
-  SeedAttribute(uint value, const std::string &label);
+  SeedAttribute(const std::string &label, const uint value);
 
   /**
    * @brief Get the current seed value.

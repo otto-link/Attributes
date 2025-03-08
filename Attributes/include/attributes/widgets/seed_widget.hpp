@@ -28,6 +28,8 @@ public:
 
   SeedWidget(SeedAttribute *p_attr);
 
+  void reset_value() override;
+
 private:
   SeedAttribute *p_attr;
 

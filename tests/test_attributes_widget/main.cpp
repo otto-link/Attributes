@@ -50,6 +50,13 @@ int main(int argc, char *argv[])
   map0["float bound_both"] = attr::create_attr<attr::FloatAttribute>("label float bound_both", 1.f, 0.f, 10.f);
   // clang-format on
 
+  // seed
+
+  // clang-format off
+  map0["seed0"] = attr::create_attr<attr::SeedAttribute>();
+  map0["seed1"] = attr::create_attr<attr::SeedAttribute>("label + default value", 10);
+  // clang-format on
+
   // choices
 
   std::vector<std::string> choice_list = {"A", "B", "3"};

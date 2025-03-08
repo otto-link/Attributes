@@ -33,7 +33,7 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
 
   // new button
   {
-    QPushButton *button = new QPushButton("New seed");
+    QPushButton *button = new QPushButton("Random seed");
     layout->addWidget(button, 1, 0);
 
     connect(button,
@@ -62,10 +62,15 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
+void SeedWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+  this->slider->setVal((int)this->p_attr->get_value());
+}
+
 void SeedWidget::update_attribute_from_widget()
 {
   this->p_attr->set_value((uint)this->slider->getVal());
-  Logger::log()->trace("{}", p_attr->to_string());
   Q_EMIT this->value_changed();
 }
 
