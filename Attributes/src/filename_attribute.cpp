@@ -7,13 +7,14 @@
 namespace attr
 {
 
-FilenameAttribute::FilenameAttribute(std::filesystem::path value,
-                                     bool                  for_saving,
-                                     std::string           filter,
-                                     std::string           label)
+FilenameAttribute::FilenameAttribute(const std::string           &label,
+                                     const std::filesystem::path &value,
+                                     const std::string           &filter,
+                                     const bool                   for_saving)
     : AbstractAttribute(AttributeType::FILENAME, label), value(value),
       for_saving(for_saving), filter(filter)
 {
+  this->save_state();
 }
 
 void FilenameAttribute::json_from(nlohmann::json const &json)

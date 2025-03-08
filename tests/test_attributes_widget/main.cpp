@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
   attr::Logger::log()->info("Starting test application...");
 
-  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1;
+  std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2;
 
   // --- start with base attributes
 
@@ -67,11 +67,19 @@ int main(int argc, char *argv[])
   std::cout << map0.at("choice").get()->to_string() << "\n";
   std::cout << map0.at("choice").get()->json_to().dump(4) << "\n";
 
+  // --- texts
+
+  // clang-format off
+  map1["fname0"] = attr::create_attr<attr::FilenameAttribute>("my file", "./toto.csv", "*", false);   // load
+  map1["fname1"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", false); // load
+  map1["fname2"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", true);  // save
+  // clang-format on
+
   // --- colors
 
   // clang-format off
-  map1["color1"] = attr::create_attr<attr::ColorAttribute>("label color1", std::vector({1.f, 0.f, 0.f, 1.f}));
-  map1["color2"] = attr::create_attr<attr::ColorAttribute>("label color2", 0.f, 1.f, 0.f, 1.f);
+  map2["color1"] = attr::create_attr<attr::ColorAttribute>("label color1", std::vector({1.f, 0.f, 0.f, 1.f}));
+  map2["color2"] = attr::create_attr<attr::ColorAttribute>("label color2", 0.f, 1.f, 0.f, 1.f);
   // clang-format on
 
   std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
@@ -79,8 +87,8 @@ int main(int argc, char *argv[])
                                                       {1.f, 0.f, 0.f, 1.f, 1.f}};
 
   // clang-format off
-  map1["gradient0"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
-  map1["gradient1"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient with input", default_gradient);
+  map2["gradient0"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
+  map2["gradient1"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient with input", default_gradient);
   // clang-format on
 
   // --- more complex attributes
@@ -144,8 +152,11 @@ int main(int argc, char *argv[])
   auto aw0 = new attr::AttributesWidget(&map0);
   aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Color widgets");
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
   aw1->show();
+
+  auto aw2 = new attr::AttributesWidget(&map2);
+  aw2->show();
 
   // QWidget *inspector = new attr::InspectorWidget(&map);
   // inspector->show();

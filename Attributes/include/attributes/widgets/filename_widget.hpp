@@ -27,6 +27,8 @@ public:
 
   FilenameWidget(FilenameAttribute *p_attr);
 
+  void reset_value() override;
+
 private:
   FilenameAttribute *p_attr;
 

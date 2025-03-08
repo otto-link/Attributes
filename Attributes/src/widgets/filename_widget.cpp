@@ -56,6 +56,14 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
+void FilenameWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+
+  std::string basename = this->p_attr->get_value().filename().string();
+  this->button->setText(basename.c_str());
+}
+
 void FilenameWidget::update_attribute_from_widget()
 {
   Logger::log()->trace("{}", p_attr->to_string());

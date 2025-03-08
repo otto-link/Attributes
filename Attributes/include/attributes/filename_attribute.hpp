@@ -43,10 +43,10 @@ public:
    * @param filter A string representing a file type filter (optional, default is empty).
    * @param label A label describing the attribute (optional, default is empty).
    */
-  FilenameAttribute(std::filesystem::path value,
-                    bool                  for_saving = true,
-                    std::string           filter = "",
-                    std::string           label = "");
+  FilenameAttribute(const std::string           &label,
+                    const std::filesystem::path &value,
+                    const std::string           &filter = "",
+                    const bool                   for_saving = true);
 
   /**
    * @brief Get the file type filter of the attribute.
