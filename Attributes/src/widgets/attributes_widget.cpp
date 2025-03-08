@@ -85,15 +85,7 @@ AttributesWidget::AttributesWidget(
   // Setup layout
   QVBoxLayout *layout = new QVBoxLayout(this);
 
-  // Update button
-  QPushButton *update_button = new QPushButton("Force update", this);
-  layout->addWidget(update_button);
-
-  this->connect(update_button,
-                &QPushButton::released,
-                this,
-                &AttributesWidget::update_button_released);
-
+  // main buttons
   QPushButton *reset_button = new QPushButton("Reset values", this);
   layout->addWidget(reset_button);
 
@@ -101,6 +93,14 @@ AttributesWidget::AttributesWidget(
                 &QPushButton::released,
                 this,
                 &AttributesWidget::on_reset_button_released);
+
+  QPushButton *save_state_button = new QPushButton("Save current state", this);
+  layout->addWidget(save_state_button);
+
+  this->connect(save_state_button,
+                &QPushButton::released,
+                this,
+                &AttributesWidget::on_save_state_button_released);
 
   // To check the number of widgets corresponds to the number of keys in
   // "p_attr_ordered_key"
@@ -168,6 +168,14 @@ void AttributesWidget::on_reset_button_released()
     w->reset_value();
 
   Q_EMIT this->value_changed();
+}
+
+void AttributesWidget::on_save_state_button_released()
+{
+  Logger::log()->trace("AttributesWidget::on_save_state_button_released");
+
+  for (auto &[key, pa] : *p_attr_map)
+    pa->save_state();
 }
 
 } // namespace attr

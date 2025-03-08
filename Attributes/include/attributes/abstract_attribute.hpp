@@ -188,12 +188,12 @@ public:
 
   void reset_to_save_state();
 
+  void save_state();
+
 protected:
   AttributeType  type = AttributeType::INVALID; /**< The type of the attribute */
   std::string    label = "";                    /**< The label describing the attribute */
   nlohmann::json attribute_state;
-
-  void save_state();
 };
 
 /**

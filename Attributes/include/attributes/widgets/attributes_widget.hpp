@@ -34,6 +34,8 @@ public:
 public Q_SLOTS:
   void on_reset_button_released();
 
+  void on_save_state_button_released();
+
 Q_SIGNALS:
   void value_changed();
 

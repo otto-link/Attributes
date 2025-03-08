@@ -70,11 +70,11 @@ int main(int argc, char *argv[])
 
   // --- HighMap attributes
 
-  hmap::Array input_value = hmap::white(hmap::Vec2<int>(256, 256), 0.f, 1.f, 0);
+  hmap::Array input_array = hmap::white(hmap::Vec2<int>(256, 256), 0.f, 1.f, 0);
 
   // clang-format off
   map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", hmap::Vec2<int>(256, 256));
-  map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_value);
+  map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_array);
   // clang-format on
 
   // --- more complex attributes
