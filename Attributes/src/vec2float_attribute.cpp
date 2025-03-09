@@ -11,17 +11,19 @@ Vec2FloatAttribute::Vec2FloatAttribute(const std::string &label)
     : AbstractAttribute(AttributeType::VEC2FLOAT, label), value({0.5f, 0.5f}), xmin(0.f),
       xmax(1.f), ymin(0.f), ymax(1.f)
 {
+  this->save_state();
 }
 
-Vec2FloatAttribute::Vec2FloatAttribute(std::vector<float> value,
-                                       float              xmin,
-                                       float              xmax,
-                                       float              ymin,
-                                       float              ymax,
-                                       const std::string &label)
+Vec2FloatAttribute::Vec2FloatAttribute(const std::string        &label,
+                                       const std::vector<float> &value,
+                                       const float               xmin,
+                                       const float               xmax,
+                                       const float               ymin,
+                                       const float               ymax)
     : AbstractAttribute(AttributeType::VEC2FLOAT, label), value(value), xmin(xmin),
       xmax(xmax), ymin(ymin), ymax(ymax)
 {
+  this->save_state();
 }
 
 void Vec2FloatAttribute::json_from(nlohmann::json const &json)

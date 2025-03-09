@@ -57,12 +57,12 @@ public:
    * @param ymax The maximum bound for the Y component.
    * @param label Optional label for the attribute.
    */
-  Vec2FloatAttribute(std::vector<float> value,
-                     float              xmin,
-                     float              xmax,
-                     float              ymin,
-                     float              ymax,
-                     const std::string &label = "");
+  Vec2FloatAttribute(const std::string        &label,
+                     const std::vector<float> &value,
+                     const float               xmin,
+                     const float               xmax,
+                     const float               ymin,
+                     const float               ymax);
 
   /**
    * @brief Get the current 2D vector value.

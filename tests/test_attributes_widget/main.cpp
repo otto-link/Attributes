@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   attr::Logger::log()->info("Starting test application...");
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3,
-      map4, map5;
+      map4, map5, map6;
 
   // --- numbers
 
@@ -99,6 +99,9 @@ int main(int argc, char *argv[])
   map5["range0"] =  attr::create_attr<attr::RangeAttribute>();
   map5["range1"] =  attr::create_attr<attr::RangeAttribute>("range label", false);
   map5["range2"] =  attr::create_attr<attr::RangeAttribute>("range label2", dv, -2.f, 10.f);
+
+  map6["v2f0"] = attr::create_attr<attr::Vec2FloatAttribute>("label center");
+  map6["v2f1"] = attr::create_attr<attr::Vec2FloatAttribute>("label center XY", dv, -2.f, 3.f, -15.f, 20.f);
   // clang-format on
 
   // std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
@@ -172,8 +175,11 @@ int main(int argc, char *argv[])
   // auto aw4 = new attr::AttributesWidget(&map4);
   // aw4->show();
 
-  auto aw5 = new attr::AttributesWidget(&map5);
-  aw5->show();
+  // auto aw5 = new attr::AttributesWidget(&map5);
+  // aw5->show();
+
+  auto aw6 = new attr::AttributesWidget(&map6);
+  aw6->show();
 
   if (false)
   {

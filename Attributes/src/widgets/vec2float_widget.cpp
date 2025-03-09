@@ -138,8 +138,6 @@ void XYWidget::update_attribute_from_widget()
   std::vector<float> vec = std::vector<float>({xf, yf});
   this->p_attr->set_value(vec);
 
-  Logger::log()->trace("{}", this->p_attr->to_string());
-
   Q_EMIT this->value_changed();
 }
 
@@ -187,6 +185,14 @@ Vec2FloatWidget::Vec2FloatWidget(Vec2FloatAttribute *p_attr) : p_attr(p_attr)
   }
 
   this->setLayout(layout);
+}
+
+void Vec2FloatWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+
+  this->xy_widget->set_point(p_attr->get_value()[0], p_attr->get_value()[1]);
+  this->xy_widget->update();
 }
 
 } // namespace attr

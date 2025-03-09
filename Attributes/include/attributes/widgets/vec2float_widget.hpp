@@ -32,6 +32,8 @@ public:
 
   XYWidget(Vec2FloatAttribute *p_attr);
 
+  void set_point(float x, float y);
+
 Q_SIGNALS:
   void value_changed();
 
@@ -68,8 +70,6 @@ private:
   // coordinates
   QPointF map_to_widget(const QPointF &value_point);
 
-  void set_point(float x, float y);
-
   void update_attribute_from_widget();
 };
 
@@ -79,6 +79,8 @@ public:
   Vec2FloatWidget() = delete;
 
   Vec2FloatWidget(Vec2FloatAttribute *p_attr);
+
+  void reset_value() override;
 
 private:
   Vec2FloatAttribute *p_attr;
