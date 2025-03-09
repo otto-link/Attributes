@@ -55,7 +55,7 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
                     if (this->button_true->isChecked())
                     {
                       this->button_false->setChecked(false);
-                      this->update_attribute_from_widget(false);
+                      this->update_attribute_from_widget(true);
                     }
                     else
                     {
@@ -72,7 +72,7 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
                     if (this->button_false->isChecked())
                     {
                       this->button_true->setChecked(false);
-                      this->update_attribute_from_widget(true);
+                      this->update_attribute_from_widget(false);
                     }
                     else
                     {
