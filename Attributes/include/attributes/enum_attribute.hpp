@@ -41,7 +41,7 @@ public:
    * the enumeration.
    * @param label A label describing the attribute (optional).
    */
-  EnumAttribute(std::map<std::string, int> map, const std::string &label = "");
+  EnumAttribute(const std::string &label, const std::map<std::string, int> &map);
 
   /**
    * @brief Constructor to initialize a MapEnumAttribute with a specific choice, map of
@@ -52,9 +52,9 @@ public:
    * the enumeration.
    * @param label A label describing the attribute (optional).
    */
-  EnumAttribute(std::string                choice,
-                std::map<std::string, int> map,
-                const std::string         &label = "");
+  EnumAttribute(const std::string                &label,
+                const std::map<std::string, int> &map,
+                const std::string                &choice);
 
   /**
    * @brief Get the current choice of the attribute.

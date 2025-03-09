@@ -7,7 +7,8 @@
 namespace attr
 {
 
-EnumAttribute::EnumAttribute(std::map<std::string, int> map, const std::string &label)
+EnumAttribute::EnumAttribute(const std::string                &label,
+                             const std::map<std::string, int> &map)
     : AbstractAttribute(AttributeType::ENUM, label), map(map)
 {
   this->choice = map.begin()->first;
@@ -16,9 +17,9 @@ EnumAttribute::EnumAttribute(std::map<std::string, int> map, const std::string &
   this->save_state();
 }
 
-EnumAttribute::EnumAttribute(std::string                choice,
-                             std::map<std::string, int> map,
-                             const std::string         &label)
+EnumAttribute::EnumAttribute(const std::string                &label,
+                             const std::map<std::string, int> &map,
+                             const std::string                &choice)
     : AbstractAttribute(AttributeType::ENUM, label), choice(choice), map(map)
 {
   auto it = this->map.find(this->choice);

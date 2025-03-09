@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
   if (false)
   {
     QMainWindow w;
-    w.setCentralWidget(new attr::AttributesWidget(&map));
+    w.setCentralWidget(new attr::AttributesWidget(&map0));
     w.show();
   }
 
@@ -126,8 +126,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
-  // aw1->show();
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE");
+  aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
