@@ -36,7 +36,17 @@ void AbstractAttribute::reset_to_save_state()
         this->label);
   }
   else
+  {
+    // actually switch current state and save state to allow
+    // "toggling" between the two states when resetting the state
+    nlohmann::json current_state = this->json_to();
+
+    // restore
     this->json_from(this->attribute_state);
+
+    // current to backup
+    this->attribute_state = current_state;
+  }
 }
 
 void AbstractAttribute::save_state()
