@@ -88,12 +88,17 @@ int main(int argc, char *argv[])
   // --- vector-like attributes
 
   std::vector<float> kw = {2.f, 4.f};
+  std::vector<float> dv = {-1.f, 8.f};
 
   // clang-format off
   map5["wnb0"] = attr::create_attr<attr::WaveNbAttribute>();
   map5["wnb1"] = attr::create_attr<attr::WaveNbAttribute>("lower bound", kw, 0.f, FLT_MAX, false);
   map5["wnb2"] = attr::create_attr<attr::WaveNbAttribute>("upper bound", kw, -FLT_MAX, 16.f, false);
   map5["wnb3"] = attr::create_attr<attr::WaveNbAttribute>("both bound", kw, 0.f, 16.f, false);
+
+  map5["range0"] =  attr::create_attr<attr::RangeAttribute>();
+  map5["range1"] =  attr::create_attr<attr::RangeAttribute>("range label", false);
+  map5["range2"] =  attr::create_attr<attr::RangeAttribute>("range label2", dv, -2.f, 10.f);
   // clang-format on
 
   // std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};

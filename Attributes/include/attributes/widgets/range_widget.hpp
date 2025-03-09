@@ -29,6 +29,8 @@ public:
 
   RangeWidget(RangeAttribute *p_attr);
 
+  void reset_value() override;
+
 protected Q_SLOTS:
 
   void on_active_state_change();

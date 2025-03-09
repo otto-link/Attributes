@@ -46,7 +46,7 @@ public:
    * @param label The label describing the attribute.
    * @param is_active Whether the attribute is active (optional, default is true).
    */
-  RangeAttribute(const std::string &label, bool is_active = true);
+  RangeAttribute(const std::string &label, const bool is_active = true);
 
   /**
    * @brief Constructor to initialize a RangeAttribute with a value range, bounds, and
@@ -60,11 +60,11 @@ public:
    * @param bound_check The type of bound check to apply (optional, default is
    * BoundCheck::UPPER_LOWER).
    */
-  RangeAttribute(std::vector<float> value,
-                 float              vmin,
-                 float              vmax,
-                 const std::string &label = "",
-                 bool               is_active = true);
+  RangeAttribute(const std::string        &label,
+                 const std::vector<float> &value,
+                 const float               vmin,
+                 const float               vmax,
+                 const bool                is_active = true);
 
   /**
    * @brief Get the active state of the attribute.

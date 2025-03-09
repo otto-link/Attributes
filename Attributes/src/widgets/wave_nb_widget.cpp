@@ -138,10 +138,6 @@ void WaveNbWidget::reset_value()
 {
   this->p_attr->reset_to_save_state();
 
-  Logger::log()->trace("here: {} {}",
-                       this->p_attr->get_value()[0],
-                       this->p_attr->get_value()[1]);
-
   this->slider_y->setEnabled(!this->p_attr->get_link_xy());
 
   this->slider_x->setVal((double)this->p_attr->get_value()[0]);

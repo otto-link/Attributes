@@ -10,22 +10,25 @@ RangeAttribute::RangeAttribute()
     : AbstractAttribute(AttributeType::RANGE, "Range"), value({0.f, 1.f}), vmin(-1.f),
       vmax(2.f), is_active(true)
 {
+  this->save_state();
 }
 
-RangeAttribute::RangeAttribute(const std::string &label, bool is_active)
+RangeAttribute::RangeAttribute(const std::string &label, const bool is_active)
     : AbstractAttribute(AttributeType::RANGE, label), value({0.f, 1.f}), vmin(-1.f),
       vmax(2.f), is_active(is_active)
 {
+  this->save_state();
 }
 
-RangeAttribute::RangeAttribute(std::vector<float> value,
-                               float              vmin,
-                               float              vmax,
-                               const std::string &label,
-                               bool               is_active)
+RangeAttribute::RangeAttribute(const std::string        &label,
+                               const std::vector<float> &value,
+                               const float               vmin,
+                               const float               vmax,
+                               const bool                is_active)
     : AbstractAttribute(AttributeType::RANGE, label), value(value), vmin(vmin),
       vmax(vmax), is_active(is_active)
 {
+  this->save_state();
 }
 
 void RangeAttribute::json_from(nlohmann::json const &json)
