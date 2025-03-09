@@ -19,10 +19,10 @@ namespace attr
 class VecFloatAttribute : public AbstractAttribute
 {
 public:
-  VecFloatAttribute(std::vector<float> value,
-                    float              vmin,
-                    float              vmax,
-                    const std::string &label);
+  VecFloatAttribute(const std::string        &label,
+                    const std::vector<float> &value,
+                    const float               vmin,
+                    const float               vmax);
 
   std::vector<float> get_value() const { return this->value; }
 

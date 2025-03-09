@@ -230,4 +230,10 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
+void VecFloatWidget::reset_value()
+{
+  this->p_attr->reset_to_save_state();
+  this->vec_widget->update_widget_from_attribute();
+}
+
 } // namespace attr

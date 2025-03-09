@@ -7,13 +7,14 @@
 namespace attr
 {
 
-VecIntAttribute::VecIntAttribute(std::vector<int>   value,
-                                 int                vmin,
-                                 int                vmax,
-                                 const std::string &label)
+VecIntAttribute::VecIntAttribute(const std::string      &label,
+                                 const std::vector<int> &value,
+                                 const int               vmin,
+                                 const int               vmax)
     : AbstractAttribute(AttributeType::VEC_INT, label), value(value), vmin(vmin),
       vmax(vmax)
 {
+  this->save_state();
 }
 
 void VecIntAttribute::json_from(nlohmann::json const &json)

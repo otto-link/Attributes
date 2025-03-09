@@ -6,13 +6,14 @@
 namespace attr
 {
 
-VecFloatAttribute::VecFloatAttribute(std::vector<float> value,
-                                     float              vmin,
-                                     float              vmax,
-                                     const std::string &label)
+VecFloatAttribute::VecFloatAttribute(const std::string        &label,
+                                     const std::vector<float> &value,
+                                     const float               vmin,
+                                     const float               vmax)
     : AbstractAttribute(AttributeType::VEC_FLOAT, label), value(value), vmin(vmin),
       vmax(vmax)
 {
+  this->save_state();
 }
 
 void VecFloatAttribute::json_from(nlohmann::json const &json)

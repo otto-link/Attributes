@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   attr::Logger::log()->info("Starting test application...");
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3,
-      map4, map5, map6;
+      map4, map5, map6, map7;
 
   // --- numbers
 
@@ -90,6 +90,9 @@ int main(int argc, char *argv[])
   std::vector<float> kw = {2.f, 4.f};
   std::vector<float> dv = {-1.f, 8.f};
 
+  std::vector<int>   vint = {1, 3, 7, 2};
+  std::vector<float> vfloat = {1.f, 3.f, 7.f, 2.f};
+
   // clang-format off
   map5["wnb0"] = attr::create_attr<attr::WaveNbAttribute>();
   map5["wnb1"] = attr::create_attr<attr::WaveNbAttribute>("lower bound", kw, 0.f, FLT_MAX, false);
@@ -102,57 +105,17 @@ int main(int argc, char *argv[])
 
   map6["v2f0"] = attr::create_attr<attr::Vec2FloatAttribute>("label center");
   map6["v2f1"] = attr::create_attr<attr::Vec2FloatAttribute>("label center XY", dv, -2.f, 3.f, -15.f, 20.f);
+
+  map7["vec_int"] = attr::create_attr<attr::VecIntAttribute>("vec_int", vint, -4, 10);
+  map7["vec_float"] = attr::create_attr<attr::VecFloatAttribute>("vec_float", vfloat, -4.f, 10.f);
   // clang-format on
 
-  // std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map = {};
-
-  // map["color"] = attr::create_attr<attr::ColorAttribute>(1.f, 0.f, 0.f, 1.f, "color");
-
-  // std::map<std::string, int> choices = {{"choice 1", 0}, {"choice 2", 1}};
-  // map["enum"] = attr::create_attr<attr::MapEnumAttribute>("choice2", choices,
-  // "MapEnum");
-  // // map["range"] = attr::create_attr<attr::RangeAttribute>("remap");
-  // map["seed"] = attr::create_attr<attr::SeedAttribute>();
-  // // map["vec2float"] = attr::create_attr<attr::Vec2FloatAttribute>("center");
-
-  // map["wave_nb_attr"] = attr::create_attr<attr::WaveNbAttribute>();
-  // map["fname"] = attr::create_attr<attr::FilenameAttribute>("./toto.csv", "*", "my
-  // file");
-
-  // if (false)
-  // {
-  //   std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
-  //                                                       {1.f, 0.f, 1.f, 0.f, 1.f}};
-
-  //   map["gradient"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
-  //   std::cout << map.at("gradient").get()->to_string() << "\n";
-  //   std::cout << map.at("gradient").get()->json_to().dump(4) << "\n";
-  // }
-
-  // std::vector<float> v0 = {0.2f, 0.5f, 1.f};
-  // map["vec_float"] = attr::create_attr<attr::VecFloatAttribute>(v0,
-  //                                                               0.f,
-  //                                                               1.f,
-  //                                                               "vec_float");
-  // std::cout << map.at("vec_float").get()->to_string() << "\n";
-  // std::cout << map.at("vec_float").get()->json_to().dump(4) << "\n";
-
-  // std::vector<int> vi0 = {4, 5, 8};
-  // map["vec_int"] = attr::create_attr<attr::VecIntAttribute>(vi0, 3, 10, "vec_int");
-
-  // // map["hmap"] = attr::create_attr<attr::ArrayAttribute>("hmap",
-  // //                                                       hmap::Vec2<int>(256, 256));
-
-  // auto cloud = hmap::Cloud(10, 0);
-  // map["zcloud"] = attr::create_attr<attr::CloudAttribute>(cloud, "Cloud");
-
-  // auto path = hmap::Path(); // 10, 1);
-  // map["path"] = attr::create_attr<attr::PathAttribute>(path, "Path");
-
-  //
-  // QMainWindow w;
-  // w.setCentralWidget(new attr::AttributesWidget(&map));
-  // w.show();
+  if (false)
+  {
+    QMainWindow w;
+    w.setCentralWidget(new attr::AttributesWidget(&map));
+    w.show();
+  }
 
   // auto brush = attr::get_attribute_widget(map.at("hmap").get());
   // brush->show();
@@ -178,8 +141,11 @@ int main(int argc, char *argv[])
   // auto aw5 = new attr::AttributesWidget(&map5);
   // aw5->show();
 
-  auto aw6 = new attr::AttributesWidget(&map6);
-  aw6->show();
+  // auto aw6 = new attr::AttributesWidget(&map6);
+  // aw6->show();
+
+  auto aw7 = new attr::AttributesWidget(&map7);
+  aw7->show();
 
   if (false)
   {

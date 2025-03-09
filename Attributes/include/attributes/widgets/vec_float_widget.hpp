@@ -30,6 +30,8 @@ public:
 
   FVecWidget(VecFloatAttribute *p_attr, QWidget *parent = nullptr);
 
+  void update_widget_from_attribute();
+
 Q_SIGNALS:
   void value_changed();
 
@@ -46,8 +48,6 @@ protected:
   void paintEvent(QPaintEvent *event) override;
 
   void update_attribute_from_widget();
-
-  void update_widget_from_attribute();
 
 private:
   VecFloatAttribute *p_attr;
@@ -71,6 +71,8 @@ public:
   VecFloatWidget() = delete;
 
   VecFloatWidget(VecFloatAttribute *p_attr);
+
+  void reset_value() override;
 
 private:
   VecFloatAttribute *p_attr;

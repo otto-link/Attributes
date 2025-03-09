@@ -19,7 +19,10 @@ namespace attr
 class VecIntAttribute : public AbstractAttribute
 {
 public:
-  VecIntAttribute(std::vector<int> value, int vmin, int vmax, const std::string &label);
+  VecIntAttribute(const std::string      &label,
+                  const std::vector<int> &value,
+                  const int               vmin,
+                  const int               vmax);
 
   std::vector<int> get_value() const { return this->value; }
 
