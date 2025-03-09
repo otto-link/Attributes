@@ -63,7 +63,8 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
 AttributesWidget::AttributesWidget(
     std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map,
     std::vector<std::string>                                  *p_attr_ordered_key,
-    const std::string                                         &widget_title)
+    const std::string                                         &widget_title,
+    const bool add_save_reset_state_buttons)
     : p_attr_map(p_attr_map), p_attr_ordered_key(p_attr_ordered_key)
 {
   std::string title = widget_title.empty() ? "Attribute settings" : widget_title;
@@ -86,21 +87,24 @@ AttributesWidget::AttributesWidget(
   QVBoxLayout *layout = new QVBoxLayout(this);
 
   // main buttons
-  QPushButton *reset_button = new QPushButton("Reset to save state", this);
-  layout->addWidget(reset_button);
+  if (add_save_reset_state_buttons)
+  {
+    QPushButton *reset_button = new QPushButton("Reset to save state", this);
+    layout->addWidget(reset_button);
 
-  this->connect(reset_button,
-                &QPushButton::released,
-                this,
-                &AttributesWidget::on_reset_button_released);
+    this->connect(reset_button,
+                  &QPushButton::released,
+                  this,
+                  &AttributesWidget::on_reset_button_released);
 
-  QPushButton *save_state_button = new QPushButton("Save current state", this);
-  layout->addWidget(save_state_button);
+    QPushButton *save_state_button = new QPushButton("Save current state", this);
+    layout->addWidget(save_state_button);
 
-  this->connect(save_state_button,
-                &QPushButton::released,
-                this,
-                &AttributesWidget::on_save_state_button_released);
+    this->connect(save_state_button,
+                  &QPushButton::released,
+                  this,
+                  &AttributesWidget::on_save_state_button_released);
+  }
 
   // To check the number of widgets corresponds to the number of keys in
   // "p_attr_ordered_key"
