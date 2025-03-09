@@ -14,6 +14,13 @@ WaveNbAttribute::WaveNbAttribute()
   this->save_state();
 }
 
+WaveNbAttribute::WaveNbAttribute(const std::string &label)
+    : AbstractAttribute(AttributeType::WAVE_NB, label), value({2.f, 2.f}), vmin(0.f),
+      vmax(FLT_MAX), link_xy(true)
+{
+  this->save_state();
+}
+
 WaveNbAttribute::WaveNbAttribute(const std::string        &label,
                                  const std::vector<float> &value,
                                  const float               vmin,

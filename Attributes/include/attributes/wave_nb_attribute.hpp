@@ -39,6 +39,8 @@ public:
    */
   WaveNbAttribute();
 
+  WaveNbAttribute(const std::string &label);
+
   /**
    * @brief Constructs a WaveNbAttribute with specific values and bounds.
    *
