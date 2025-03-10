@@ -1,6 +1,7 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <QFileDialog>
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -42,6 +43,18 @@ int CloudCanvasWidget::get_hovered_point_index(const QPointF &pos)
   }
 
   return -1;
+}
+
+void CloudCanvasWidget::load_from_csv()
+{
+  QString fname = QFileDialog::getOpenFileName(this, "", "", "CSV file (*.csv)");
+
+  if (!fname.isNull() && !fname.isEmpty())
+  {
+    this->p_attr->get_value_ref()->from_csv(fname.toStdString());
+    this->update_widget_from_attribute();
+    this->update();
+  }
 }
 
 QPointF CloudCanvasWidget::map_to_value(const QPointF &widget_point)

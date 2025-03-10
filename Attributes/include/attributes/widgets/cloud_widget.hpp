@@ -32,6 +32,8 @@ public:
 
   void clear();
 
+  void load_from_csv();
+
   void randomize();
 
   void update_widget_from_attribute();

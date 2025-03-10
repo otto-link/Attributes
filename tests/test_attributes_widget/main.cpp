@@ -126,8 +126,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  aw1->show();
+  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  // aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
@@ -135,8 +135,8 @@ int main(int argc, char *argv[])
   // auto aw3 = new attr::AttributesWidget(&map3);
   // aw3->show();
 
-  // auto aw4 = new attr::AttributesWidget(&map4);
-  // aw4->show();
+  auto aw4 = new attr::AttributesWidget(&map4);
+  aw4->show();
 
   // auto aw5 = new attr::AttributesWidget(&map5);
   // aw5->show();
