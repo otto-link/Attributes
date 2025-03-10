@@ -12,6 +12,14 @@ AbstractAttribute::AbstractAttribute(const AttributeType &type, const std::strin
 {
 }
 
+std::string AbstractAttribute::get_type_string() const
+{
+  if (attribute_type_map.contains(this->type))
+    return attribute_type_map.at(this->type);
+  else
+    return "INVALID TYPE";
+}
+
 void AbstractAttribute::json_from(nlohmann::json const &json)
 {
   this->type = json["type"].get<AttributeType>();

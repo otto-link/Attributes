@@ -1,6 +1,9 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <fstream>
+
+#include <QFileDialog>
 #include <QFont>
 #include <QFrame>
 #include <QLabel>
@@ -89,13 +92,13 @@ AttributesWidget::AttributesWidget(
   // main buttons
   if (add_save_reset_state_buttons)
   {
-    QPushButton *reset_button = new QPushButton("Reset to save state", this);
-    layout->addWidget(reset_button);
+    QPushButton *restore_button = new QPushButton("Restore save state", this);
+    layout->addWidget(restore_button);
 
-    this->connect(reset_button,
+    this->connect(restore_button,
                   &QPushButton::released,
                   this,
-                  &AttributesWidget::on_reset_button_released);
+                  &AttributesWidget::on_restore_save_state);
 
     QPushButton *save_state_button = new QPushButton("Save current state", this);
     layout->addWidget(save_state_button);
@@ -103,7 +106,23 @@ AttributesWidget::AttributesWidget(
     this->connect(save_state_button,
                   &QPushButton::released,
                   this,
-                  &AttributesWidget::on_save_state_button_released);
+                  &AttributesWidget::on_save_state);
+
+    QPushButton *load_button = new QPushButton("Load preset", this);
+    layout->addWidget(load_button);
+
+    this->connect(load_button,
+                  &QPushButton::released,
+                  this,
+                  &AttributesWidget::on_load_preset);
+
+    QPushButton *save_button = new QPushButton("Save preset", this);
+    layout->addWidget(save_button);
+
+    this->connect(save_button,
+                  &QPushButton::released,
+                  this,
+                  &AttributesWidget::on_save_preset);
   }
 
   // To check the number of widgets corresponds to the number of keys in
@@ -131,7 +150,7 @@ AttributesWidget::AttributesWidget(
                     this,
                     &AttributesWidget::value_changed);
 
-      this->widget_list.push_back(widget);
+      this->widget_map[key] = widget;
 
       count++;
     }
@@ -164,19 +183,85 @@ AttributesWidget::AttributesWidget(
   this->setLayout(layout);
 }
 
-void AttributesWidget::on_reset_button_released()
+void AttributesWidget::on_load_preset()
 {
-  Logger::log()->trace("AttributesWidget::on_reset_button_released");
+  Logger::log()->trace("AttributesWidget::on_load_preset");
 
-  for (AbstractWidget *w : this->widget_list)
+  QString fname = QFileDialog::getOpenFileName(this,
+                                               "preset.json",
+                                               ".",
+                                               "json file (*.json)");
+
+  if (!fname.isNull() && !fname.isEmpty())
+  {
+    nlohmann::json json;
+    std::ifstream  file(fname.toStdString());
+
+    if (file.is_open())
+    {
+      file >> json;
+      file.close();
+      Logger::log()->trace("JSON successfully loaded from {}", fname.toStdString());
+
+      for (auto &[key, pa] : *this->p_attr_map)
+      {
+        // do some checking before deserializing the data
+        if (json.contains(key) && json[key]["type_string"] == pa->get_type_string())
+        {
+          // use save/restore state to update widget (quick and dirty)
+          pa->json_from(json[key]);
+          pa->save_state();
+          this->widget_map.at(key)->reset_value();
+        }
+        else
+          Logger::log()->error("Could not load preset for parameter: {}", key);
+      }
+    }
+    else
+      Logger::log()->error("Could not open file {} to load JSON", fname.toStdString());
+  }
+}
+
+void AttributesWidget::on_restore_save_state()
+{
+  Logger::log()->trace("AttributesWidget::on_restore_save_state");
+
+  for (auto &[k, w] : this->widget_map)
     w->reset_value();
 
   Q_EMIT this->value_changed();
 }
 
-void AttributesWidget::on_save_state_button_released()
+void AttributesWidget::on_save_preset()
 {
-  Logger::log()->trace("AttributesWidget::on_save_state_button_released");
+  Logger::log()->trace("AttributesWidget::on_save_preset");
+
+  QString fname = QFileDialog::getSaveFileName(this,
+                                               "preset.json",
+                                               ".",
+                                               "json file (*.json)");
+
+  if (!fname.isNull() && !fname.isEmpty())
+  {
+    nlohmann::json json;
+    for (auto &[key, pa] : *this->p_attr_map)
+      json[key] = pa->json_to();
+
+    std::ofstream file(fname.toStdString());
+
+    if (file.is_open())
+    {
+      file << json.dump(4);
+      file.close();
+    }
+    else
+      Logger::log()->error("Could not open file {} to save JSON", fname.toStdString());
+  }
+}
+
+void AttributesWidget::on_save_state()
+{
+  Logger::log()->trace("AttributesWidget::on_save_state");
 
   for (auto &[key, pa] : *p_attr_map)
     pa->save_state();

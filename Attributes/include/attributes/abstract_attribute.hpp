@@ -123,6 +123,8 @@ public:
    */
   AttributeType get_type() const { return this->type; }
 
+  std::string get_type_string() const;
+
   /**
    * @brief Get a pointer to the current attribute, cast to the requested type.
    *
