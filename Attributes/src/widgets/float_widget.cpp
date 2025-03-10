@@ -50,7 +50,7 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
   QFont        font;
   QFontMetrics font_metrics(font);
   QSize size = font_metrics.size(Qt::TextSingleLine, this->p_attr->get_label().c_str());
-  this->setMinimumWidth(4.f * size.width());
+  this->setMinimumWidth(3.f * size.width());
 }
 
 void FloatWidget::reset_value()
