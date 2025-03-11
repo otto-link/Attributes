@@ -21,12 +21,12 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
   if (this->p_attr->get_label() != "")
   {
     QLabel *label = new QLabel(this->p_attr->get_label().c_str());
-    layout->addWidget(label, row++, 0, 1, 5);
+    layout->addWidget(label, row++, 0, 1, 3);
   }
 
   // canvas
   this->canvas = new PathCanvasWidget(this->p_attr, this);
-  layout->addWidget(this->canvas, row++, 0, 1, 5);
+  layout->addWidget(this->canvas, row++, 0, 1, 3);
 
   this->connect(this->canvas,
                 &PathCanvasWidget::value_changed,
@@ -52,11 +52,11 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
         });
   }
 
-  // randomize button
+  // reverse button
   {
-    QPushButton *button = new QPushButton("Randomize");
+    QPushButton *button = new QPushButton("Reverse");
     layout->addWidget(button, row, 1);
-    this->connect(button, &QPushButton::pressed, [this]() { this->canvas->randomize(); });
+    this->connect(button, &QPushButton::pressed, [this]() { this->canvas->reverse(); });
   }
 
   // reorder
@@ -68,17 +68,26 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
                   [this]() { this->canvas->reorder_nns(); });
   }
 
+  row++;
+
+  // randomize button
+  {
+    QPushButton *button = new QPushButton("Randomize");
+    layout->addWidget(button, row, 0);
+    this->connect(button, &QPushButton::pressed, [this]() { this->canvas->randomize(); });
+  }
+
   // clear button
   {
     QPushButton *button = new QPushButton("Clear");
-    layout->addWidget(button, row, 3);
+    layout->addWidget(button, row, 1);
     this->connect(button, &QPushButton::pressed, [this]() { this->canvas->clear(); });
   }
 
   // from_csv button
   {
     QPushButton *button = new QPushButton("From CSV");
-    layout->addWidget(button, row, 4);
+    layout->addWidget(button, row, 2);
     this->connect(button,
                   &QPushButton::pressed,
                   [this]() { this->canvas->load_from_csv(); });

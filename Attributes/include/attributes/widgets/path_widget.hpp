@@ -38,6 +38,8 @@ public:
 
   void reorder_nns();
 
+  void reverse();
+
   void update_widget_from_attribute();
 
 Q_SIGNALS:

@@ -27,6 +27,7 @@ void PathCanvasWidget::clear()
   this->qpoints.clear();
   this->qvalues.clear();
   this->update();
+
   this->update_attribute_from_widget();
   Q_EMIT this->value_changed();
 }
@@ -278,6 +279,17 @@ void PathCanvasWidget::reorder_nns()
   this->update_widget_from_attribute();
   this->update();
   Q_EMIT this->value_changed();
+}
+
+void PathCanvasWidget::reverse()
+{
+  if (this->p_attr->get_value_ref()->get_npoints())
+  {
+    this->p_attr->get_value_ref()->reverse();
+    this->update_widget_from_attribute();
+    this->update();
+    Q_EMIT this->value_changed();
+  }
 }
 
 void PathCanvasWidget::update_attribute_from_widget()
