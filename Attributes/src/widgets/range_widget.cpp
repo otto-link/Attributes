@@ -30,13 +30,13 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
   // TODO ? unbounded range ?
   ValueSliders::BoundMode bcheck = ValueSliders::BoundMode::UPPER_LOWER;
 
-  this->slider_min = new ValueSliders::DoubleSlider("high",
+  this->slider_min = new ValueSliders::DoubleSlider("low",
                                                     this->p_attr->get_value()[0],
                                                     this->p_attr->get_vmin(),
                                                     this->p_attr->get_vmax(),
                                                     bcheck);
 
-  this->slider_max = new ValueSliders::DoubleSlider("low",
+  this->slider_max = new ValueSliders::DoubleSlider("high",
                                                     this->p_attr->get_value()[1],
                                                     this->p_attr->get_vmin(),
                                                     this->p_attr->get_vmax(),
