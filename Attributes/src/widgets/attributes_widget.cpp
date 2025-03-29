@@ -25,6 +25,7 @@
 #include "attributes/widgets/path_widget.hpp"
 #include "attributes/widgets/range_widget.hpp"
 #include "attributes/widgets/seed_widget.hpp"
+#include "attributes/widgets/string_widget.hpp"
 #include "attributes/widgets/vec2float_widget.hpp"
 #include "attributes/widgets/vec_float_widget.hpp"
 #include "attributes/widgets/vec_int_widget.hpp"
@@ -53,6 +54,7 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(ENUM, EnumWidget, EnumAttribute, p_attr);
   RETURN_IF_MATCH(RANGE, RangeWidget, RangeAttribute, p_attr);
   RETURN_IF_MATCH(SEED, SeedWidget, SeedAttribute, p_attr);
+  RETURN_IF_MATCH(STRING, StringWidget, StringAttribute, p_attr);
   RETURN_IF_MATCH(VEC_FLOAT, VecFloatWidget, VecFloatAttribute, p_attr);
   RETURN_IF_MATCH(VEC_INT, VecIntWidget, VecIntAttribute, p_attr);
   RETURN_IF_MATCH(VEC2FLOAT, Vec2FloatWidget, Vec2FloatAttribute, p_attr);

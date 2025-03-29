@@ -29,6 +29,7 @@
 #include "attributes/path_attribute.hpp"
 #include "attributes/range_attribute.hpp"
 #include "attributes/seed_attribute.hpp"
+#include "attributes/string_attribute.hpp"
 #include "attributes/vec2float_attribute.hpp"
 #include "attributes/vec_float_attribute.hpp"
 #include "attributes/vec_int_attribute.hpp"
