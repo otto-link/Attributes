@@ -80,6 +80,16 @@ public:
   std::string get_value() const { return this->value; }
 
   /**
+   * @brief Set the list of choice.
+   *
+   * @param new_choice_list The new value to set.
+   */
+  void set_choice_list(const std::vector<std::string> &new_choice_list)
+  {
+    this->choice_list = new_choice_list;
+  };
+
+  /**
    * @brief Set the selected value of the attribute.
    *
    * @param new_value The new value to set. Must be one of the choices in the choice list.

@@ -12,7 +12,7 @@
  */
 
 #pragma once
-#include <QRadioButton>
+#include <QComboBox>
 
 #include "attributes/choice_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -30,8 +30,8 @@ public:
   void reset_value() override;
 
 private:
-  ChoiceAttribute            *p_attr;
-  std::vector<QRadioButton *> button_list;
+  ChoiceAttribute *p_attr;
+  QComboBox       *combobox;
 
   void update_attribute_from_widget(const std::string &new_value);
 };

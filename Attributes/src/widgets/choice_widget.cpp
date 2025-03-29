@@ -3,7 +3,6 @@
  * this software. */
 #include <QButtonGroup>
 #include <QLabel>
-#include <QRadioButton>
 #include <QVBoxLayout>
 
 #include "attributes/widgets/choice_widget.hpp"
@@ -22,30 +21,24 @@ ChoiceWidget::ChoiceWidget(ChoiceAttribute *p_attr) : p_attr(p_attr)
     layout->addWidget(label);
   }
 
-  // create a button group to manage the radio buttons
-  QButtonGroup *button_group = new QButtonGroup(this);
+  this->combobox = new QComboBox();
 
-  // add a radio button for each choice in the list
-  const std::vector<std::string> &choices = this->p_attr->get_choice_list();
-  for (size_t k = 0; k < choices.size(); ++k)
-  {
-    QRadioButton *radio = new QRadioButton(QString::fromStdString(choices[k]), this);
-    radio->setChecked(this->p_attr->get_value() == choices[k]);
-    button_group->addButton(radio, static_cast<int>(k));
-    layout->addWidget(radio);
+  QStringList items;
+  for (auto &s : this->p_attr->get_choice_list())
+    this->combobox->addItem(s.c_str());
 
-    this->button_list.push_back(radio);
-  }
+  this->combobox->setCurrentText(this->p_attr->get_value().c_str());
 
-  // connect the button group's clicked signal to update the attribute
-  connect(button_group,
-          QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
-          this,
-          [this, button_group](QAbstractButton *button)
+  connect(this->combobox,
+          QOverload<int>::of(&QComboBox::currentIndexChanged),
+          [this]()
           {
-            int id = button_group->id(button);
-            this->update_attribute_from_widget(this->p_attr->get_choice_list()[id]);
+            std::string current_choice = this->combobox->currentText().toStdString();
+            this->p_attr->set_value(current_choice);
+            Q_EMIT this->value_changed();
           });
+
+  layout->addWidget(this->combobox);
 
   // set the layout for the widget
   this->setLayout(layout);
@@ -54,12 +47,7 @@ ChoiceWidget::ChoiceWidget(ChoiceAttribute *p_attr) : p_attr(p_attr)
 void ChoiceWidget::reset_value()
 {
   this->p_attr->reset_to_save_state();
-
-  for (size_t k = 0; k < button_list.size(); ++k)
-  {
-    bool checked = this->p_attr->get_choice_list()[k] == this->p_attr->get_value();
-    this->button_list[k]->setChecked(checked);
-  }
+  this->combobox->setCurrentText(this->p_attr->get_value().c_str());
 }
 
 void ChoiceWidget::update_attribute_from_widget(const std::string &new_value)
