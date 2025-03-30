@@ -33,8 +33,8 @@ void validate_value(const std::vector<std::string> &choice_list, const std::stri
 
 // class defition
 
-ChoiceAttribute::ChoiceAttribute(const std::vector<std::string> choice_list,
-                                 const std::string             &value)
+ChoiceAttribute::ChoiceAttribute(const std::vector<std::string> &choice_list,
+                                 const std::string              &value)
     : AbstractAttribute(AttributeType::CHOICE, "")
 {
   validate_choice_list(choice_list);
@@ -44,9 +44,9 @@ ChoiceAttribute::ChoiceAttribute(const std::vector<std::string> choice_list,
   this->value = value;
 }
 
-ChoiceAttribute::ChoiceAttribute(const std::string             &label,
-                                 const std::vector<std::string> choice_list,
-                                 const std::string             &value)
+ChoiceAttribute::ChoiceAttribute(const std::string              &label,
+                                 const std::vector<std::string> &choice_list,
+                                 const std::string              &value)
     : AbstractAttribute(AttributeType::CHOICE, label)
 {
   validate_choice_list(choice_list);
@@ -58,8 +58,8 @@ ChoiceAttribute::ChoiceAttribute(const std::string             &label,
   this->save_state();
 }
 
-ChoiceAttribute::ChoiceAttribute(const std::string             &label,
-                                 const std::vector<std::string> choice_list)
+ChoiceAttribute::ChoiceAttribute(const std::string              &label,
+                                 const std::vector<std::string> &choice_list)
     : AbstractAttribute(AttributeType::CHOICE, label)
 {
   validate_choice_list(choice_list);

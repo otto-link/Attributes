@@ -40,7 +40,7 @@ public:
    * @param choice_list The list of available choices.
    * @param value The initial selected value from the choice list.
    */
-  ChoiceAttribute(const std::vector<std::string> choice_list, const std::string &value);
+  ChoiceAttribute(const std::vector<std::string> &choice_list, const std::string &value);
 
   /**
    * @brief Constructor to initialize a ChoiceAttribute with a label, list of choices, and
@@ -50,9 +50,9 @@ public:
    * @param choice_list The list of available choices.
    * @param value The initial selected value from the choice list.
    */
-  ChoiceAttribute(const std::string             &label,
-                  const std::vector<std::string> choice_list,
-                  const std::string             &value);
+  ChoiceAttribute(const std::string              &label,
+                  const std::vector<std::string> &choice_list,
+                  const std::string              &value);
 
   /**
    * @brief Constructor to initialize a ChoiceAttribute with a label and a list of
@@ -63,7 +63,7 @@ public:
    * @param label The label describing the attribute.
    * @param choice_list The list of available choices.
    */
-  ChoiceAttribute(const std::string &label, const std::vector<std::string> choice_list);
+  ChoiceAttribute(const std::string &label, const std::vector<std::string> &choice_list);
 
   /**
    * @brief Convert the selected value to a string.
