@@ -21,6 +21,7 @@ StringWidget::StringWidget(StringAttribute *p_attr) : p_attr(p_attr)
 
   this->line_edit = new QLineEdit;
   this->line_edit->setText(this->p_attr->get_value().c_str());
+  this->line_edit->setReadOnly(this->p_attr->get_read_only());
   layout->addWidget(this->line_edit);
 
   this->connect(this->line_edit,

@@ -144,7 +144,7 @@ AttributesWidget::AttributesWidget(
     else if (key.substr(0, 16) == "_SEPARATOR_TEXT_")
     {
       std::string title = key.substr(16);
-      
+
       QWidget     *separator_widget = new QWidget;
       QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
 

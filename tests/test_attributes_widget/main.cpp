@@ -55,6 +55,9 @@ int main(int argc, char *argv[])
   
   map1["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice", choice_list, "B");
   map1["enum"] = attr::create_attr<attr::EnumAttribute>("A list of enum", choice_enum, "B");
+
+  map1["str1"] = attr::create_attr<attr::StringAttribute>("string1", "value");
+  map1["str2"] = attr::create_attr<attr::StringAttribute>("string2 read_only", "hard value", true);
   // clang-format on
 
   // --- colors
@@ -126,8 +129,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  // aw1->show();
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
@@ -141,8 +144,10 @@ int main(int argc, char *argv[])
   // auto aw5 = new attr::AttributesWidget(&map5);
   // aw5->show();
 
-  std::vector<std::string> attr_key_list = {"v2f0", "_SEPARATOR_TEXT_The section title", "v2f1"};
-  
+  std::vector<std::string> attr_key_list = {"v2f0",
+                                            "_SEPARATOR_TEXT_The section title",
+                                            "v2f1"};
+
   auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
   aw6->show();
 

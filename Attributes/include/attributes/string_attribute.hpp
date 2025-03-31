@@ -41,12 +41,28 @@ public:
    */
   StringAttribute(const std::string &label, const std::string &value);
 
+  StringAttribute(const std::string &label, const std::string &value, bool read_only);
+
+  /**
+   * @brief Get the read_only value of the attribute.
+   *
+   * @return bool The read_only value of the attribute.
+   */
+  bool get_read_only() { return this->read_only; }
+
   /**
    * @brief Get the string value of the attribute.
    *
    * @return string The current value of the attribute.
    */
   std::string get_value() const { return this->value; }
+
+  /**
+   * @brief Set the read_only value of the attribute.
+   *
+   * @param new_read_only The new bool value to set.
+   */
+  void set_read_only(bool new_read_only) { this->read_only = new_read_only; }
 
   /**
    * @brief Set the string value of the attribute.
@@ -80,6 +96,8 @@ public:
 
 private:
   std::string value; /**< The string value of the attribute */
+
+  bool read_only = false; /**< Editable or not */
 };
 
 } // namespace attr
