@@ -141,6 +141,32 @@ AttributesWidget::AttributesWidget(
       line->setFixedHeight(1);
       layout->addWidget(line);
     }
+    else if (key.substr(0, 16) == "_SEPARATOR_TEXT_")
+    {
+      std::string title = key.substr(16);
+      
+      QWidget     *separator_widget = new QWidget;
+      QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
+
+      QFrame *leftLine = new QFrame;
+      leftLine->setFrameShape(QFrame::HLine);
+      leftLine->setFrameShadow(QFrame::Sunken);
+
+      QLabel *label = new QLabel(title.c_str());
+
+      QFrame *rightLine = new QFrame;
+      rightLine->setFrameShape(QFrame::HLine);
+      rightLine->setFrameShadow(QFrame::Sunken);
+
+      sep_layout->addWidget(leftLine);
+      sep_layout->addWidget(label);
+      sep_layout->addWidget(rightLine);
+
+      sep_layout->setStretch(0, 1);
+      sep_layout->setStretch(2, 4);
+
+      layout->addWidget(separator_widget);
+    }
     else if (p_attr_map->contains(key))
     {
       AbstractAttribute *p_attr = p_attr_map->at(key).get();

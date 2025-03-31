@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
   QWidget window;
   window.setWindowTitle("Attributes Demo");
 
-  attr::BoolAttribute bool_attr(true, "Enable Feature");
-  attr::IntAttribute  int_attr(1, 0, 100, "Integer"); // in [0, 100]
+  attr::BoolAttribute bool_attr("Enable Feature", true);
+  attr::IntAttribute  int_attr("Integer", 1, 0, 100); // in [0, 100]
 
   QVBoxLayout layout;
 

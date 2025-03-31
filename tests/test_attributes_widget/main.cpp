@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
   map1["fname0"] = attr::create_attr<attr::FilenameAttribute>("my file", "./toto.csv", "*", false);   // load
   map1["fname1"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", false); // load
   map1["fname2"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", true);  // save
-
+  
   map1["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice", choice_list, "B");
   map1["enum"] = attr::create_attr<attr::EnumAttribute>("A list of enum", choice_enum, "B");
   // clang-format on
@@ -141,7 +141,9 @@ int main(int argc, char *argv[])
   // auto aw5 = new attr::AttributesWidget(&map5);
   // aw5->show();
 
-  auto aw6 = new attr::AttributesWidget(&map6, nullptr, "", true);
+  std::vector<std::string> attr_key_list = {"v2f0", "_SEPARATOR_TEXT_The section title", "v2f1"};
+  
+  auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
   aw6->show();
 
   // auto aw7 = new attr::AttributesWidget(&map7);
