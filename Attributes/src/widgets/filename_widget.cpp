@@ -7,6 +7,8 @@
 
 #include "attributes/widgets/filename_widget.hpp"
 
+#include "attributes/logger.hpp"
+
 namespace attr
 {
 
@@ -33,12 +35,12 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
         QString fname;
 
         if (this->p_attr->get_for_saving())
-          fname = QFileDialog::getSaveFileName(this,
+          fname = QFileDialog::getSaveFileName(nullptr,
                                                this->p_attr->get_label().c_str(),
                                                path.string().c_str(),
                                                this->p_attr->get_filter().c_str());
         else
-          fname = QFileDialog::getOpenFileName(this,
+          fname = QFileDialog::getOpenFileName(nullptr,
                                                this->p_attr->get_label().c_str(),
                                                path.string().c_str(),
                                                this->p_attr->get_filter().c_str());
