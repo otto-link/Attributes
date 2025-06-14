@@ -13,12 +13,14 @@ ArrayAttribute::ArrayAttribute(const std::string &label, const hmap::Vec2<int> &
   this->value = hmap::Array(shape);
 
   this->save_state();
+  this->save_initial_state();
 }
 
 ArrayAttribute::ArrayAttribute(const std::string &label, const hmap::Array &value)
     : AbstractAttribute(AttributeType::HMAP_ARRAY, label), value(value)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void ArrayAttribute::json_from(nlohmann::json const &json)
@@ -32,6 +34,7 @@ void ArrayAttribute::json_from(nlohmann::json const &json)
   this->value.vector = vector;
 
   this->save_state();
+  this->save_initial_state();
 }
 
 nlohmann::json ArrayAttribute::json_to() const

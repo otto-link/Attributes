@@ -15,6 +15,7 @@ VecIntAttribute::VecIntAttribute(const std::string      &label,
       vmax(vmax)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void VecIntAttribute::json_from(nlohmann::json const &json)

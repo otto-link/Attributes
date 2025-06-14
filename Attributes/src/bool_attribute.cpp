@@ -11,6 +11,7 @@ BoolAttribute::BoolAttribute(const std::string &label, bool value)
       label_false("")
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 BoolAttribute::BoolAttribute(const std::string &label,
@@ -21,6 +22,7 @@ BoolAttribute::BoolAttribute(const std::string &label,
       label_false(label_false)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void BoolAttribute::json_from(nlohmann::json const &json)

@@ -15,6 +15,7 @@ EnumAttribute::EnumAttribute(const std::string                &label,
   this->value = map.begin()->second;
 
   this->save_state();
+  this->save_initial_state();
 }
 
 EnumAttribute::EnumAttribute(const std::string                &label,
@@ -37,6 +38,7 @@ EnumAttribute::EnumAttribute(const std::string                &label,
   }
 
   this->save_state();
+  this->save_initial_state();
 }
 
 void EnumAttribute::json_from(nlohmann::json const &json)

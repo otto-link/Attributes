@@ -85,7 +85,7 @@ public:
 
   CloudWidget(CloudAttribute *p_attr);
 
-  void reset_value();
+  void reset_value(bool reset_to_initial_state = false);
 
 private:
   CloudAttribute *p_attr;

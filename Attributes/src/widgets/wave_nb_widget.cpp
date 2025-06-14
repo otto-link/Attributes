@@ -134,9 +134,12 @@ void WaveNbWidget::on_reset()
   this->update_attribute_from_widget();
 }
 
-void WaveNbWidget::reset_value()
+void WaveNbWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
 
   this->slider_y->setEnabled(!this->p_attr->get_link_xy());
 

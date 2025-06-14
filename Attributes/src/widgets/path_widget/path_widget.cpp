@@ -94,9 +94,12 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
   }
 }
 
-void PathWidget::reset_value()
+void PathWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
   this->canvas->update_widget_from_attribute();
   this->canvas->update();
 }

@@ -12,6 +12,7 @@ ColorGradientAttribute::ColorGradientAttribute(const std::string &label)
     : AbstractAttribute(AttributeType::COLOR_GRADIENT, label)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 ColorGradientAttribute::ColorGradientAttribute(
@@ -20,6 +21,7 @@ ColorGradientAttribute::ColorGradientAttribute(
     : AbstractAttribute(AttributeType::COLOR_GRADIENT, label), value(value)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void ColorGradientAttribute::json_from(nlohmann::json const &json)

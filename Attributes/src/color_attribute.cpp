@@ -12,6 +12,7 @@ ColorAttribute::ColorAttribute(const std::string &label, const std::vector<float
     : AbstractAttribute(AttributeType::COLOR, label), value(value)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 ColorAttribute::ColorAttribute(const std::string &label,
@@ -22,6 +23,7 @@ ColorAttribute::ColorAttribute(const std::string &label,
     : AbstractAttribute(AttributeType::COLOR, label), value({r, g, b, a})
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void ColorAttribute::json_from(nlohmann::json const &json)

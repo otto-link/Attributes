@@ -28,7 +28,7 @@ public:
 
   ColorGradientWidget(ColorGradientAttribute *p_attr);
 
-  void reset_value() override;
+  void reset_value(bool reset_to_initial_state = false) override;
 
 public Q_SLOTS:
   void add_color();

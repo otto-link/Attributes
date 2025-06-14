@@ -10,12 +10,14 @@ namespace attr
 SeedAttribute::SeedAttribute() : AbstractAttribute(AttributeType::SEED, "Seed"), value(0)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 SeedAttribute::SeedAttribute(const std::string &label, const uint value)
     : AbstractAttribute(AttributeType::SEED, label), value(value)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void SeedAttribute::json_from(nlohmann::json const &json)

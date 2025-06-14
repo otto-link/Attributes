@@ -12,12 +12,14 @@ PathAttribute::PathAttribute(const std::string &label)
 {
   this->value = hmap::Path();
   this->save_state();
+  this->save_initial_state();
 }
 
 PathAttribute::PathAttribute(const std::string &label, const hmap::Path &value)
     : AbstractAttribute(AttributeType::HMAP_PATH, label), value(value)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void PathAttribute::json_from(nlohmann::json const &json)

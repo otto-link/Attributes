@@ -50,9 +50,12 @@ void ColorWidget::on_color_pick_button_released()
     this->update_attribute_from_widget(color);
 }
 
-void ColorWidget::reset_value()
+void ColorWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
   this->update_label_color();
 }
 

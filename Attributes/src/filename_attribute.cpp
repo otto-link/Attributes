@@ -15,6 +15,7 @@ FilenameAttribute::FilenameAttribute(const std::string           &label,
       for_saving(for_saving), filter(filter)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void FilenameAttribute::json_from(nlohmann::json const &json)

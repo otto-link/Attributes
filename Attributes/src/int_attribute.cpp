@@ -11,6 +11,7 @@ IntAttribute::IntAttribute(const std::string &label, int value, int vmin, int vm
     : AbstractAttribute(AttributeType::INT, label), value(value), vmin(vmin), vmax(vmax)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void IntAttribute::json_from(nlohmann::json const &json)

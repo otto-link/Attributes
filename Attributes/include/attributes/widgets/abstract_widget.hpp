@@ -56,7 +56,7 @@ public:
   AbstractWidget() = default;
 
   // TODO = 0
-  virtual void reset_value()
+  virtual void reset_value(bool /*reset_to_initial_state*/ = false)
   {
     Logger::log()->error("reset_value method not implemented");
   }

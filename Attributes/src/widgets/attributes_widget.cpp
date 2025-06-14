@@ -125,6 +125,14 @@ AttributesWidget::AttributesWidget(
                   &QPushButton::released,
                   this,
                   &AttributesWidget::on_save_preset);
+
+    QPushButton *reset_button = new QPushButton("Reset settings", this);
+    layout->addWidget(reset_button);
+
+    this->connect(reset_button,
+                  &QPushButton::released,
+                  this,
+                  &AttributesWidget::on_restore_initial_state);
   }
 
   // To check the number of widgets corresponds to the number of keys in
@@ -250,12 +258,26 @@ void AttributesWidget::on_load_preset()
   }
 }
 
+void AttributesWidget::on_restore_initial_state()
+{
+  Logger::log()->trace("AttributesWidget::on_restore_initial_state");
+
+  bool reset_to_initial_state = true;
+
+  for (auto &[k, w] : this->widget_map)
+    w->reset_value(reset_to_initial_state);
+
+  Q_EMIT this->value_changed();
+}
+
 void AttributesWidget::on_restore_save_state()
 {
   Logger::log()->trace("AttributesWidget::on_restore_save_state");
 
+  bool reset_to_initial_state = false;
+
   for (auto &[k, w] : this->widget_map)
-    w->reset_value();
+    w->reset_value(reset_to_initial_state);
 
   Q_EMIT this->value_changed();
 }

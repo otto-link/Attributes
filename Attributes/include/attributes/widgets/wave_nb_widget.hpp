@@ -29,7 +29,7 @@ public:
 
   WaveNbWidget(WaveNbAttribute *p_attr);
 
-  void reset_value() override;
+  void reset_value(bool reset_to_initial_state = false) override;
 
 protected Q_SLOTS:
 

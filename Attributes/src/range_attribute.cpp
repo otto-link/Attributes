@@ -11,6 +11,7 @@ RangeAttribute::RangeAttribute()
       vmax(2.f), is_active(true)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 RangeAttribute::RangeAttribute(const std::string &label, const bool is_active)
@@ -18,6 +19,7 @@ RangeAttribute::RangeAttribute(const std::string &label, const bool is_active)
       vmax(2.f), is_active(is_active)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 RangeAttribute::RangeAttribute(const std::string        &label,
@@ -29,6 +31,7 @@ RangeAttribute::RangeAttribute(const std::string        &label,
       vmax(vmax), is_active(is_active)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void RangeAttribute::json_from(nlohmann::json const &json)

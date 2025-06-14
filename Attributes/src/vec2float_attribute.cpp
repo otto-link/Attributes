@@ -12,6 +12,7 @@ Vec2FloatAttribute::Vec2FloatAttribute(const std::string &label)
       xmax(1.f), ymin(0.f), ymax(1.f)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 Vec2FloatAttribute::Vec2FloatAttribute(const std::string        &label,
@@ -24,6 +25,7 @@ Vec2FloatAttribute::Vec2FloatAttribute(const std::string        &label,
       xmax(xmax), ymin(ymin), ymax(ymax)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void Vec2FloatAttribute::json_from(nlohmann::json const &json)

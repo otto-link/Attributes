@@ -143,9 +143,12 @@ void RangeWidget::on_reset()
   this->update_attribute_from_widget();
 }
 
-void RangeWidget::reset_value()
+void RangeWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
 
   this->slider_min->setVal((double)this->p_attr->get_value()[0]);
   this->slider_max->setVal((double)this->p_attr->get_value()[1]);

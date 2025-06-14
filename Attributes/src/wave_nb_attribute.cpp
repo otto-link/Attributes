@@ -12,6 +12,7 @@ WaveNbAttribute::WaveNbAttribute()
       vmin(0.f), vmax(FLT_MAX), link_xy(true)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 WaveNbAttribute::WaveNbAttribute(const std::string &label)
@@ -19,6 +20,7 @@ WaveNbAttribute::WaveNbAttribute(const std::string &label)
       vmax(FLT_MAX), link_xy(true)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 WaveNbAttribute::WaveNbAttribute(const std::string        &label,
@@ -30,6 +32,7 @@ WaveNbAttribute::WaveNbAttribute(const std::string        &label,
       vmax(vmax), link_xy(link_xy)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void WaveNbAttribute::json_from(nlohmann::json const &json)

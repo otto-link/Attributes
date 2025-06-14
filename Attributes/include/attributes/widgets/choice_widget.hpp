@@ -27,7 +27,7 @@ public:
 
   ChoiceWidget(ChoiceAttribute *p_attr);
 
-  void reset_value() override;
+  void reset_value(bool reset_to_initial_state = false) override;
 
 private:
   ChoiceAttribute *p_attr;

@@ -35,13 +35,26 @@ nlohmann::json AbstractAttribute::json_to() const
   return json;
 }
 
+void AbstractAttribute::reset_to_initial_state()
+{
+  if (this->attribute_initial_state.is_null())
+  {
+    Logger::log()->error("AbstractAttribute::reset_to_initial_state: empty saved state, "
+                         "could not reset attribute state. attribute label: {}",
+                         this->label);
+    return;
+  }
+
+  this->json_from(this->attribute_initial_state);
+}
+
 void AbstractAttribute::reset_to_save_state()
 {
   if (this->attribute_state.is_null())
   {
-    Logger::log()->error(
-        "empty saved state, could not reset attribute state. attribute label: {}",
-        this->label);
+    Logger::log()->error("AbstractAttribute::reset_to_save_state: empty saved state, "
+                         "could not reset attribute state. attribute label: {}",
+                         this->label);
   }
   else
   {
@@ -55,6 +68,12 @@ void AbstractAttribute::reset_to_save_state()
     // current to backup
     this->attribute_state = current_state;
   }
+}
+
+void AbstractAttribute::save_initial_state()
+{
+  // serialize current state
+  this->attribute_initial_state = this->json_to();
 }
 
 void AbstractAttribute::save_state()

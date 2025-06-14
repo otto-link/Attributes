@@ -34,17 +34,14 @@ public:
 
 public Q_SLOTS:
   void on_load_preset();
-
+  void on_restore_initial_state();
   void on_restore_save_state();
-
   void on_save_state();
-
   void on_save_preset();
 
 Q_SIGNALS:
-  void value_changed();
-
   void update_button_released();
+  void value_changed();
 
 private:
   std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map;

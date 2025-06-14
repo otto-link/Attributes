@@ -11,6 +11,7 @@ StringAttribute::StringAttribute(const std::string &label, const std::string &va
     : AbstractAttribute(AttributeType::STRING, label), value(value)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 StringAttribute::StringAttribute(const std::string &label,
@@ -19,6 +20,7 @@ StringAttribute::StringAttribute(const std::string &label,
     : AbstractAttribute(AttributeType::STRING, label), value(value), read_only(read_only)
 {
   this->save_state();
+  this->save_initial_state();
 }
 
 void StringAttribute::json_from(nlohmann::json const &json)

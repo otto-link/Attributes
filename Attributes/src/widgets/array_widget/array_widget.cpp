@@ -138,9 +138,12 @@ void ArrayWidget::on_canvas_edit_ended(QImage *p_image)
   Q_EMIT this->value_changed();
 }
 
-void ArrayWidget::reset_value()
+void ArrayWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
 
   this->canvas->set_image(this->array_to_image());
   this->canvas->update();

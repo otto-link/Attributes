@@ -130,9 +130,12 @@ void ColorGradientWidget::remove_color()
   }
 }
 
-void ColorGradientWidget::reset_value()
+void ColorGradientWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
   this->colorbar->update_colors(this->p_attr->get_value());
   this->update_color_list();
 }

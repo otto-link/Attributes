@@ -90,9 +90,12 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
-void SeedWidget::reset_value()
+void SeedWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
   this->slider->setVal((int)this->p_attr->get_value());
 }
 

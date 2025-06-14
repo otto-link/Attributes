@@ -54,9 +54,12 @@ IntWidget::IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
   this->setMinimumWidth(3.f * size.width());
 }
 
-void IntWidget::reset_value()
+void IntWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
   this->slider->setVal(this->p_attr->get_value());
 }
 

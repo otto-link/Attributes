@@ -39,9 +39,12 @@ EnumWidget::EnumWidget(EnumAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
-void EnumWidget::reset_value()
+void EnumWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
   this->combobox->setCurrentText(QString::fromStdString(this->p_attr->get_choice()));
 }
 

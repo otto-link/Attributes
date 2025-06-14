@@ -187,9 +187,12 @@ Vec2FloatWidget::Vec2FloatWidget(Vec2FloatAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
-void Vec2FloatWidget::reset_value()
+void Vec2FloatWidget::reset_value(bool reset_to_initial_state)
 {
-  this->p_attr->reset_to_save_state();
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
 
   this->xy_widget->set_point(p_attr->get_value()[0], p_attr->get_value()[1]);
   this->xy_widget->update();
