@@ -29,7 +29,7 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
                 this,
                 &SeedWidget::update_attribute_from_widget);
 
-  layout->addWidget(this->slider, 0, 0, 1, 2);
+  layout->addWidget(this->slider, 0, 0, 1, 4);
 
   // new button
   {
@@ -45,10 +45,38 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
             });
   }
 
+  // +1 button
+  {
+    QPushButton *button = new QPushButton("+1");
+    layout->addWidget(button, 1, 1);
+
+    connect(button,
+            &QPushButton::released,
+            [this]()
+            {
+              this->slider->setVal(this->slider->getVal() + 1);
+              this->update_attribute_from_widget();
+            });
+  }
+
+  // -1 button
+  {
+    QPushButton *button = new QPushButton("-1");
+    layout->addWidget(button, 1, 2);
+
+    connect(button,
+            &QPushButton::released,
+            [this]()
+            {
+              this->slider->setVal(std::max(0, this->slider->getVal() - 1));
+              this->update_attribute_from_widget();
+            });
+  }
+
   // reset
   {
     QPushButton *button = new QPushButton("Reset");
-    layout->addWidget(button, 1, 1);
+    layout->addWidget(button, 1, 3);
 
     connect(button,
             &QPushButton::released,
