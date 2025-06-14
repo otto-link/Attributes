@@ -215,7 +215,7 @@ void AttributesWidget::on_load_preset()
 {
   Logger::log()->trace("AttributesWidget::on_load_preset");
 
-  QString fname = QFileDialog::getOpenFileName(this,
+  QString fname = QFileDialog::getOpenFileName(nullptr,
                                                "preset.json",
                                                ".",
                                                "json file (*.json)");
@@ -264,7 +264,7 @@ void AttributesWidget::on_save_preset()
 {
   Logger::log()->trace("AttributesWidget::on_save_preset");
 
-  QString fname = QFileDialog::getSaveFileName(this,
+  QString fname = QFileDialog::getSaveFileName(nullptr,
                                                "preset.json",
                                                ".",
                                                "json file (*.json)");
