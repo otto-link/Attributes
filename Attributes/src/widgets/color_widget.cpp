@@ -37,7 +37,7 @@ ColorWidget::ColorWidget(ColorAttribute *p_attr) : p_attr(p_attr)
 void ColorWidget::on_color_pick_button_released()
 {
   std::vector<float> c = this->p_attr->get_value();
-  QColor current_color = QColor(static_cast<uint8_t>(c[0] * 255.f),
+  QColor             current_color = QColor(static_cast<uint8_t>(c[0] * 255.f),
                                 static_cast<uint8_t>(c[1] * 255.f),
                                 static_cast<uint8_t>(c[2] * 255.f),
                                 static_cast<uint8_t>(c[3] * 255.f));
