@@ -36,9 +36,15 @@ ColorWidget::ColorWidget(ColorAttribute *p_attr) : p_attr(p_attr)
 
 void ColorWidget::on_color_pick_button_released()
 {
+  std::vector<float> c = this->p_attr->get_value();
+  QColor current_color = QColor(static_cast<uint8_t>(c[0] * 255.f),
+                                static_cast<uint8_t>(c[1] * 255.f),
+                                static_cast<uint8_t>(c[2] * 255.f),
+                                static_cast<uint8_t>(c[3] * 255.f));
+
   QColorDialog color_dialog;
-  color_dialog.setOption(QColorDialog::ShowAlphaChannel);
-  QColor color = color_dialog.getColor();
+  color_dialog.setOption(QColorDialog::ShowAlphaChannel, true);
+  QColor color = color_dialog.getColor(current_color, this, "Select a color");
 
   if (color.isValid())
     this->update_attribute_from_widget(color);
