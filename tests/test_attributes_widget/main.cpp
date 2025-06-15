@@ -126,8 +126,8 @@ int main(int argc, char *argv[])
   // auto point = attr::get_attribute_widget(map.at("cloud").get());
   // point->show();
 
-  // auto aw0 = new attr::AttributesWidget(&map0);
-  // aw0->show();
+  auto aw0 = new attr::AttributesWidget(&map0);
+  aw0->show();
 
   auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
   aw1->show();
