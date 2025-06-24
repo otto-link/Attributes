@@ -143,11 +143,21 @@ AttributesWidget::AttributesWidget(
   {
     if (key == "_SEPARATOR_")
     {
-      QFrame *line = new QFrame(this);
-      line->setFrameShape(QFrame::HLine);
-      line->setFrameShadow(QFrame::Plain);
-      line->setFixedHeight(1);
-      layout->addWidget(line);
+      QLabel *spacer = new QLabel("");
+      layout->addWidget(spacer);
+    }
+    else if (key.substr(0, 6) == "_TEXT_")
+    {
+      std::string title = key.substr(6);
+
+      QWidget     *separator_widget = new QWidget;
+      QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
+
+      QLabel *label = new QLabel(title.c_str());
+      label->setStyleSheet("font-weight: bold;");
+      sep_layout->addWidget(label);
+
+      layout->addWidget(separator_widget);
     }
     else if (key.substr(0, 16) == "_SEPARATOR_TEXT_")
     {
@@ -161,6 +171,7 @@ AttributesWidget::AttributesWidget(
       leftLine->setFrameShadow(QFrame::Sunken);
 
       QLabel *label = new QLabel(title.c_str());
+      label->setStyleSheet("font-weight: bold;");
 
       QFrame *rightLine = new QFrame;
       rightLine->setFrameShape(QFrame::HLine);
