@@ -96,9 +96,21 @@ void ColorGradientWidget::add_color()
 
 void ColorGradientWidget::on_item_double_click(QListWidgetItem *item)
 {
+  // get current color from corresponding widget event
+  ColorbarWidget *colorbar_item = dynamic_cast<ColorbarWidget *>(
+      this->color_list->itemWidget(item));
+
+  std::vector<float> color_info = colorbar_item->get_colors().front();
+  float              pos = color_info[0];
+
+  QColor current_color = QColor(static_cast<uint8_t>(color_info[1] * 255.f),
+                                static_cast<uint8_t>(color_info[2] * 255.f),
+                                static_cast<uint8_t>(color_info[3] * 255.f),
+                                static_cast<uint8_t>(color_info[4] * 255.f));
+
   QColorDialog color_dialog;
   color_dialog.setOption(QColorDialog::ShowAlphaChannel, true);
-  QColor qcolor = color_dialog.getColor();
+  QColor qcolor = color_dialog.getColor(current_color, this, "Select a color");
 
   if (qcolor.isValid())
   {
@@ -107,12 +119,6 @@ void ColorGradientWidget::on_item_double_click(QListWidgetItem *item)
                                 (float)qcolor.greenF(),
                                 (float)qcolor.blueF(),
                                 (float)qcolor.alphaF()};
-
-    // retrieve corresponding widget
-    ColorbarWidget *colorbar_item = dynamic_cast<ColorbarWidget *>(
-        this->color_list->itemWidget(item));
-
-    float pos = colorbar_item->get_colors().front()[0];
 
     colorbar_item->update_colors({{pos, color[1], color[2], color[3], color[4]}});
     this->update();
