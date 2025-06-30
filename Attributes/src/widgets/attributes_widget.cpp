@@ -6,8 +6,10 @@
 #include <QFileDialog>
 #include <QFont>
 #include <QFrame>
+#include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QScreen>
 #include <QVBoxLayout>
 
 #include "attributes/widgets/attributes_widget.hpp"
@@ -88,14 +90,27 @@ AttributesWidget::AttributesWidget(
     return keys;
   }();
 
+  // max height
+  int max_height = 1024;
+  int current_height = 0;
+
+  QScreen *screen = this->screen();
+  if (screen)
+  {
+    QSize resolution = screen->size();
+    max_height = static_cast<int>(0.8f * resolution.height());
+  }
+
   // Setup layout
-  QVBoxLayout *layout = new QVBoxLayout(this);
+  QGridLayout *layout = new QGridLayout(this);
+  int          row = 0;
+  int          col = 0;
 
   // main buttons
   if (add_save_reset_state_buttons)
   {
     QPushButton *restore_button = new QPushButton("Restore save state", this);
-    layout->addWidget(restore_button);
+    layout->addWidget(restore_button, row++, col);
 
     this->connect(restore_button,
                   &QPushButton::released,
@@ -103,7 +118,7 @@ AttributesWidget::AttributesWidget(
                   &AttributesWidget::on_restore_save_state);
 
     QPushButton *save_state_button = new QPushButton("Save current state", this);
-    layout->addWidget(save_state_button);
+    layout->addWidget(save_state_button, row++, col);
 
     this->connect(save_state_button,
                   &QPushButton::released,
@@ -111,7 +126,7 @@ AttributesWidget::AttributesWidget(
                   &AttributesWidget::on_save_state);
 
     QPushButton *load_button = new QPushButton("Load preset", this);
-    layout->addWidget(load_button);
+    layout->addWidget(load_button, row++, col);
 
     this->connect(load_button,
                   &QPushButton::released,
@@ -119,7 +134,7 @@ AttributesWidget::AttributesWidget(
                   &AttributesWidget::on_load_preset);
 
     QPushButton *save_button = new QPushButton("Save preset", this);
-    layout->addWidget(save_button);
+    layout->addWidget(save_button, row++, col);
 
     this->connect(save_button,
                   &QPushButton::released,
@@ -127,7 +142,7 @@ AttributesWidget::AttributesWidget(
                   &AttributesWidget::on_save_preset);
 
     QPushButton *reset_button = new QPushButton("Reset settings", this);
-    layout->addWidget(reset_button);
+    layout->addWidget(reset_button, row++, col);
 
     this->connect(reset_button,
                   &QPushButton::released,
@@ -151,13 +166,13 @@ AttributesWidget::AttributesWidget(
       std::string title = key.substr(6);
 
       QWidget     *separator_widget = new QWidget;
-      QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
+      QGridLayout *sep_layout = new QGridLayout(separator_widget);
 
       QLabel *label = new QLabel(title.c_str());
       label->setStyleSheet("font-weight: bold;");
       sep_layout->addWidget(label);
 
-      layout->addWidget(separator_widget);
+      layout->addWidget(separator_widget, row++, col);
     }
     else if (key.substr(0, 16) == "_SEPARATOR_TEXT_")
     {
@@ -184,13 +199,13 @@ AttributesWidget::AttributesWidget(
       sep_layout->setStretch(0, 1);
       sep_layout->setStretch(2, 4);
 
-      layout->addWidget(separator_widget);
+      layout->addWidget(separator_widget, row++, col);
     }
     else if (p_attr_map->contains(key))
     {
       AbstractAttribute *p_attr = p_attr_map->at(key).get();
       AbstractWidget    *widget = get_attribute_widget(p_attr);
-      layout->addWidget(widget);
+      layout->addWidget(widget, row++, col);
 
       this->connect(widget,
                     &AbstractWidget::value_changed,
@@ -206,6 +221,26 @@ AttributesWidget::AttributesWidget(
       Logger::log()->critical(
           "Unknown attribute key {} in AttributesWidget (check attr_ordered_key)",
           key);
+    }
+
+    // adjust column number
+    QLayoutItem *last_item = layout->itemAt(layout->count() - 1);
+    if (last_item)
+    {
+      QWidget *last_widget = last_item->widget();
+      if (last_widget)
+      {
+        int height = last_widget->sizeHint().height();
+        // qDebug() << "Last widget height:" << height;
+
+        current_height += height;
+        if (current_height > max_height)
+        {
+	  current_height = 0;
+          row = 0;
+          col++;
+        }
+      }
     }
   }
 
