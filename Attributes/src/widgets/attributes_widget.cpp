@@ -236,7 +236,7 @@ AttributesWidget::AttributesWidget(
         current_height += height;
         if (current_height > max_height)
         {
-	  current_height = 0;
+          current_height = 0;
           row = 0;
           col++;
         }

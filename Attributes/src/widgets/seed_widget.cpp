@@ -45,30 +45,30 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
             });
   }
 
-  // +1 button
+  // -1 button
   {
-    QPushButton *button = new QPushButton("+1");
+    QPushButton *button = new QPushButton("-1");
     layout->addWidget(button, 1, 1);
 
     connect(button,
             &QPushButton::released,
             [this]()
             {
-              this->slider->setVal(this->slider->getVal() + 1);
+              this->slider->setVal(std::max(0, this->slider->getVal() - 1));
               this->update_attribute_from_widget();
             });
   }
 
-  // -1 button
+  // +1 button
   {
-    QPushButton *button = new QPushButton("-1");
+    QPushButton *button = new QPushButton("+1");
     layout->addWidget(button, 1, 2);
 
     connect(button,
             &QPushButton::released,
             [this]()
             {
-              this->slider->setVal(std::max(0, this->slider->getVal() - 1));
+              this->slider->setVal(this->slider->getVal() + 1);
               this->update_attribute_from_widget();
             });
   }
