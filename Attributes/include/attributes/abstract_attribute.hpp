@@ -111,6 +111,8 @@ public:
    */
   AbstractAttribute(const AttributeType &type, const std::string &label);
 
+  virtual ~AbstractAttribute() = default;
+
   /**
    * @brief Get the label of the attribute.
    *

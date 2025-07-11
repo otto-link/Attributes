@@ -235,8 +235,7 @@ void ArrayCanvasWidget::paintEvent(QPaintEvent * /* event */)
       pen.setColor(Qt::green);
 
     // adjust brush radius to the actual image size as rendered
-    int radius = (int)(this->brush_radius * this->image_rect.width() /
-                       this->image.width());
+    int radius = this->brush_radius * this->image_rect.width() / this->image.width();
 
     pen.setWidth(2);
     painter.setPen(pen);

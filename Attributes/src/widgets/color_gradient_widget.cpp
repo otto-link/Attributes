@@ -62,10 +62,10 @@ void ColorGradientWidget::add_color()
   QColor qcolor = color_dialog.getColor();
 
   std::vector<float> color = {1.f,
-                              (float)qcolor.redF(),
-                              (float)qcolor.greenF(),
-                              (float)qcolor.blueF(),
-                              (float)qcolor.alphaF()};
+                              qcolor.redF(),
+                              qcolor.greenF(),
+                              qcolor.blueF(),
+                              qcolor.alphaF()};
 
   // insert new color next to the currently selected color (if any),
   // else put it at the end
@@ -100,8 +100,11 @@ void ColorGradientWidget::on_item_double_click(QListWidgetItem *item)
   ColorbarWidget *colorbar_item = dynamic_cast<ColorbarWidget *>(
       this->color_list->itemWidget(item));
 
-  std::vector<float> color_info = colorbar_item->get_colors().front();
-  float              pos = color_info[0];
+  std::vector<float> color_info = {0.f, 0.f, 0.f, 0.f};
+  if (!colorbar_item->get_colors().empty())
+    color_info = colorbar_item->get_colors().front();
+
+  float pos = color_info[0];
 
   QColor current_color = QColor(static_cast<uint8_t>(color_info[1] * 255.f),
                                 static_cast<uint8_t>(color_info[2] * 255.f),
@@ -115,10 +118,10 @@ void ColorGradientWidget::on_item_double_click(QListWidgetItem *item)
   if (qcolor.isValid())
   {
     std::vector<float> color = {0.f,
-                                (float)qcolor.redF(),
-                                (float)qcolor.greenF(),
-                                (float)qcolor.blueF(),
-                                (float)qcolor.alphaF()};
+                                qcolor.redF(),
+                                qcolor.greenF(),
+                                qcolor.blueF(),
+                                qcolor.alphaF()};
 
     colorbar_item->update_colors({{pos, color[1], color[2], color[3], color[4]}});
     this->update();
@@ -169,8 +172,12 @@ void ColorGradientWidget::update_attribute()
       ColorbarWidget *colorbar_item = dynamic_cast<ColorbarWidget *>(
           this->color_list->itemWidget(item));
 
-      std::vector<float> color = colorbar_item->get_colors().front();
-      this->p_attr->get_value_ref()->push_back(color);
+      if (colorbar_item)
+        if (!colorbar_item->get_colors().empty())
+        {
+          std::vector<float> color = colorbar_item->get_colors().front();
+          this->p_attr->get_value_ref()->push_back(color);
+        }
     }
   }
 }
