@@ -22,7 +22,8 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
   if (this->p_attr->get_label() != "")
   {
     QLabel *label = new QLabel(this->p_attr->get_label().c_str());
-    layout->addWidget(label, row++, 0, 1, 2);
+    layout->addWidget(label, row, 0, 1, 2);
+    row++;
   }
 
   // sliders
@@ -82,8 +83,9 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
                   }
                 });
 
-  layout->addWidget(this->slider_x, row++, 0, 1, 2);
-  layout->addWidget(this->slider_y, row++, 0, 1, 2);
+  layout->addWidget(this->slider_x, row, 0);
+  layout->addWidget(this->slider_y, row, 1);
+  row++;
 
   // link / unlink
   this->button_link_xy = new QPushButton("");
@@ -105,6 +107,21 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
 
   // eventually update overall widget enabled/disabled state
   this->on_link_xy_state_change();
+
+  // tool tips
+  this->setToolTip(
+      "This panel controls the 2D wave numbers used in the system. Adjust\n"
+      "wave numbers (frequency) in X and Y directions separately, or enable\n"
+      "linking to synchronize both values.");
+
+  this->slider_x->setToolTip("Wave number (spatial frequency) in the X direction.");
+  this->slider_y->setToolTip("Wave number (spatial frequency) in the Y direction.");
+
+  this->button_link_xy->setToolTip(
+      "Toggle link between X and Y wave numbers (frequency). When active, both\n"
+      "directions use the same value; when inactive, you can set them separately.");
+
+  this->button_reset->setToolTip("Reset to default settings.");
 }
 
 void WaveNbWidget::on_link_xy_state_change()
@@ -113,7 +130,7 @@ void WaveNbWidget::on_link_xy_state_change()
 
   this->p_attr->set_link_xy(is_linked);
 
-  std::string button_label = is_linked ? "Linked" : "Unlinked";
+  std::string button_label = is_linked ? "X=Y" : "X|Y";
 
   if (is_linked)
     this->slider_y->setVal(this->slider_x->getVal());
