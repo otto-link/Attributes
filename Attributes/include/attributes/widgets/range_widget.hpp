@@ -39,6 +39,8 @@ protected Q_SLOTS:
 
   void on_reset();
 
+  void on_reset_01();
+
 private:
   RangeAttribute *p_attr;
 

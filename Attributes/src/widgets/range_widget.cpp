@@ -22,7 +22,7 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
   if (this->p_attr->get_label() != "")
   {
     QLabel *label = new QLabel(this->p_attr->get_label().c_str());
-    layout->addWidget(label, row++, 0, 1, 3);
+    layout->addWidget(label, row++, 0, 1, 4);
   }
 
   // sliders
@@ -71,8 +71,8 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
                   this->slider_max->setVal(val);
                 });
 
-  layout->addWidget(this->slider_min, row++, 0, 1, 3);
-  layout->addWidget(this->slider_max, row++, 0, 1, 3);
+  layout->addWidget(this->slider_min, row++, 0, 1, 4);
+  layout->addWidget(this->slider_max, row++, 0, 1, 4);
 
   // on/off
   this->button_active = new QPushButton("");
@@ -98,9 +98,16 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
   layout->addWidget(this->button_reset, row, 2);
   this->connect(this->button_reset, &QPushButton::pressed, this, &RangeWidget::on_reset);
 
-  this->setLayout(layout);
+  // reset button
+  this->button_reset = new QPushButton("Set [0, 1]");
+  layout->addWidget(this->button_reset, row, 3);
+  this->connect(this->button_reset,
+                &QPushButton::pressed,
+                this,
+                &RangeWidget::on_reset_01);
 
   // eventually update overall widget enabled/disabled state
+  this->setLayout(layout);
   this->on_active_state_change();
 }
 
@@ -137,6 +144,16 @@ void RangeWidget::on_reset()
 {
   this->slider_min->setVal((double)this->value_bckp[0]);
   this->slider_max->setVal((double)this->value_bckp[1]);
+  this->slider_min->update();
+  this->slider_max->update();
+
+  this->update_attribute_from_widget();
+}
+
+void RangeWidget::on_reset_01()
+{
+  this->slider_min->setVal((double)0.f);
+  this->slider_max->setVal((double)1.f);
   this->slider_min->update();
   this->slider_max->update();
 
