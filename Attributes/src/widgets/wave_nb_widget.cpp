@@ -116,7 +116,6 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
 
   this->slider_x->setToolTip("Wave number (spatial frequency) in the X direction.");
   this->slider_y->setToolTip("Wave number (spatial frequency) in the Y direction.");
-
   this->button_link_xy->setToolTip(
       "Toggle link between X and Y wave numbers (frequency). When active, both\n"
       "directions use the same value; when inactive, you can set them separately.");

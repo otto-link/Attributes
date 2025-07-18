@@ -31,6 +31,8 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
 
   layout->addWidget(this->slider, 0, 0, 1, 4);
 
+  this->slider->setToolTip("Adjust the seed value continuously.");
+
   // new button
   {
     QPushButton *button = new QPushButton("Random seed");
@@ -43,6 +45,8 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
               this->slider->setVal((uint)time(NULL));
               this->update_attribute_from_widget();
             });
+
+    button->setToolTip("Generate a new random seed value.");
   }
 
   // -1 button
@@ -57,6 +61,8 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
               this->slider->setVal(std::max(0, this->slider->getVal() - 1));
               this->update_attribute_from_widget();
             });
+
+    button->setToolTip("Decrease the seed value by 1.");
   }
 
   // +1 button
@@ -71,6 +77,8 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
               this->slider->setVal(this->slider->getVal() + 1);
               this->update_attribute_from_widget();
             });
+
+    button->setToolTip("Increase the seed value by 1.");
   }
 
   // reset
@@ -85,9 +93,15 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
               this->slider->setVal((int)this->value_bckp);
               this->update_attribute_from_widget();
             });
+
+    button->setToolTip("Reset the seed to the default value.");
   }
 
   this->setLayout(layout);
+
+  // tool tips
+  this->setToolTip("Set the random seed value for reproducible results. Adjust manually\n"
+                   "or generate a new random seed.");
 }
 
 void SeedWidget::reset_value(bool reset_to_initial_state)
