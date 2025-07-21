@@ -14,7 +14,7 @@
 #pragma once
 #include <QHBoxLayout>
 
-#include "intslider.hpp"
+#include "qsx/slider_int.hpp"
 
 #include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
@@ -35,7 +35,7 @@ public:
 private:
   IntAttribute *p_attr;
 
-  ValueSliders::IntSlider *slider;
+  qsx::SliderInt *slider;
 
   void update_attribute_from_widget();
 };

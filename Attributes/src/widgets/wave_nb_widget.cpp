@@ -1,7 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
 #include <QGridLayout>
 #include <QLabel>
 
@@ -16,6 +15,8 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
   this->value_bckp = this->p_attr->get_value();
 
   QGridLayout *layout = new QGridLayout(this);
+  layout->setSpacing(1);
+  layout->setContentsMargins(0, 0, 0, 0);
 
   // label
   int row = 0;
@@ -27,59 +28,39 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
   }
 
   // sliders
+  this->slider_x = new qsx::SliderFloat("X",
+                                        this->p_attr->get_value()[0],
+                                        this->p_attr->get_vmin(),
+                                        this->p_attr->get_vmax(),
+                                        true, // +/- buttons
+                                        this->p_attr->get_value_format());
 
-  ValueSliders::BoundMode bcheck = ValueSliders::BoundMode::UPPER_LOWER;
-  float                   vmin = this->p_attr->get_vmin();
-  float                   vmax = this->p_attr->get_vmax();
-
-  if (this->p_attr->get_vmin() == -FLT_MAX && this->p_attr->get_vmax() == FLT_MAX)
-  {
-    bcheck = ValueSliders::BoundMode::UNCHECKED;
-    vmin = -10;
-    vmax = 10;
-  }
-  else if (this->p_attr->get_vmax() == FLT_MAX)
-  {
-    bcheck = ValueSliders::BoundMode::LOWER_ONLY;
-    vmax = this->p_attr->get_value().front() + 10.f;
-  }
-  else if (this->p_attr->get_vmin() == -FLT_MAX)
-  {
-    bcheck = ValueSliders::BoundMode::UPPER_ONLY;
-    vmin = this->p_attr->get_value().front() - 10.f;
-  }
-
-  this->slider_x = new ValueSliders::DoubleSlider("X",
-                                                  this->p_attr->get_value()[0],
-                                                  vmin,
-                                                  vmax,
-                                                  bcheck);
-
-  this->slider_y = new ValueSliders::DoubleSlider("Y",
-                                                  this->p_attr->get_value()[1],
-                                                  vmin,
-                                                  vmax,
-                                                  bcheck);
+  this->slider_y = new qsx::SliderFloat("Y",
+                                        this->p_attr->get_value()[1],
+                                        this->p_attr->get_vmin(),
+                                        this->p_attr->get_vmax(),
+                                        true, // +/- buttons
+                                        this->p_attr->get_value_format());
 
   this->connect(this->slider_x,
-                &ValueSliders::DoubleSlider::editEnded,
+                &qsx::SliderFloat::value_has_changed,
                 this,
                 &WaveNbWidget::update_attribute_from_widget);
 
   this->connect(this->slider_y,
-                &ValueSliders::DoubleSlider::editEnded,
+                &qsx::SliderFloat::value_has_changed,
                 this,
                 &WaveNbWidget::update_attribute_from_widget);
 
   // copy X value to Y if the directions are linked
   this->connect(this->slider_x,
-                &ValueSliders::DoubleSlider::valueUpdated,
+                &qsx::SliderFloat::value_changed,
                 [this]()
                 {
                   if (this->p_attr->get_link_xy())
                   {
-                    float val = this->slider_x->getVal();
-                    this->slider_y->setVal(val);
+                    float val = this->slider_x->get_value();
+                    this->slider_y->set_value(val);
                   }
                 });
 
@@ -132,7 +113,7 @@ void WaveNbWidget::on_link_xy_state_change()
   std::string button_label = is_linked ? "X=Y" : "X|Y";
 
   if (is_linked)
-    this->slider_y->setVal(this->slider_x->getVal());
+    this->slider_y->set_value(this->slider_x->get_value());
 
   this->slider_y->setEnabled(!is_linked);
   this->button_link_xy->setText(button_label.c_str());
@@ -142,8 +123,8 @@ void WaveNbWidget::on_link_xy_state_change()
 
 void WaveNbWidget::on_reset()
 {
-  this->slider_x->setVal((double)this->value_bckp[0]);
-  this->slider_y->setVal((double)this->value_bckp[1]);
+  this->slider_x->set_value(this->value_bckp[0]);
+  this->slider_y->set_value(this->value_bckp[1]);
   this->slider_x->update();
   this->slider_y->update();
 
@@ -159,8 +140,8 @@ void WaveNbWidget::reset_value(bool reset_to_initial_state)
 
   this->slider_y->setEnabled(!this->p_attr->get_link_xy());
 
-  this->slider_x->setVal((double)this->p_attr->get_value()[0]);
-  this->slider_y->setVal((double)this->p_attr->get_value()[1]);
+  this->slider_x->set_value(this->p_attr->get_value()[0]);
+  this->slider_y->set_value(this->p_attr->get_value()[1]);
   this->slider_x->update();
   this->slider_y->update();
 
@@ -171,8 +152,8 @@ void WaveNbWidget::reset_value(bool reset_to_initial_state)
 
 void WaveNbWidget::update_attribute_from_widget()
 {
-  float              x1 = (float)this->slider_x->getVal();
-  float              x2 = (float)this->slider_y->getVal();
+  float              x1 = this->slider_x->get_value();
+  float              x2 = this->slider_y->get_value();
   std::vector<float> vec = {x1, x2};
 
   this->p_attr->set_value(vec);

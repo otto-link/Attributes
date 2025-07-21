@@ -46,7 +46,8 @@ public:
   IntAttribute(const std::string &label,
                int                value,
                int                vmin = -INT_MAX,
-               int                vmax = INT_MAX);
+               int                vmax = INT_MAX,
+               std::string        value_format = "{}");
 
   /**
    * @brief Get the integer value of the attribute.
@@ -56,6 +57,8 @@ public:
    * @return int The current integer value.
    */
   int get_value() const { return this->value; }
+
+  std::string get_value_format() const { return this->value_format; }
 
   /**
    * @brief Get the minimum bound of the attribute.
@@ -114,9 +117,10 @@ public:
   std::string to_string() { return std::to_string(this->value); }
 
 private:
-  int value; /**< The integer value of the attribute */
-  int vmin;  /**< The minimum bound for the integer value */
-  int vmax;  /**< The maximum bound for the integer value */
+  int         value; /**< The integer value of the attribute */
+  int         vmin;  /**< The minimum bound for the integer value */
+  int         vmax;  /**< The maximum bound for the integer value */
+  std::string value_format;
 };
 
 } // namespace attr

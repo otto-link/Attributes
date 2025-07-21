@@ -9,7 +9,7 @@ namespace attr
 
 WaveNbAttribute::WaveNbAttribute()
     : AbstractAttribute(AttributeType::WAVE_NB, "Wavenumber"), value({2.f, 2.f}),
-      vmin(0.f), vmax(FLT_MAX), link_xy(true)
+      vmin(0.f), vmax(FLT_MAX), link_xy(true), value_format("{:.2f}")
 {
   this->save_state();
   this->save_initial_state();
@@ -17,7 +17,7 @@ WaveNbAttribute::WaveNbAttribute()
 
 WaveNbAttribute::WaveNbAttribute(const std::string &label)
     : AbstractAttribute(AttributeType::WAVE_NB, label), value({2.f, 2.f}), vmin(0.f),
-      vmax(FLT_MAX), link_xy(true)
+      vmax(FLT_MAX), link_xy(true), value_format("{:.2f}")
 {
   this->save_state();
   this->save_initial_state();
@@ -27,9 +27,10 @@ WaveNbAttribute::WaveNbAttribute(const std::string        &label,
                                  const std::vector<float> &value,
                                  const float               vmin,
                                  const float               vmax,
-                                 const bool                link_xy)
+                                 const bool                link_xy,
+                                 std::string               value_format)
     : AbstractAttribute(AttributeType::WAVE_NB, label), value(value), vmin(vmin),
-      vmax(vmax), link_xy(link_xy)
+      vmax(vmax), link_xy(link_xy), value_format(value_format)
 {
   this->save_state();
   this->save_initial_state();

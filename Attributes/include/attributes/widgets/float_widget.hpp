@@ -12,7 +12,7 @@
  */
 
 #pragma once
-#include "doubleslider.hpp"
+#include "qsx/slider_float.hpp"
 
 #include "attributes/float_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -32,7 +32,7 @@ public:
 private:
   FloatAttribute *p_attr;
 
-  ValueSliders::DoubleSlider *slider;
+  qsx::SliderFloat *slider;
 
   void update_attribute_from_widget();
 };

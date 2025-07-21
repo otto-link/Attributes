@@ -10,8 +10,10 @@ namespace attr
 FloatAttribute::FloatAttribute(const std::string &label,
                                float              value,
                                float              vmin,
-                               float              vmax)
-    : AbstractAttribute(AttributeType::FLOAT, label), value(value), vmin(vmin), vmax(vmax)
+                               float              vmax,
+                               std::string        value_format)
+    : AbstractAttribute(AttributeType::FLOAT, label), value(value), vmin(vmin),
+      vmax(vmax), value_format(value_format)
 {
   this->save_state();
   this->save_initial_state();

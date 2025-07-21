@@ -58,7 +58,8 @@ public:
                   const std::vector<float> &value,
                   const float               vmin,
                   const float               vmax,
-                  const bool                link_xy = true);
+                  const bool                link_xy = true,
+                  std::string               value_format = "{:.2f}");
 
   /**
    * @brief Get the link_xy flag.
@@ -73,6 +74,8 @@ public:
    * @return std::vector<float> The current vector of wave number values.
    */
   std::vector<float> get_value() const { return this->value; }
+
+  std::string get_value_format() const { return this->value_format; }
 
   /**
    * @brief Get the minimum bound for the wave number.
@@ -137,6 +140,7 @@ private:
   float              vmin;    /**< The minimum bound for the wave numbers. */
   float              vmax;    /**< The maximum bound for the wave numbers. */
   bool               link_xy; /**< Whether the X and Y wave numbers are linked. */
+  std::string        value_format;
 };
 
 } // namespace attr

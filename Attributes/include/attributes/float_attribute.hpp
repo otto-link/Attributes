@@ -46,7 +46,8 @@ public:
   FloatAttribute(const std::string &label,
                  float              value,
                  float              vmin = -FLT_MAX,
-                 float              vmax = FLT_MAX);
+                 float              vmax = FLT_MAX,
+                 std::string        value_format = "{:.3f}");
 
   /**
    * @brief Get the floating-point value of the attribute.
@@ -56,6 +57,8 @@ public:
    * @return float The current float value.
    */
   float get_value() const { return this->value; }
+
+  std::string get_value_format() const { return this->value_format; }
 
   /**
    * @brief Get the minimum bound of the attribute.
@@ -114,9 +117,10 @@ public:
   std::string to_string() { return std::to_string(this->value); }
 
 private:
-  float value; /**< The floating-point value of the attribute */
-  float vmin;  /**< The minimum bound for the float value */
-  float vmax;  /**< The maximum bound for the float value */
+  float       value; /**< The floating-point value of the attribute */
+  float       vmin;  /**< The minimum bound for the float value */
+  float       vmax;  /**< The maximum bound for the float value */
+  std::string value_format;
 };
 
 } // namespace attr

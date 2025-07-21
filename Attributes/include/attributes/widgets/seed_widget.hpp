@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include "intslider.hpp"
+#include "qsx/slider_int.hpp"
 
 #include "attributes/seed_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -35,7 +35,7 @@ private:
 
   uint value_bckp;
 
-  ValueSliders::IntSlider *slider;
+  qsx::SliderInt *slider;
 
   void update_attribute_from_widget();
 };

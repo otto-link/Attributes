@@ -29,12 +29,12 @@ int main(int argc, char *argv[])
 
   map0["int no_bound"] = attr::create_attr<attr::IntAttribute>("label int no_bound", 1);
   map0["int bound_inf"] = attr::create_attr<attr::IntAttribute>("label int bound_inf", 1, 0);
-  map0["int bound_sup"] = attr::create_attr<attr::IntAttribute>("label int bound_sup", 1, -INT_MAX, 20);
+  map0["int bound_sup"] = attr::create_attr<attr::IntAttribute>("label int bound_sup", 1, -INT_MAX, 20, "{} it.");
   map0["int bound_both"] = attr::create_attr<attr::IntAttribute>("label int bound_both", 1, 0, 10);
 
   map0["float no_bound"] = attr::create_attr<attr::FloatAttribute>("label float no_bound", 1);
   map0["float bound_inf"] = attr::create_attr<attr::FloatAttribute>("label float bound_inf", 1.f, 0.f);
-  map0["float bound_sup"] = attr::create_attr<attr::FloatAttribute>("label float bound_sup", 1.f, -FLT_MAX, 20.f);
+  map0["float bound_sup"] = attr::create_attr<attr::FloatAttribute>("label float bound_sup", 1.f, -FLT_MAX, 20.f, "{:.2f}°");
   map0["float bound_both"] = attr::create_attr<attr::FloatAttribute>("label float bound_both", 1.f, 0.f, 10.f);
 
   map0["seed0"] = attr::create_attr<attr::SeedAttribute>();
@@ -141,8 +141,8 @@ int main(int argc, char *argv[])
   auto aw4 = new attr::AttributesWidget(&map4);
   aw4->show();
 
-  // auto aw5 = new attr::AttributesWidget(&map5);
-  // aw5->show();
+  auto aw5 = new attr::AttributesWidget(&map5);
+  aw5->show();
 
   std::vector<std::string> attr_key_list = {"v2f0",
                                             "_SEPARATOR_TEXT_The section title",

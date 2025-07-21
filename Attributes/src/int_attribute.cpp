@@ -7,8 +7,13 @@
 namespace attr
 {
 
-IntAttribute::IntAttribute(const std::string &label, int value, int vmin, int vmax)
-    : AbstractAttribute(AttributeType::INT, label), value(value), vmin(vmin), vmax(vmax)
+IntAttribute::IntAttribute(const std::string &label,
+                           int                value,
+                           int                vmin,
+                           int                vmax,
+                           std::string        value_format)
+    : AbstractAttribute(AttributeType::INT, label), value(value), vmin(vmin), vmax(vmax),
+      value_format(value_format)
 {
   this->save_state();
   this->save_initial_state();

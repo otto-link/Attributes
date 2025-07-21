@@ -64,7 +64,8 @@ public:
                  const std::vector<float> &value,
                  const float               vmin,
                  const float               vmax,
-                 const bool                is_active = true);
+                 const bool                is_active = true,
+                 std::string               value_format = "{:.2f}");
 
   /**
    * @brief Get the active state of the attribute.
@@ -79,6 +80,8 @@ public:
    * @return std::vector<float> The current range of float values.
    */
   std::vector<float> get_value() const { return this->value; }
+
+  std::string get_value_format() const { return this->value_format; }
 
   /**
    * @brief Get the minimum bound for the range.
@@ -146,6 +149,7 @@ private:
   float              vmin;      /**< The minimum bound for the range */
   float              vmax;      /**< The maximum bound for the range */
   bool               is_active; /**< The active state of the attribute */
+  std::string        value_format;
 };
 
 } // namespace attr

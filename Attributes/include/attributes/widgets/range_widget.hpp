@@ -14,7 +14,7 @@
 #pragma once
 #include <QPushButton>
 
-#include "doubleslider.hpp"
+#include "qsx/slider_range.hpp"
 
 #include "attributes/range_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -31,25 +31,10 @@ public:
 
   void reset_value(bool reset_to_initial_state = false) override;
 
-protected Q_SLOTS:
-
-  void on_active_state_change();
-
-  void on_center();
-
-  void on_reset();
-
-  void on_reset_01();
-
 private:
   RangeAttribute *p_attr;
 
-  ValueSliders::DoubleSlider *slider_min;
-  ValueSliders::DoubleSlider *slider_max;
-
-  QPushButton *button_active;
-  QPushButton *button_center;
-  QPushButton *button_reset;
+  qsx::SliderRange *slider;
 
   std::vector<float> value_bckp;
 

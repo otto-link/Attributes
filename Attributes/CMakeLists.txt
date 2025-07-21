@@ -24,6 +24,7 @@ target_link_libraries(
   ${PROJECT_NAME}
   spdlog::spdlog
   nlohmann_json::nlohmann_json
+  qsliderx
   Qt6::Core
   Qt6::Widgets
   valueSliders

@@ -8,7 +8,7 @@ namespace attr
 
 RangeAttribute::RangeAttribute()
     : AbstractAttribute(AttributeType::RANGE, "Range"), value({0.f, 1.f}), vmin(-1.f),
-      vmax(2.f), is_active(true)
+      vmax(2.f), is_active(true), value_format("{:.2f}")
 {
   this->save_state();
   this->save_initial_state();
@@ -16,7 +16,7 @@ RangeAttribute::RangeAttribute()
 
 RangeAttribute::RangeAttribute(const std::string &label, const bool is_active)
     : AbstractAttribute(AttributeType::RANGE, label), value({0.f, 1.f}), vmin(-1.f),
-      vmax(2.f), is_active(is_active)
+      vmax(2.f), is_active(is_active), value_format("{:.2f}")
 {
   this->save_state();
   this->save_initial_state();
@@ -26,9 +26,10 @@ RangeAttribute::RangeAttribute(const std::string        &label,
                                const std::vector<float> &value,
                                const float               vmin,
                                const float               vmax,
-                               const bool                is_active)
+                               const bool                is_active,
+                               std::string               value_format)
     : AbstractAttribute(AttributeType::RANGE, label), value(value), vmin(vmin),
-      vmax(vmax), is_active(is_active)
+      vmax(vmax), is_active(is_active), value_format(value_format)
 {
   this->save_state();
   this->save_initial_state();

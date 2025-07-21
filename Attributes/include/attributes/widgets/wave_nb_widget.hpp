@@ -14,7 +14,7 @@
 #pragma once
 #include <QPushButton>
 
-#include "doubleslider.hpp"
+#include "qsx/slider_float.hpp"
 
 #include "attributes/wave_nb_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -40,8 +40,8 @@ protected Q_SLOTS:
 private:
   WaveNbAttribute *p_attr;
 
-  ValueSliders::DoubleSlider *slider_x;
-  ValueSliders::DoubleSlider *slider_y;
+  qsx::SliderFloat *slider_x;
+  qsx::SliderFloat *slider_y;
 
   QPushButton *button_link_xy;
   QPushButton *button_reset;
