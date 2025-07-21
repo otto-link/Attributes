@@ -8,3 +8,6 @@
 [submodule "external/HighMap"]
 	path = external/HighMap
 	url = git@github.com:otto-link/HighMap.git
+[submodule "external/QSliderX"]
+	path = external/QSliderX
+	url = git@github.com:otto-link/QSliderX.git
