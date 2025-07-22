@@ -25,6 +25,8 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
                                       this->p_attr->get_vmax(),
                                       this->p_attr->get_value_format());
 
+  this->slider->set_histogram_fct(this->p_attr->get_histogram_fct());
+
   this->connect(this->slider,
                 &qsx::SliderRange::value_has_changed,
                 this,

@@ -71,6 +71,8 @@ public:
                  const bool                is_active = true,
                  std::string               value_format = "{:.2f}");
 
+  std::function<PairVec()> get_histogram_fct() const { return this->histogram_fct; }
+
   /**
    * @brief Get the active state of the attribute.
    *
