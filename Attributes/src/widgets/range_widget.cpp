@@ -54,6 +54,7 @@ void RangeWidget::update_attribute_from_widget()
   std::vector<float> vec = {x1, x2};
 
   this->p_attr->set_value(vec);
+  this->p_attr->set_is_active(this->slider->get_is_enabled());
   Q_EMIT this->value_changed();
 }
 
