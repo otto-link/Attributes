@@ -30,6 +30,11 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
                 this,
                 &RangeWidget::update_attribute_from_widget);
 
+  this->connect(this,
+                &RangeWidget::update_bins,
+                this->slider,
+                &qsx::SliderRange::on_update_bins);
+
   // eventually update overall widget enabled/disabled state
   layout->addWidget(this->slider);
   this->setLayout(layout);

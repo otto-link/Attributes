@@ -16,10 +16,14 @@
  */
 
 #pragma once
+#include <functional>
+
 #include "attributes/abstract_attribute.hpp"
 
 namespace attr
 {
+
+using PairVec = std::pair<std::vector<float>, std::vector<float>>;
 
 /**
  * @class RangeAttribute
@@ -117,6 +121,8 @@ public:
    */
   nlohmann::json json_to() const override;
 
+  void set_histogram_fct(std::function<PairVec()> new_histogram_fct);
+
   /**
    * @brief Set the active state of the attribute.
    *
@@ -145,11 +151,12 @@ public:
   std::string to_string();
 
 private:
-  std::vector<float> value;     /**< The current range of float values */
-  float              vmin;      /**< The minimum bound for the range */
-  float              vmax;      /**< The maximum bound for the range */
-  bool               is_active; /**< The active state of the attribute */
-  std::string        value_format;
+  std::vector<float>       value;     /**< The current range of float values */
+  float                    vmin;      /**< The minimum bound for the range */
+  float                    vmax;      /**< The maximum bound for the range */
+  bool                     is_active; /**< The active state of the attribute */
+  std::string              value_format;
+  std::function<PairVec()> histogram_fct = nullptr;
 };
 
 } // namespace attr

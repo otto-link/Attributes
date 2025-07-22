@@ -54,6 +54,11 @@ nlohmann::json RangeAttribute::json_to() const
   return json;
 }
 
+void RangeAttribute::set_histogram_fct(std::function<PairVec()> new_histogram_fct)
+{
+  this->histogram_fct = new_histogram_fct;
+}
+
 std::string RangeAttribute::to_string()
 {
   std::string str = "{";
