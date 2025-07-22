@@ -71,6 +71,8 @@ public:
                  const bool                is_active = true,
                  std::string               value_format = "{:.2f}");
 
+  bool get_autorange() const { return this->autorange; }
+
   std::function<PairVec()> get_histogram_fct() const { return this->histogram_fct; }
 
   /**
@@ -112,6 +114,8 @@ public:
    * @param json The JSON object containing the attribute data.
    */
   void json_from(nlohmann::json const &json) override;
+
+  void set_autorange(bool new_state) { this->autorange = new_state; }
 
   /**
    * @brief Serialize the attribute to a JSON object.
@@ -159,6 +163,7 @@ private:
   bool                     is_active; /**< The active state of the attribute */
   std::string              value_format;
   std::function<PairVec()> histogram_fct = nullptr;
+  bool                     autorange = false;
 };
 
 } // namespace attr
