@@ -27,5 +27,4 @@ target_link_libraries(
   qsliderx
   Qt6::Core
   Qt6::Widgets
-  valueSliders
   highmap)
