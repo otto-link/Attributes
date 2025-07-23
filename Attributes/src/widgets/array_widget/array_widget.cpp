@@ -1,13 +1,12 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
 #include <QComboBox>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 
-#include "doubleslider.hpp"
+#include "attributes/widgets/float_widget.hpp"
 
 #include "highmap/filters.hpp"
 #include "highmap/range.hpp"
@@ -63,17 +62,17 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
   layout->addWidget(combo, row, 0);
 
   // brush intensity
-  ValueSliders::DoubleSlider *slider = new ValueSliders::DoubleSlider(
-      "Intensity",
-      this->canvas->get_brush_intensity(),
-      0.f,
-      1.f,
-      ValueSliders::BoundMode::UPPER_LOWER);
+  qsx::SliderFloat *slider = new qsx::SliderFloat("Intensity",
+                                                  this->canvas->get_brush_intensity(),
+                                                  0.f,
+                                                  1.f,
+                                                  true, // +/- buttons
+                                                  "{:.3f}");
 
   this->connect(slider,
-                &ValueSliders::DoubleSlider::editEnded,
+                &qsx::SliderFloat::value_has_changed,
                 [this, slider]()
-                { this->canvas->set_brush_intensity(slider->getVal()); });
+                { this->canvas->set_brush_intensity(slider->get_value()); });
 
   layout->addWidget(slider, row, 1);
 
