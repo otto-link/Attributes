@@ -4,6 +4,7 @@
 #include <QLabel>
 
 #include "attributes/widgets/enum_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -11,6 +12,7 @@ namespace attr
 EnumWidget::EnumWidget(EnumAttribute *p_attr) : p_attr(p_attr)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
+  setup_default_layout_spacing(layout);
 
   if (this->p_attr->get_label() != "")
   {

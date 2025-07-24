@@ -5,9 +5,9 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include "attributes/widgets/filename_widget.hpp"
-
 #include "attributes/logger.hpp"
+#include "attributes/widgets/filename_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -15,6 +15,7 @@ namespace attr
 FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
+  setup_default_layout_spacing(layout);
 
   if (this->p_attr->get_label() != "")
   {

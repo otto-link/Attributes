@@ -6,6 +6,7 @@
 #include <QPushButton>
 
 #include "attributes/widgets/path_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -13,6 +14,7 @@ namespace attr
 PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
 {
   QGridLayout *layout = new QGridLayout(this);
+  setup_default_layout_spacing(layout);
   this->setLayout(layout);
 
   int row = 0;

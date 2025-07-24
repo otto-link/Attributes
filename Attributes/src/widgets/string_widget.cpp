@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 #include "attributes/widgets/string_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -12,6 +13,7 @@ namespace attr
 StringWidget::StringWidget(StringAttribute *p_attr) : p_attr(p_attr)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
+  setup_default_layout_spacing(layout);
 
   if (!this->p_attr->get_label().empty())
   {

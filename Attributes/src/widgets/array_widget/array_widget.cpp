@@ -12,6 +12,7 @@
 #include "highmap/range.hpp"
 
 #include "attributes/widgets/array_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -19,6 +20,7 @@ namespace attr
 ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
 {
   QGridLayout *layout = new QGridLayout(this);
+  setup_default_layout_spacing(layout);
 
   // label
   int row = 0;
@@ -29,7 +31,8 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
   label_text += "(default: add brush, Ctrl: max brush, Shift: smooth brush)";
 
   QLabel *label = new QLabel(label_text.c_str());
-  layout->addWidget(label, row++, 0);
+  layout->addWidget(label, row, 0, 1, 2);
+  row++;
 
   // canvas
   this->canvas = new ArrayCanvasWidget();
@@ -40,7 +43,8 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
                 this,
                 &ArrayWidget::on_canvas_edit_ended);
 
-  layout->addWidget(this->canvas, row++, 0, 1, 4);
+  layout->addWidget(this->canvas, row, 0, 1, 2);
+  row++;
 
   // brush type
   QComboBox *combo = new QComboBox();
@@ -75,11 +79,12 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
                 { this->canvas->set_brush_intensity(slider->get_value()); });
 
   layout->addWidget(slider, row, 1);
+  row++;
 
   // smooth button
   QPushButton *smooth_button = new QPushButton("Smooth");
   this->connect(smooth_button, &QPushButton::pressed, [this]() { this->smooth_array(); });
-  layout->addWidget(smooth_button, row, 2);
+  layout->addWidget(smooth_button, row, 0);
 
   // clear button
   QPushButton *clear_button = new QPushButton("Clear");
@@ -90,7 +95,7 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
                   this->canvas->clear();
                   Q_EMIT this->value_changed();
                 });
-  layout->addWidget(clear_button, row, 3);
+  layout->addWidget(clear_button, row, 1);
 
   this->setLayout(layout);
 }
