@@ -19,7 +19,7 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
                                       this->p_attr->get_value_format());
 
   this->connect(this->slider,
-                &qsx::SliderFloat::value_has_changed,
+                &qsx::SliderFloat::edit_ended,
                 this,
                 &FloatWidget::update_attribute_from_widget);
 

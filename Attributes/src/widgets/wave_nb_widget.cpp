@@ -43,12 +43,12 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
                                         this->p_attr->get_value_format());
 
   this->connect(this->slider_x,
-                &qsx::SliderFloat::value_has_changed,
+                &qsx::SliderFloat::edit_ended,
                 this,
                 &WaveNbWidget::update_attribute_from_widget);
 
   this->connect(this->slider_y,
-                &qsx::SliderFloat::value_has_changed,
+                &qsx::SliderFloat::edit_ended,
                 this,
                 &WaveNbWidget::update_attribute_from_widget);
 

@@ -19,7 +19,7 @@ IntWidget::IntWidget(IntAttribute *p_attr) : p_attr(p_attr)
                                     this->p_attr->get_value_format());
 
   this->connect(this->slider,
-                &qsx::SliderInt::value_has_changed,
+                &qsx::SliderInt::edit_ended,
                 this,
                 &IntWidget::update_attribute_from_widget);
 

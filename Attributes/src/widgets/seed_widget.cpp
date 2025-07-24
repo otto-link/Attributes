@@ -17,7 +17,7 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
                                     INT_MAX);
 
   this->connect(this->slider,
-                &qsx::SliderInt::value_has_changed,
+                &qsx::SliderInt::edit_ended,
                 this,
                 &SeedWidget::update_attribute_from_widget);
 

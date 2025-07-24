@@ -74,7 +74,7 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
                                                   "{:.3f}");
 
   this->connect(slider,
-                &qsx::SliderFloat::value_has_changed,
+                &qsx::SliderFloat::edit_ended,
                 [this, slider]()
                 { this->canvas->set_brush_intensity(slider->get_value()); });
 

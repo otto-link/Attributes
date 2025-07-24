@@ -29,7 +29,7 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
   this->slider->set_autorange(this->p_attr->get_autorange());
 
   this->connect(this->slider,
-                &qsx::SliderRange::value_has_changed,
+                &qsx::SliderRange::edit_ended,
                 this,
                 &RangeWidget::update_attribute_from_widget);
 
