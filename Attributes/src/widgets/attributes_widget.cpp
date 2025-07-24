@@ -11,6 +11,7 @@
 #include <QVBoxLayout>
 
 #include "attributes/widgets/attributes_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 #include "attributes/widgets/array_widget.hpp"
 #include "attributes/widgets/bool_widget.hpp"
@@ -90,6 +91,7 @@ AttributesWidget::AttributesWidget(
 
   // Setup layout
   QVBoxLayout *layout = new QVBoxLayout(this);
+  setup_default_layout_spacing(layout);
 
   // main buttons
   if (add_save_reset_state_buttons)
@@ -152,6 +154,7 @@ AttributesWidget::AttributesWidget(
 
       QWidget     *separator_widget = new QWidget;
       QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
+      setup_default_layout_spacing(sep_layout);
 
       QLabel *label = new QLabel(title.c_str());
       label->setStyleSheet("font-weight: bold;");
@@ -165,6 +168,7 @@ AttributesWidget::AttributesWidget(
 
       QWidget     *separator_widget = new QWidget;
       QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
+      setup_default_layout_spacing(sep_layout);
 
       QFrame *leftLine = new QFrame;
       leftLine->setFrameShape(QFrame::HLine);
