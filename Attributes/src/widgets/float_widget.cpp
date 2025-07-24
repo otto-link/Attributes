@@ -15,7 +15,7 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
                                       this->p_attr->get_value(),
                                       this->p_attr->get_vmin(),
                                       this->p_attr->get_vmax(),
-                                      true, // +/- buttons
+                                      false, // +/- buttons
                                       this->p_attr->get_value_format());
 
   this->connect(this->slider,

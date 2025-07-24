@@ -32,14 +32,14 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
                                         this->p_attr->get_value()[0],
                                         this->p_attr->get_vmin(),
                                         this->p_attr->get_vmax(),
-                                        true, // +/- buttons
+                                        false, // +/- buttons
                                         this->p_attr->get_value_format());
 
   this->slider_y = new qsx::SliderFloat("Y",
                                         this->p_attr->get_value()[1],
                                         this->p_attr->get_vmin(),
                                         this->p_attr->get_vmax(),
-                                        true, // +/- buttons
+                                        false, // +/- buttons
                                         this->p_attr->get_value_format());
 
   this->connect(this->slider_x,
