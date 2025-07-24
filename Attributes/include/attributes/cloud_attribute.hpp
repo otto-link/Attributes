@@ -22,20 +22,15 @@ class CloudAttribute : public AbstractAttribute
 {
 public:
   CloudAttribute(const std::string &label);
-
   CloudAttribute(const std::string &label, const hmap::Cloud &value);
 
-  hmap::Cloud get_value() const { return this->value; }
-
+  hmap::Cloud  get_value() const { return this->value; }
   hmap::Cloud *get_value_ref() { return &this->value; }
+  void         set_value(const hmap::Cloud &new_value) { this->value = new_value; }
+  std::string  to_string();
 
-  void json_from(nlohmann::json const &json) override;
-
+  void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
-
-  void set_value(const hmap::Cloud &new_value) { this->value = new_value; }
-
-  std::string to_string();
 
 private:
   hmap::Cloud value;

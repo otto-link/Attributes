@@ -8,6 +8,7 @@
 #include <QPushButton>
 
 #include "attributes/widgets/color_gradient_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -15,6 +16,7 @@ namespace attr
 ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_attr(p_attr)
 {
   QGridLayout *layout = new QGridLayout(this);
+  setup_default_layout_spacing(layout);
 
   int row = 0;
 

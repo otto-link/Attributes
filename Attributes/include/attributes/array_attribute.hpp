@@ -22,22 +22,16 @@ class ArrayAttribute : public AbstractAttribute
 {
 public:
   ArrayAttribute(const std::string &label, const hmap::Vec2<int> &shape);
-
   ArrayAttribute(const std::string &label, const hmap::Array &value);
 
   hmap::Vec2<int> get_shape() const { return this->value.shape; }
+  hmap::Array     get_value() const { return this->value; }
+  hmap::Array    *get_value_ref() { return &this->value; }
+  void            set_value(const hmap::Array &new_value) { this->value = new_value; }
+  std::string     to_string();
 
-  hmap::Array get_value() const { return this->value; }
-
-  hmap::Array *get_value_ref() { return &this->value; }
-
-  void json_from(nlohmann::json const &json) override;
-
+  void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
-
-  void set_value(const hmap::Array &new_value) { this->value = new_value; }
-
-  std::string to_string();
 
 private:
   hmap::Array value;

@@ -5,6 +5,7 @@
 #include <QLabel>
 
 #include "attributes/widgets/wave_nb_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -15,8 +16,7 @@ WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
   this->value_bckp = this->p_attr->get_value();
 
   QGridLayout *layout = new QGridLayout(this);
-  layout->setSpacing(1);
-  layout->setContentsMargins(0, 0, 0, 0);
+  setup_default_layout_spacing(layout);
 
   // label
   int row = 0;

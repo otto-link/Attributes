@@ -5,6 +5,7 @@
 #include <QLabel>
 
 #include "attributes/widgets/range_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -15,8 +16,7 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
   this->value_bckp = this->p_attr->get_value();
 
   QHBoxLayout *layout = new QHBoxLayout(this);
-  layout->setSpacing(1);
-  layout->setContentsMargins(0, 0, 0, 0);
+  setup_default_layout_spacing(layout);
 
   this->slider = new qsx::SliderRange(this->p_attr->get_label().c_str(),
                                       this->p_attr->get_value()[0],

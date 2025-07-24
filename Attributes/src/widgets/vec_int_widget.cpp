@@ -8,6 +8,7 @@
 #include <QPushButton>
 
 #include "attributes/widgets/vec_int_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -198,6 +199,7 @@ void IVecWidget::update_widget_from_attribute()
 VecIntWidget::VecIntWidget(VecIntAttribute *p_attr) : p_attr(p_attr)
 {
   QGridLayout *layout = new QGridLayout(this);
+  setup_default_layout_spacing(layout);
 
   // label
   int row = 0;

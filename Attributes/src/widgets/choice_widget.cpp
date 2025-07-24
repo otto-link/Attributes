@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 
 #include "attributes/widgets/choice_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -13,6 +14,7 @@ namespace attr
 ChoiceWidget::ChoiceWidget(ChoiceAttribute *p_attr) : p_attr(p_attr)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
+  setup_default_layout_spacing(layout);
 
   // add a label if the attribute has one
   if (!this->p_attr->get_label().empty())

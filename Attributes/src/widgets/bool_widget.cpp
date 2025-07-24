@@ -8,6 +8,7 @@
 #include <QRadioButton>
 
 #include "attributes/widgets/bool_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -28,6 +29,7 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
                   [this](bool checked) { this->update_attribute_from_widget(checked); });
 
     QHBoxLayout *layout = new QHBoxLayout(this);
+    setup_default_layout_spacing(layout);
     layout->addWidget(this->button);
     this->setLayout(layout);
   }
@@ -82,6 +84,7 @@ BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
 
     // Layout to arrange the buttons side by side
     QGridLayout *layout = new QGridLayout(this);
+    setup_default_layout_spacing(layout);
 
     int row = 0;
 

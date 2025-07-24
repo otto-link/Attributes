@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 
 #include "attributes/widgets/float_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -23,8 +24,7 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
                 &FloatWidget::update_attribute_from_widget);
 
   QHBoxLayout *layout = new QHBoxLayout(this);
-  layout->setSpacing(1);
-  layout->setContentsMargins(0, 0, 0, 0);
+  setup_default_layout_spacing(layout);
   layout->addWidget(this->slider);
   this->setLayout(layout);
 }

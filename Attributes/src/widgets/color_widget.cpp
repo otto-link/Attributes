@@ -6,6 +6,7 @@
 #include <QPushButton>
 
 #include "attributes/widgets/color_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -13,6 +14,7 @@ namespace attr
 ColorWidget::ColorWidget(ColorAttribute *p_attr) : p_attr(p_attr)
 {
   QGridLayout *layout = new QGridLayout(this);
+  setup_default_layout_spacing(layout);
 
   // main label
   layout->addWidget(new QLabel(this->p_attr->get_label().c_str()), 0, 0, 1, 2);

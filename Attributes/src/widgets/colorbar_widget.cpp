@@ -5,6 +5,7 @@
 #include <QPainter>
 
 #include "attributes/widgets/colorbar_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {

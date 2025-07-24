@@ -22,20 +22,15 @@ class PathAttribute : public AbstractAttribute
 {
 public:
   PathAttribute(const std::string &label);
-
   PathAttribute(const std::string &label, const hmap::Path &value);
 
-  hmap::Path get_value() const { return this->value; }
-
+  hmap::Path  get_value() const { return this->value; }
   hmap::Path *get_value_ref() { return &this->value; }
-
-  void json_from(nlohmann::json const &json) override;
-
-  nlohmann::json json_to() const override;
-
-  void set_value(const hmap::Path &new_value) { this->value = new_value; }
-
+  void        set_value(const hmap::Path &new_value) { this->value = new_value; }
   std::string to_string();
+
+  void           json_from(nlohmann::json const &json) override;
+  nlohmann::json json_to() const override;
 
 private:
   hmap::Path value;

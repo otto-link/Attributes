@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 
 #include "attributes/widgets/seed_widget.hpp"
+#include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
@@ -21,8 +22,7 @@ SeedWidget::SeedWidget(SeedAttribute *p_attr) : p_attr(p_attr)
                 &SeedWidget::update_attribute_from_widget);
 
   QHBoxLayout *layout = new QHBoxLayout(this);
-  layout->setSpacing(0);
-  layout->setContentsMargins(0, 0, 0, 0);
+  setup_default_layout_spacing(layout);
   layout->addWidget(this->slider);
   this->setLayout(layout);
 
