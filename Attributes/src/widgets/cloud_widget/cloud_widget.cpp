@@ -71,6 +71,7 @@ void CloudWidget::clear_points()
   std::vector<float> x, y, z;
   this->p_attr->set_value(hmap::Cloud(x, y, z));
   this->update_canvas_from_attribute();
+  Q_EMIT this->value_changed();
 }
 
 void CloudWidget::load_points_from_csv()
@@ -81,6 +82,7 @@ void CloudWidget::load_points_from_csv()
   {
     this->p_attr->get_value_ref()->from_csv(fname.toStdString());
     this->update_canvas_from_attribute();
+    Q_EMIT this->value_changed();
   }
 }
 
@@ -90,6 +92,7 @@ void CloudWidget::randomize_points()
   {
     this->p_attr->get_value_ref()->randomize((uint)time(NULL));
     this->update_canvas_from_attribute();
+    Q_EMIT this->value_changed();
   }
 }
 
@@ -100,6 +103,7 @@ void CloudWidget::reset_value(bool reset_to_initial_state)
   else
     this->p_attr->reset_to_save_state();
   this->update_canvas_from_attribute();
+  Q_EMIT this->value_changed();
 }
 
 void CloudWidget::update_attribute_from_canvas()
