@@ -11,6 +11,10 @@
  */
 
 #pragma once
+#include <functional>
+
+#include <QImage>
+
 #include "highmap/geometry/cloud.hpp"
 
 #include "attributes/abstract_attribute.hpp"
@@ -24,16 +28,19 @@ public:
   CloudAttribute(const std::string &label);
   CloudAttribute(const std::string &label, const hmap::Cloud &value);
 
-  hmap::Cloud  get_value() const { return this->value; }
-  hmap::Cloud *get_value_ref() { return &this->value; }
-  void         set_value(const hmap::Cloud &new_value) { this->value = new_value; }
-  std::string  to_string();
+  std::function<QImage()> get_background_image_fct() const;
+  hmap::Cloud             get_value() const { return this->value; }
+  hmap::Cloud            *get_value_ref() { return &this->value; }
+  void                    set_background_image_fct(std::function<QImage()> new_fct);
+  void        set_value(const hmap::Cloud &new_value) { this->value = new_value; }
+  std::string to_string();
 
   void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
 
 private:
-  hmap::Cloud value;
+  hmap::Cloud             value;
+  std::function<QImage()> background_image_fct = nullptr;
 };
 
 } // namespace attr

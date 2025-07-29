@@ -22,6 +22,11 @@ CloudAttribute::CloudAttribute(const std::string &label, const hmap::Cloud &valu
   this->save_initial_state();
 }
 
+std::function<QImage()> CloudAttribute::get_background_image_fct() const
+{
+  return this->background_image_fct;
+}
+
 void CloudAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -42,6 +47,11 @@ nlohmann::json CloudAttribute::json_to() const
   json["values"] = this->value.get_values();
 
   return json;
+}
+
+void CloudAttribute::set_background_image_fct(std::function<QImage()> new_fct)
+{
+  this->background_image_fct = new_fct;
 }
 
 std::string CloudAttribute::to_string()
