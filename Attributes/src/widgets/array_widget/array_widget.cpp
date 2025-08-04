@@ -25,119 +25,44 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
   // label
   int row = 0;
 
-  std::string label_text = "";
-  if (this->p_attr->get_label() != "")
-    label_text += this->p_attr->get_label() + "\n";
-  label_text += "(default: add brush, Ctrl: max brush, Shift: smooth brush)";
-
-  QLabel *label = new QLabel(label_text.c_str());
-  layout->addWidget(label, row, 0, 1, 2);
-  row++;
-
   // canvas
-  this->canvas = new ArrayCanvasWidget();
-  this->canvas->set_image(this->array_to_image());
+  this->canvas = new qsx::CanvasField(this->p_attr->get_label().c_str(),
+                                      DEFAULT_CANVAS_RESOLUTION,
+                                      DEFAULT_CANVAS_RESOLUTION);
+  this->array_data_to_widget_field_data();
 
   this->connect(this->canvas,
-                &ArrayCanvasWidget::edit_ended,
+                &qsx::CanvasField::edit_ended,
                 this,
                 &ArrayWidget::on_canvas_edit_ended);
 
-  layout->addWidget(this->canvas, row, 0, 1, 2);
+  layout->addWidget(this->canvas, row, 0);
   row++;
-
-  // brush type
-  QComboBox *combo = new QComboBox();
-
-  QStringList items;
-  for (auto &[key, _] : brush_kernel_map)
-    combo->addItem(key.c_str());
-
-  combo->setCurrentText("Cubic pulse");
-
-  connect(combo,
-          QOverload<int>::of(&QComboBox::currentIndexChanged),
-          [this, combo]()
-          {
-            std::string choice = combo->currentText().toStdString();
-            this->canvas->set_kernel_type(brush_kernel_map.at(choice));
-          });
-
-  layout->addWidget(combo, row, 0);
-
-  // brush intensity
-  qsx::SliderFloat *slider = new qsx::SliderFloat("Intensity",
-                                                  this->canvas->get_brush_intensity(),
-                                                  0.f,
-                                                  1.f,
-                                                  true, // +/- buttons
-                                                  "{:.3f}");
-
-  this->connect(slider,
-                &qsx::SliderFloat::edit_ended,
-                [this, slider]()
-                { this->canvas->set_brush_intensity(slider->get_value()); });
-
-  layout->addWidget(slider, row, 1);
-  row++;
-
-  // smooth button
-  QPushButton *smooth_button = new QPushButton("Smooth");
-  this->connect(smooth_button, &QPushButton::pressed, [this]() { this->smooth_array(); });
-  layout->addWidget(smooth_button, row, 0);
-
-  // clear button
-  QPushButton *clear_button = new QPushButton("Clear");
-  this->connect(clear_button,
-                &QPushButton::pressed,
-                [this]()
-                {
-                  this->canvas->clear();
-                  Q_EMIT this->value_changed();
-                });
-  layout->addWidget(clear_button, row, 1);
 
   this->setLayout(layout);
 }
 
-QImage ArrayWidget::array_to_image()
+void ArrayWidget::array_data_to_widget_field_data()
 {
-  QImage image = QImage(this->p_attr->get_shape().x,
-                        this->p_attr->get_shape().y,
-                        QImage::Format_RGB32);
-
-  hmap::Array *p_array = this->p_attr->get_value_ref();
-
-  hmap::Array array_remap = *p_array;
-  hmap::remap(array_remap, 0.f, 255.f);
-
-  for (int i = 0; i < p_array->shape.x; i++)
-    for (int j = 0; j < p_array->shape.y; j++)
-    {
-      int value = (int)array_remap(i, p_array->shape.y - 1 - j);
-      image.setPixelColor(i, j, QColor(value, value, value));
-    }
-
-  return image;
+  // set widget field data from attribute array data
+  hmap::Array array = this->p_attr->get_value();
+  hmap::remap(array);
+  array = array.resample_to_shape_bilinear(
+      hmap::Vec2<int>(this->canvas->get_field_width(), this->canvas->get_field_height()));
+  this->canvas->set_field_data(array.vector);
 }
 
-void ArrayWidget::on_canvas_edit_ended(QImage *p_image)
+void ArrayWidget::on_canvas_edit_ended()
 {
-  // use Qt to interpolate image to the array size
-  QSize  size = QSize(this->p_attr->get_shape().x, this->p_attr->get_shape().y);
-  QImage scaled_image = p_image->scaled(size);
+  hmap::Vec2<int> shape_canvas = hmap::Vec2<int>(this->canvas->get_field_width(),
+                                                 this->canvas->get_field_height());
+  hmap::Array     array(shape_canvas);
+  array.vector = this->canvas->get_field_data();
 
-  // transfer image values to the array
-  hmap::Array *p_array = this->p_attr->get_value_ref();
+  *this->p_attr->get_value_ref() = array.resample_to_shape_bicubic(
+      this->p_attr->get_shape());
 
-  for (int i = 0; i < p_array->shape.x; i++)
-    for (int j = 0; j < p_array->shape.y; j++)
-    {
-      QColor color = scaled_image.pixelColor(i, p_array->shape.y - 1 - j);
-      (*p_array)(i, j) = color.lightnessF();
-    }
-
-  p_array->to_png_grayscale("out.png", CV_16U);
+  this->p_attr->get_value_ref()->dump();
 
   Q_EMIT this->value_changed();
 }
@@ -149,23 +74,8 @@ void ArrayWidget::reset_value(bool reset_to_initial_state)
   else
     this->p_attr->reset_to_save_state();
 
-  this->canvas->set_image(this->array_to_image());
+  this->array_data_to_widget_field_data();
   this->canvas->update();
-}
-
-void ArrayWidget::smooth_array()
-{
-  hmap::Array *p_array = this->p_attr->get_value_ref();
-
-  float radius = 0.02f;
-  int   ir = std::max((int)(radius * p_array->shape.x), 1);
-  hmap::smooth_cpulse(*p_array, ir);
-
-  QImage smoothed_image = this->array_to_image();
-  this->canvas->set_image(smoothed_image);
-  this->canvas->update();
-
-  Q_EMIT this->value_changed();
 }
 
 } // namespace attr
