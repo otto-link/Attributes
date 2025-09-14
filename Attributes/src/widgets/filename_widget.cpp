@@ -26,39 +26,43 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
   this->button = new QPushButton(this->p_attr->get_value().string().c_str());
   layout->addWidget(this->button);
 
-  this->connect(
-      this->button,
-      &QPushButton::released,
-      [this]()
-      {
-        std::filesystem::path path = this->p_attr->get_value().parent_path();
+  this->connect(this->button,
+                &QPushButton::released,
+                [this]()
+                {
+                  std::filesystem::path path = this->p_attr->get_value().parent_path();
 
-        QString fname;
-        Options options = QFileDialog::Options(QFileDialog::DontUseNativeDialog);
+                  QString              fname;
+                  QFileDialog::Options options = QFileDialog::Options(
+                      QFileDialog::DontUseNativeDialog);
 
-        if (this->p_attr->get_for_saving())
-          fname = QFileDialog::getSaveFileName(nullptr,
-                                               this->p_attr->get_label().c_str(),
-                                               path.string().c_str(),
-                                               this->p_attr->get_filter().c_str(),
-                                               nullptr, // no selectedFilter
-                                               options);
-        else
-          fname = QFileDialog::getOpenFileName(nullptr,
-                                               this->p_attr->get_label().c_str(),
-                                               path.string().c_str(),
-                                               this->p_attr->get_filter().c_str(),
-                                               nullptr, // no selectedFilter
-                                               options);
+                  QString label = QString::fromStdString(this->p_attr->get_label());
+                  QString filter = QString::fromStdString(this->p_attr->get_filter());
+                  QString default_path = QString::fromStdString(path.string());
 
-        if (!fname.isNull() && !fname.isEmpty())
-        {
-          this->p_attr->set_value(fname.toStdString());
-          this->update_attribute_from_widget();
-        }
+                  if (this->p_attr->get_for_saving())
+                    fname = QFileDialog::getSaveFileName(nullptr,
+                                                         label,
+                                                         default_path,
+                                                         filter,
+                                                         nullptr, // no selectedFilter
+                                                         options);
+                  else
+                    fname = QFileDialog::getOpenFileName(nullptr,
+                                                         label,
+                                                         default_path,
+                                                         filter,
+                                                         nullptr, // no selectedFilter
+                                                         options);
 
-        this->button->setToolTip(this->p_attr->get_value().string().c_str());
-      });
+                  if (!fname.isNull() && !fname.isEmpty())
+                  {
+                    this->p_attr->set_value(fname.toStdString());
+                    this->update_attribute_from_widget();
+                  }
+
+                  this->button->setToolTip(this->p_attr->get_value().string().c_str());
+                });
 
   this->setLayout(layout);
 }
