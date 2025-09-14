@@ -34,17 +34,22 @@ FilenameWidget::FilenameWidget(FilenameAttribute *p_attr) : p_attr(p_attr)
         std::filesystem::path path = this->p_attr->get_value().parent_path();
 
         QString fname;
+        Options options = QFileDialog::Options(QFileDialog::DontUseNativeDialog);
 
         if (this->p_attr->get_for_saving())
           fname = QFileDialog::getSaveFileName(nullptr,
                                                this->p_attr->get_label().c_str(),
                                                path.string().c_str(),
-                                               this->p_attr->get_filter().c_str());
+                                               this->p_attr->get_filter().c_str(),
+                                               nullptr, // no selectedFilter
+                                               options);
         else
           fname = QFileDialog::getOpenFileName(nullptr,
                                                this->p_attr->get_label().c_str(),
                                                path.string().c_str(),
-                                               this->p_attr->get_filter().c_str());
+                                               this->p_attr->get_filter().c_str(),
+                                               nullptr, // no selectedFilter
+                                               options);
 
         if (!fname.isNull() && !fname.isEmpty())
         {
