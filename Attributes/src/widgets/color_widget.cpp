@@ -44,9 +44,11 @@ void ColorWidget::on_color_pick_button_released()
                                 static_cast<uint8_t>(c[2] * 255.f),
                                 static_cast<uint8_t>(c[3] * 255.f));
 
-  QColorDialog color_dialog;
-  color_dialog.setOption(QColorDialog::ShowAlphaChannel, true);
-  QColor color = color_dialog.getColor(current_color, this, "Select a color");
+  QColor color = QColorDialog::getColor(current_color,
+                                        this,
+                                        "Select a color",
+                                        QColorDialog::ShowAlphaChannel |
+                                            QColorDialog::DontUseNativeDialog);
 
   if (color.isValid())
     this->update_attribute_from_widget(color);
