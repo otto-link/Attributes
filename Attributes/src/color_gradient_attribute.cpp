@@ -48,7 +48,7 @@ nlohmann::json ColorGradientAttribute::json_to() const
 
   for (auto &v : this->value)
   {
-    json["value"].push_back({"position", v.position, "color", v.color});
+    json["value"].push_back({{"position", v.position}, {"color", v.color}});
   }
 
   return json;
