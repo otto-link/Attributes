@@ -67,13 +67,20 @@ int main(int argc, char *argv[])
   map2["color2"] = attr::create_attr<attr::ColorAttribute>("label color2", 0.f, 1.f, 0.f, 1.f);
   // clang-format on
 
-  std::vector<std::vector<float>> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
-                                                      {0.5f, 1.f, 0.f, 0.f, 1.f},
-                                                      {1.f, 0.f, 0.f, 1.f, 1.f}};
+  std::vector<attr::Stop> default_gradient = {{0.f, 0.f, 0.f, 0.f, 1.f},
+                                              {0.5f, 1.f, 0.f, 0.f, 1.f},
+                                              {1.f, 0.f, 0.f, 1.f, 1.f}};
 
   // clang-format off
   map2["gradient0"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient");
   map2["gradient1"] = attr::create_attr<attr::ColorGradientAttribute>("Gradient with input", default_gradient);
+
+  auto *p_a = dynamic_cast<attr::ColorGradientAttribute*>(map2.at("gradient1").get());
+  p_a->set_presets({
+      attr::Preset({"Rainbow",
+		    {{0.f, {0.f, 0.f, 0.f, 1.f}}, {1.f, {1.f, 1.f, 1.f, 1.f}}}})
+	});
+
   // clang-format on
 
   // --- HighMap attributes
@@ -126,37 +133,37 @@ int main(int argc, char *argv[])
   // auto point = attr::get_attribute_widget(map.at("cloud").get());
   // point->show();
 
-  auto aw0 = new attr::AttributesWidget(&map0);
-  aw0->show();
+  // auto aw0 = new attr::AttributesWidget(&map0);
+  // aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  aw1->show();
+  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  // aw1->show();
 
-  // auto aw2 = new attr::AttributesWidget(&map2);
-  // aw2->show();
+  auto aw2 = new attr::AttributesWidget(&map2);
+  aw2->show();
 
-  auto aw3 = new attr::AttributesWidget(&map3);
-  aw3->show();
+  // auto aw3 = new attr::AttributesWidget(&map3);
+  // aw3->show();
 
-  auto aw4 = new attr::AttributesWidget(&map4);
-  aw4->show();
+  // auto aw4 = new attr::AttributesWidget(&map4);
+  // aw4->show();
 
-  auto aw5 = new attr::AttributesWidget(&map5);
-  aw5->show();
+  // auto aw5 = new attr::AttributesWidget(&map5);
+  // aw5->show();
 
   std::vector<std::string> attr_key_list = {"v2f0",
                                             "_SEPARATOR_TEXT_The section title",
                                             "v2f1"};
 
-  auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
-  aw6->show();
+  // auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
+  // aw6->show();
 
   // auto aw7 = new attr::AttributesWidget(&map7);
   // aw7->show();
 
   if (false)
   {
-    QWidget *inspector = new attr::InspectorWidget(&map0);
+    QWidget *inspector = new attr::InspectorWidget(&map2);
     inspector->show();
   }
 

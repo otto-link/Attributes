@@ -1,6 +1,7 @@
 /* Copyright (c) 2023 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <stdexcept>
 
 #include <QColorDialog>
 #include <QGridLayout>
@@ -15,130 +16,19 @@ namespace attr
 
 ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_attr(p_attr)
 {
-  QGridLayout *layout = new QGridLayout(this);
+  this->picker = new qsx::ColorGradientPicker(this->p_attr->get_label().c_str(), this);
+
+  this->connect(this->picker,
+                &qsx::ColorGradientPicker::edit_ended,
+                this,
+                &ColorGradientWidget::update_attribute_from_widget);
+
+  QHBoxLayout *layout = new QHBoxLayout(this);
   setup_default_layout_spacing(layout);
-
-  int row = 0;
-
-  if (this->p_attr->get_label() != "")
-  {
-    QLabel *label = new QLabel(this->p_attr->get_label().c_str());
-    layout->addWidget(label, row++, 0, 1, 2);
-  }
-
-  this->colorbar = new ColorbarWidget(this);
-  this->colorbar->update_colors(p_attr->get_value());
-  layout->addWidget(this->colorbar, row, 0, 1, 2);
-  row++;
-
-  QPushButton *add_button = new QPushButton("Add color", this);
-  QPushButton *remove_button = new QPushButton("Remove selected", this);
-
-  this->connect(add_button, &QPushButton::clicked, this, &ColorGradientWidget::add_color);
-  this->connect(remove_button,
-                &QPushButton::clicked,
-                this,
-                &ColorGradientWidget::remove_color);
-
-  layout->addWidget(add_button, row, 0);
-  layout->addWidget(remove_button, row, 1);
-  row++;
-
-  this->color_list = new QListWidget(this);
-  this->update_color_list();
-
-  this->connect(this->color_list,
-                &QListWidget::itemDoubleClicked,
-                this,
-                &ColorGradientWidget::on_item_double_click);
-
-  layout->addWidget(this->color_list, row, 0, 1, 2);
-
+  layout->addWidget(this->picker);
   this->setLayout(layout);
-}
 
-void ColorGradientWidget::add_color()
-{
-  QColorDialog color_dialog;
-  color_dialog.setOption(QColorDialog::ShowAlphaChannel, true);
-  QColor qcolor = color_dialog.getColor();
-
-  std::vector<float> color = {1.f,
-                              qcolor.redF(),
-                              qcolor.greenF(),
-                              qcolor.blueF(),
-                              qcolor.alphaF()};
-
-  // insert new color next to the currently selected color (if any),
-  // else put it at the end
-  QListWidgetItem *selectedItem = this->color_list->currentItem();
-
-  int ncolors = this->p_attr->get_value().size();
-  int selected_row = ncolors - 1;
-
-  if (selectedItem)
-    selected_row = this->color_list->row(selectedItem);
-
-  this->p_attr->get_value_ref()->insert(this->p_attr->get_value_ref()->begin() +
-                                            selected_row + 1,
-                                        color);
-
-  // redefine color positions in [0, 1]
-  int new_ncolors = this->p_attr->get_value().size();
-
-  for (size_t k = 0; k < (size_t)new_ncolors; k++)
-    this->p_attr->get_value_ref()->at(k)[0] = (float)k / (new_ncolors - 1);
-
-  // update colorbar
-  this->colorbar->update_colors(this->p_attr->get_value());
-  this->update_color_list();
-
-  Q_EMIT this->value_changed();
-}
-
-void ColorGradientWidget::on_item_double_click(QListWidgetItem *item)
-{
-  // get current color from corresponding widget event
-  ColorbarWidget *colorbar_item = dynamic_cast<ColorbarWidget *>(
-      this->color_list->itemWidget(item));
-
-  std::vector<float> color_info = {0.f, 0.f, 0.f, 0.f};
-  if (!colorbar_item->get_colors().empty())
-    color_info = colorbar_item->get_colors().front();
-
-  float pos = color_info[0];
-
-  QColor current_color = QColor(static_cast<uint8_t>(color_info[1] * 255.f),
-                                static_cast<uint8_t>(color_info[2] * 255.f),
-                                static_cast<uint8_t>(color_info[3] * 255.f),
-                                static_cast<uint8_t>(color_info[4] * 255.f));
-
-  QColorDialog color_dialog;
-  color_dialog.setOption(QColorDialog::ShowAlphaChannel, true);
-  QColor qcolor = color_dialog.getColor(current_color, this, "Select a color");
-
-  if (qcolor.isValid())
-  {
-    std::vector<float> color = {0.f,
-                                qcolor.redF(),
-                                qcolor.greenF(),
-                                qcolor.blueF(),
-                                qcolor.alphaF()};
-
-    colorbar_item->update_colors({{pos, color[1], color[2], color[3], color[4]}});
-    this->update();
-  }
-}
-
-void ColorGradientWidget::remove_color()
-{
-  // do not allow "zero" colors, at least one color needed
-  if (this->color_list->count() > 1)
-  {
-    QListWidgetItem *selected_item = this->color_list->currentItem();
-    delete selected_item;
-    this->update();
-  }
+  this->update_widget_from_attribute();
 }
 
 void ColorGradientWidget::reset_value(bool reset_to_initial_state)
@@ -147,53 +37,67 @@ void ColorGradientWidget::reset_value(bool reset_to_initial_state)
     this->p_attr->reset_to_initial_state();
   else
     this->p_attr->reset_to_save_state();
-  this->colorbar->update_colors(this->p_attr->get_value());
-  this->update_color_list();
-}
 
-void ColorGradientWidget::update()
-{
-  this->update_attribute();
-  this->colorbar->update_colors(this->p_attr->get_value());
-  this->update_color_list();
-
+  this->update_widget_from_attribute();
   Q_EMIT this->value_changed();
 }
 
-void ColorGradientWidget::update_attribute()
+void ColorGradientWidget::update_widget_from_attribute()
 {
-  // update attribute value
-  this->p_attr->get_value_ref()->clear();
+  // stored values
+  std::vector<Stop> value = this->p_attr->get_value();
 
-  for (int i = 0; i < this->color_list->count(); ++i)
+  // some checking first
+  if (value.empty())
+    return;
+
+  QVector<qsx::Stop> new_stops;
+
+  for (const auto &v : value)
+    new_stops.push_back(
+        {v.position, QColor::fromRgbF(v.color[0], v.color[1], v.color[2], v.color[3])});
+
+  this->picker->set_stops(new_stops);
+
+  // also update the presets
+  std::vector<qsx::Preset> presets;
+
+  for (const auto &preset : this->p_attr->get_presets())
   {
-    QListWidgetItem *item = this->color_list->item(i);
-    if (item)
-    {
-      // retrieve corresponding widget
-      ColorbarWidget *colorbar_item = dynamic_cast<ColorbarWidget *>(
-          this->color_list->itemWidget(item));
+    qsx::Preset new_preset;
+    new_preset.name = preset.name.c_str();
 
-      if (colorbar_item)
-        if (!colorbar_item->get_colors().empty())
-        {
-          std::vector<float> color = colorbar_item->get_colors().front();
-          this->p_attr->get_value_ref()->push_back(color);
-        }
+    for (const auto &v : preset.stops)
+    {
+      new_preset.stops.push_back(
+          {v.position, QColor::fromRgbF(v.color[0], v.color[1], v.color[2], v.color[3])});
     }
+
+    presets.push_back(new_preset);
   }
+
+  this->picker->set_presets(presets);
 }
 
-void ColorGradientWidget::update_color_list()
+void ColorGradientWidget::update_attribute_from_widget()
 {
-  this->color_list->clear();
+  // update attribute value
+  std::vector<Stop> *p_value = this->p_attr->get_value_ref();
+  p_value->clear();
 
-  for (auto &c : this->p_attr->get_value())
+  QVector<qsx::Stop> stops = this->picker->get_stops();
+
+  for (const auto &stop : stops)
   {
-    QListWidgetItem *item = new QListWidgetItem(this->color_list);
-    ColorbarWidget  *cbar = new ColorbarWidget({c});
-    this->color_list->setItemWidget(item, cbar);
+    Stop new_value = {(float)stop.position,
+                      stop.color.redF(),
+                      stop.color.greenF(),
+                      stop.color.blueF(),
+                      stop.color.alphaF()};
+    p_value->push_back(new_value);
   }
+
+  Q_EMIT this->value_changed();
 }
 
 } // namespace attr
