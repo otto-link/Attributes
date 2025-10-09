@@ -13,6 +13,10 @@
 namespace attr
 {
 
+// =====================================
+// IntWidget
+// =====================================
+
 class IntWidget : public AbstractWidget
 {
 public:

@@ -1,16 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
-/**
- * @file filename_widget.hpp
- * @author Otto Link (otto.link.bv@gmail.com)
- * @brief
- *
- * @copyright Copyright (c) 2024
- *
- */
-
 #pragma once
 #include <QPushButton>
 
@@ -19,6 +9,10 @@
 
 namespace attr
 {
+
+// =====================================
+// FilenameWidget
+// =====================================
 
 class FilenameWidget : public AbstractWidget
 {
@@ -30,11 +24,10 @@ public:
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
-  FilenameAttribute *p_attr;
-
-  QPushButton *button;
-
   void update_attribute_from_widget();
+
+  FilenameAttribute *p_attr;
+  QPushButton       *button;
 };
 
 } // namespace attr

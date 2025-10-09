@@ -20,20 +20,23 @@
 namespace attr
 {
 
+// =====================================
+// ChoiceWidget
+// =====================================
+
 class ChoiceWidget : public AbstractWidget
 {
 public:
   ChoiceWidget() = delete;
-
   ChoiceWidget(ChoiceAttribute *p_attr);
 
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
+  void update_attribute_from_widget(const std::string &new_value);
+
   ChoiceAttribute *p_attr;
   QComboBox       *combobox;
-
-  void update_attribute_from_widget(const std::string &new_value);
 };
 
 } // namespace attr

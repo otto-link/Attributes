@@ -5,7 +5,6 @@
 
 #include "attributes.hpp"
 #include "attributes/widgets/attributes_widget.hpp"
-#include "attributes/widgets/inspector_widget.hpp"
 
 #include "highmap/primitives.hpp"
 
@@ -136,11 +135,11 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  // aw1->show();
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  aw1->show();
 
-  auto aw2 = new attr::AttributesWidget(&map2);
-  aw2->show();
+  // auto aw2 = new attr::AttributesWidget(&map2);
+  // aw2->show();
 
   // auto aw3 = new attr::AttributesWidget(&map3);
   // aw3->show();
@@ -160,12 +159,6 @@ int main(int argc, char *argv[])
 
   // auto aw7 = new attr::AttributesWidget(&map7);
   // aw7->show();
-
-  if (false)
-  {
-    QWidget *inspector = new attr::InspectorWidget(&map2);
-    inspector->show();
-  }
 
   return app.exec();
 }

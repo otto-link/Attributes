@@ -10,6 +10,10 @@
 namespace attr
 {
 
+// =====================================
+// ColorGradientWidget
+// =====================================
+
 class ColorGradientWidget : public AbstractWidget
 {
 public:

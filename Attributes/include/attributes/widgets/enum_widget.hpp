@@ -1,16 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
-/**
- * @file map_enum_widget.hpp
- * @author Otto Link (otto.link.bv@gmail.com)
- * @brief
- *
- * @copyright Copyright (c) 2024
- *
- */
-
 #pragma once
 #include <QComboBox>
 #include <QHBoxLayout>
@@ -22,21 +12,23 @@
 namespace attr
 {
 
+// =====================================
+// EnumWidget
+// =====================================
+
 class EnumWidget : public AbstractWidget
 {
 public:
   EnumWidget() = delete;
-
   EnumWidget(EnumAttribute *p_attr);
 
   void reset_value(bool reset_to_initial_state = false);
 
 private:
-  EnumAttribute *p_attr;
-
-  QComboBox *combobox;
-
   void update_attribute_from_widget();
+
+  EnumAttribute *p_attr;
+  QComboBox     *combobox;
 };
 
 } // namespace attr

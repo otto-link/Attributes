@@ -10,6 +10,10 @@
 namespace attr
 {
 
+// =====================================
+// FloatWidget
+// =====================================
+
 class FloatWidget : public AbstractWidget
 {
 public:

@@ -37,4 +37,14 @@ StringWidget::StringWidget(StringAttribute *p_attr) : p_attr(p_attr)
   this->setLayout(layout);
 }
 
+void StringWidget::reset_value(bool reset_to_initial_state)
+{
+  if (reset_to_initial_state)
+    this->p_attr->reset_to_initial_state();
+  else
+    this->p_attr->reset_to_save_state();
+
+  this->line_edit->setText(this->p_attr->get_value().c_str());
+}
+
 } // namespace attr

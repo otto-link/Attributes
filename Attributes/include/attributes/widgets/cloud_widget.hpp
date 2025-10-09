@@ -12,6 +12,10 @@
 namespace attr
 {
 
+// =====================================
+// CloudWidget
+// =====================================
+
 class CloudWidget : public AbstractWidget
 {
   Q_OBJECT

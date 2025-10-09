@@ -1,16 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
-/**
- * @file range_widget.hpp
- * @author Otto Link (otto.link.bv@gmail.com)
- * @brief
- *
- * @copyright Copyright (c) 2024
- *
- */
-
 #pragma once
 #include <QPushButton>
 
@@ -21,6 +11,10 @@
 
 namespace attr
 {
+
+// =====================================
+// RangeWidget
+// =====================================
 
 class RangeWidget : public AbstractWidget
 {
@@ -36,11 +30,11 @@ signals:
   void update_bins();
 
 private:
+  void update_attribute_from_widget();
+
   RangeAttribute    *p_attr;
   qsx::SliderRange  *slider;
   std::vector<float> value_bckp;
-
-  void update_attribute_from_widget();
 };
 
 } // namespace attr

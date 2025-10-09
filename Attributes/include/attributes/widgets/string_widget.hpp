@@ -1,16 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
-/**
- * @file string_attribute.hpp
- * @author Otto Link (otto.link.bv@gmail.com)
- * @brief
- *
- * @copyright Copyright (c) 2024
- *
- */
-
 #pragma once
 #include <QLineEdit>
 
@@ -20,17 +10,21 @@
 namespace attr
 {
 
+// =====================================
+// StringWidget
+// =====================================
+
 class StringWidget : public AbstractWidget
 {
 public:
   StringWidget() = delete;
-
   StringWidget(StringAttribute *p_attr);
+
+  void reset_value(bool reset_to_initial_state = false) override;
 
 private:
   StringAttribute *p_attr;
-
-  QLineEdit *line_edit;
+  QLineEdit       *line_edit;
 };
 
 } // namespace attr

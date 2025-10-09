@@ -20,20 +20,23 @@
 namespace attr
 {
 
+// =====================================
+// BoolWidget
+// =====================================
+
 class BoolWidget : public AbstractWidget
 {
 public:
   BoolWidget() = delete;
-
   BoolWidget(BoolAttribute *p_attr);
 
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
+  void update_attribute_from_widget(const bool new_value);
+
   BoolAttribute *p_attr;
   QPushButton   *button, *button_true, *button_false;
-
-  void update_attribute_from_widget(const bool new_value);
 };
 
 } // namespace attr

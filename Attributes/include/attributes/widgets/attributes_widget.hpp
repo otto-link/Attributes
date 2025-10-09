@@ -1,16 +1,6 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
-/**
- * @file attributes_widget.hpp
- * @author Otto Link (otto.link.bv@gmail.com)
- * @brief
- *
- * @copyright Copyright (c) 2024
- *
- */
-
 #pragma once
 #include <QWidget>
 
@@ -19,6 +9,10 @@
 
 namespace attr
 {
+
+// =====================================
+// AttributesWidget
+// =====================================
 
 class AttributesWidget : public QWidget
 {
@@ -32,14 +26,14 @@ public:
                    const std::string        &widget_title = "",
                    const bool                add_save_reset_state_buttons = false);
 
-public Q_SLOTS:
+public slots:
   void on_load_preset();
   void on_restore_initial_state();
   void on_restore_save_state();
   void on_save_state();
   void on_save_preset();
 
-Q_SIGNALS:
+signals:
   void update_button_released();
   void value_changed();
 
