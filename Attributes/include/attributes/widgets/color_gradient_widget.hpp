@@ -19,6 +19,8 @@ public:
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
+  void on_import();
+  void on_export();
   void update_widget_from_attribute();
   void update_attribute_from_widget();
 

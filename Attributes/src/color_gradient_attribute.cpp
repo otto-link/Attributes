@@ -35,10 +35,16 @@ void ColorGradientAttribute::json_from(nlohmann::json const &json)
 
   this->value.clear();
 
-  for (const auto &j : json["value"].items())
+  if (json.contains("value"))
   {
-    Stop s{j.value()["position"], j.value()["color"]};
-    this->value.push_back(s);
+    for (const auto &j : json["value"].items())
+    {
+      if (j.value().contains("position") && j.value().contains("color"))
+      {
+        Stop s{j.value()["position"], j.value()["color"]};
+        this->value.push_back(s);
+      }
+    }
   }
 }
 
