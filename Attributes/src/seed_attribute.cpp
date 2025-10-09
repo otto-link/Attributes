@@ -20,6 +20,8 @@ SeedAttribute::SeedAttribute(const std::string &label, const uint value)
   this->save_initial_state();
 }
 
+uint SeedAttribute::get_value() const { return this->value; }
+
 void SeedAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -32,5 +34,9 @@ nlohmann::json SeedAttribute::json_to() const
   json["value"] = this->value;
   return json;
 }
+
+void SeedAttribute::set_value(const uint &new_value) { this->value = new_value; }
+
+std::string SeedAttribute::to_string() { return std::to_string(this->value); }
 
 } // namespace attr

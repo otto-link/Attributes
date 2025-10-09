@@ -16,15 +16,17 @@ ColorAttribute::ColorAttribute(const std::string &label, const std::vector<float
 }
 
 ColorAttribute::ColorAttribute(const std::string &label,
-                               const float        r,
-                               const float        g,
-                               const float        b,
-                               const float        a)
+                               float              r,
+                               float              g,
+                               float              b,
+                               float              a)
     : AbstractAttribute(AttributeType::COLOR, label), value({r, g, b, a})
 {
   this->save_state();
   this->save_initial_state();
 }
+
+std::vector<float> ColorAttribute::get_value() const { return this->value; }
 
 void ColorAttribute::json_from(nlohmann::json const &json)
 {
@@ -37,6 +39,11 @@ nlohmann::json ColorAttribute::json_to() const
   nlohmann::json json = AbstractAttribute::json_to();
   json["value"] = this->value;
   return json;
+}
+
+void ColorAttribute::set_value(const std::vector<float> &new_value)
+{
+  this->value = new_value;
 }
 
 std::string ColorAttribute::to_string()

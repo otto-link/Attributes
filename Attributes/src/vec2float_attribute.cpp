@@ -38,6 +38,16 @@ void Vec2FloatAttribute::json_from(nlohmann::json const &json)
   this->ymax = json["ymax"];
 }
 
+std::vector<float> Vec2FloatAttribute::get_value() const { return this->value; }
+
+float Vec2FloatAttribute::get_xmin() const { return this->xmin; }
+
+float Vec2FloatAttribute::get_xmax() const { return this->xmax; }
+
+float Vec2FloatAttribute::get_ymin() const { return this->ymin; }
+
+float Vec2FloatAttribute::get_ymax() const { return this->ymax; }
+
 nlohmann::json Vec2FloatAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
@@ -47,6 +57,11 @@ nlohmann::json Vec2FloatAttribute::json_to() const
   json["ymin"] = this->ymin;
   json["ymax"] = this->ymax;
   return json;
+}
+
+void Vec2FloatAttribute::set_value(const std::vector<float> &new_value)
+{
+  this->value = new_value;
 }
 
 std::string Vec2FloatAttribute::to_string()

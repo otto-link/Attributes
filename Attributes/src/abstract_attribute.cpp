@@ -12,6 +12,10 @@ AbstractAttribute::AbstractAttribute(const AttributeType &type, const std::strin
 {
 }
 
+std::string AbstractAttribute::get_label() const { return this->label; }
+
+AttributeType AbstractAttribute::get_type() const { return this->type; }
+
 std::string AbstractAttribute::get_type_string() const
 {
   if (attribute_type_map.contains(this->type))
@@ -80,6 +84,11 @@ void AbstractAttribute::save_state()
 {
   // serialize current state
   this->attribute_state = this->json_to();
+}
+
+void AbstractAttribute::set_label(const std::string &new_label)
+{
+  this->label = new_label;
 }
 
 } // namespace attr

@@ -19,6 +19,14 @@ FloatAttribute::FloatAttribute(const std::string &label,
   this->save_initial_state();
 }
 
+float FloatAttribute::get_value() const { return this->value; }
+
+std::string FloatAttribute::get_value_format() const { return this->value_format; }
+
+float FloatAttribute::get_vmin() const { return this->vmin; }
+
+float FloatAttribute::get_vmax() const { return this->vmax; }
+
 void FloatAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -35,5 +43,9 @@ nlohmann::json FloatAttribute::json_to() const
   json["vmax"] = this->vmax;
   return json;
 }
+
+void FloatAttribute::set_value(const float &new_value) { this->value = new_value; }
+
+std::string FloatAttribute::to_string() { return std::to_string(this->value); }
 
 } // namespace attr

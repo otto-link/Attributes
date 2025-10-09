@@ -36,6 +36,16 @@ WaveNbAttribute::WaveNbAttribute(const std::string        &label,
   this->save_initial_state();
 }
 
+bool WaveNbAttribute::get_link_xy() const { return this->link_xy; }
+
+std::vector<float> WaveNbAttribute::get_value() const { return this->value; }
+
+std::string WaveNbAttribute::get_value_format() const { return this->value_format; }
+
+float WaveNbAttribute::get_vmin() const { return this->vmin; }
+
+float WaveNbAttribute::get_vmax() const { return this->vmax; }
+
 void WaveNbAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -53,6 +63,13 @@ nlohmann::json WaveNbAttribute::json_to() const
   json["vmax"] = this->vmax;
   json["link_xy"] = this->link_xy;
   return json;
+}
+
+void WaveNbAttribute::set_link_xy(const bool new_state) { this->link_xy = new_state; }
+
+void WaveNbAttribute::set_value(const std::vector<float> &new_value)
+{
+  this->value = new_value;
 }
 
 std::string WaveNbAttribute::to_string()

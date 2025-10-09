@@ -23,6 +23,10 @@ StringAttribute::StringAttribute(const std::string &label,
   this->save_initial_state();
 }
 
+bool StringAttribute::get_read_only() { return this->read_only; }
+
+std::string StringAttribute::get_value() const { return this->value; }
+
 void StringAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -37,5 +41,14 @@ nlohmann::json StringAttribute::json_to() const
   json["read_only"] = this->read_only;
   return json;
 }
+
+void StringAttribute::set_read_only(bool new_read_only)
+{
+  this->read_only = new_read_only;
+}
+
+void StringAttribute::set_value(const std::string &new_value) { this->value = new_value; }
+
+std::string StringAttribute::to_string() { return this->value; }
 
 } // namespace attr

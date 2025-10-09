@@ -9,17 +9,29 @@
 namespace attr
 {
 
+// =====================================
+// Stop
+// =====================================
+
 struct Stop
 {
   float                position;
   std::array<float, 4> color;
 };
 
+// =====================================
+// Preset
+// =====================================
+
 struct Preset
 {
   std::string       name;
   std::vector<Stop> stops;
 };
+
+// =====================================
+// ColorGradientAttribute
+// =====================================
 
 class ColorGradientAttribute : public AbstractAttribute
 {

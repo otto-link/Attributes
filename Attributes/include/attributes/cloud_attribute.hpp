@@ -22,6 +22,10 @@
 namespace attr
 {
 
+// =====================================
+// CloudAttribute
+// =====================================
+
 class CloudAttribute : public AbstractAttribute
 {
 public:

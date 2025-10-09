@@ -41,6 +41,12 @@ EnumAttribute::EnumAttribute(const std::string                &label,
   this->save_initial_state();
 }
 
+std::string EnumAttribute::get_choice() const { return this->choice; }
+
+int EnumAttribute::get_value() const { return this->value; }
+
+std::map<std::string, int> EnumAttribute::get_map() const { return this->map; }
+
 void EnumAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -55,5 +61,14 @@ nlohmann::json EnumAttribute::json_to() const
   json["choice"] = this->choice;
   return json;
 }
+
+void EnumAttribute::set_value(const int &new_value) { this->value = new_value; }
+
+void EnumAttribute::set_choice(const std::string &new_choice)
+{
+  this->choice = new_choice;
+}
+
+std::string EnumAttribute::to_string() { return this->choice; }
 
 } // namespace attr

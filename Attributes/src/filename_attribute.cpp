@@ -18,6 +18,12 @@ FilenameAttribute::FilenameAttribute(const std::string           &label,
   this->save_initial_state();
 }
 
+std::string FilenameAttribute::get_filter() const { return this->filter; }
+
+bool FilenameAttribute::get_for_saving() const { return this->for_saving; };
+
+std::filesystem::path FilenameAttribute::get_value() const { return this->value; }
+
 void FilenameAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -36,5 +42,12 @@ nlohmann::json FilenameAttribute::json_to() const
   json["label"] = this->label;
   return json;
 }
+
+void FilenameAttribute::set_value(const std::filesystem::path &new_value)
+{
+  this->value = new_value;
+}
+
+std::string FilenameAttribute::to_string() { return this->value.string(); }
 
 } // namespace attr

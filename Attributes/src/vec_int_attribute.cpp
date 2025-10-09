@@ -18,6 +18,14 @@ VecIntAttribute::VecIntAttribute(const std::string      &label,
   this->save_initial_state();
 }
 
+std::vector<int> VecIntAttribute::get_value() const { return this->value; }
+
+std::vector<int> *VecIntAttribute::get_value_ref() { return &this->value; }
+
+int VecIntAttribute::get_vmin() const { return this->vmin; }
+
+int VecIntAttribute::get_vmax() const { return this->vmax; }
+
 void VecIntAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -33,6 +41,11 @@ nlohmann::json VecIntAttribute::json_to() const
   json["vmin"] = this->vmin;
   json["vmax"] = this->vmax;
   return json;
+}
+
+void VecIntAttribute::set_value(const std::vector<int> &new_value)
+{
+  this->value = new_value;
 }
 
 std::string VecIntAttribute::to_string()

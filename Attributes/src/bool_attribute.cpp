@@ -25,6 +25,10 @@ BoolAttribute::BoolAttribute(const std::string &label,
   this->save_initial_state();
 }
 
+std::string BoolAttribute::get_label_false() const { return this->label_false; }
+std::string BoolAttribute::get_label_true() const { return this->label_true; }
+bool        BoolAttribute::get_value() const { return this->value; }
+
 void BoolAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -41,5 +45,9 @@ nlohmann::json BoolAttribute::json_to() const
   json["label_false"] = this->label_false;
   return json;
 }
+
+void BoolAttribute::set_value(const bool &new_value) { this->value = new_value; }
+
+std::string BoolAttribute::to_string() { return this->value ? "true" : "false"; }
 
 } // namespace attr

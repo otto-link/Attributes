@@ -69,6 +69,13 @@ ChoiceAttribute::ChoiceAttribute(const std::string              &label,
   this->value = choice_list.front();
 }
 
+std::vector<std::string> ChoiceAttribute::get_choice_list() const
+{
+  return this->choice_list;
+}
+
+std::string ChoiceAttribute::get_value() const { return this->value; }
+
 void ChoiceAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -84,6 +91,13 @@ nlohmann::json ChoiceAttribute::json_to() const
   json["choice_list"] = this->choice_list;
   return json;
 }
+
+void ChoiceAttribute::set_choice_list(const std::vector<std::string> &new_choice_list)
+{
+  this->choice_list = new_choice_list;
+};
+
+void ChoiceAttribute::set_value(const std::string &new_value) { this->value = new_value; }
 
 std::string ChoiceAttribute::to_string()
 {
