@@ -25,8 +25,8 @@ public:
 private:
   void on_import();
   void on_export();
-  void update_widget_from_attribute();
   void update_attribute_from_widget();
+  void update_widget_from_attribute();
 
   ColorGradientAttribute   *p_attr;
   qsx::ColorGradientPicker *picker;

@@ -2,7 +2,7 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 #pragma once
-#include <QLabel>
+#include "qsx/color_picker.hpp"
 
 #include "attributes/color_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -23,12 +23,11 @@ public:
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
-  void on_color_pick_button_released();
-  void update_attribute_from_widget(const QColor &color);
-  void update_label_color();
+  void update_attribute_from_widget();
+  void update_widget_from_attribute();
 
-  ColorAttribute *p_attr;
-  QLabel         *label;
+  ColorAttribute   *p_attr;
+  qsx::ColorPicker *picker;
 };
 
 } // namespace attr
