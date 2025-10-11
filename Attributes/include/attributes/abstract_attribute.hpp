@@ -72,9 +72,11 @@ public:
   virtual nlohmann::json json_to() const;
 
   std::string         get_label() const;
+  std::string         get_description() const;
   AttributeType       get_type() const;
   std::string         get_type_string() const;
   void                set_label(const std::string &new_label);
+  void                set_description(const std::string &new_description);
   virtual std::string to_string() = 0;
 
   // Get a pointer to the current attribute, cast to the requested type.
@@ -101,6 +103,7 @@ public:
 protected:
   AttributeType  type = AttributeType::INVALID;
   std::string    label = "";
+  std::string    description = "";
   nlohmann::json attribute_state;
   nlohmann::json attribute_initial_state;
 };

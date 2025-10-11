@@ -15,6 +15,8 @@ namespace attr
 
 BoolWidget::BoolWidget(BoolAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   if (this->p_attr->get_label_true() == "")
   {
     // --- basic toggle button on/off

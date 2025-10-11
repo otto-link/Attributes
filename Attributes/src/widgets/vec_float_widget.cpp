@@ -198,6 +198,8 @@ void FVecWidget::update_widget_from_attribute()
 
 VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   QGridLayout *layout = new QGridLayout(this);
   setup_default_layout_spacing(layout);
 

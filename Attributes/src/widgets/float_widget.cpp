@@ -11,6 +11,8 @@ namespace attr
 
 FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   this->slider = new qsx::SliderFloat(this->p_attr->get_label().c_str(),
                                       this->p_attr->get_value(),
                                       this->p_attr->get_vmin(),

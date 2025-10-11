@@ -12,6 +12,8 @@ namespace attr
 
 WaveNbWidget::WaveNbWidget(WaveNbAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   // backup initial value for reset button
   this->value_bckp = this->p_attr->get_value();
 

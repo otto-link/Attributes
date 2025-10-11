@@ -12,6 +12,8 @@ AbstractAttribute::AbstractAttribute(const AttributeType &type, const std::strin
 {
 }
 
+std::string AbstractAttribute::get_description() const { return this->description; }
+
 std::string AbstractAttribute::get_label() const { return this->label; }
 
 AttributeType AbstractAttribute::get_type() const { return this->type; }
@@ -84,6 +86,11 @@ void AbstractAttribute::save_state()
 {
   // serialize current state
   this->attribute_state = this->json_to();
+}
+
+void AbstractAttribute::set_description(const std::string &new_description)
+{
+  this->description = new_description;
 }
 
 void AbstractAttribute::set_label(const std::string &new_label)

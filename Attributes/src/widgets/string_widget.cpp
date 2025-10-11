@@ -12,6 +12,8 @@ namespace attr
 
 StringWidget::StringWidget(StringAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   QVBoxLayout *layout = new QVBoxLayout(this);
   setup_default_layout_spacing(layout);
 

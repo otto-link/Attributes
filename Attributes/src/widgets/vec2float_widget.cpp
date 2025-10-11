@@ -144,6 +144,8 @@ void XYWidget::update_attribute_from_widget()
 
 Vec2FloatWidget::Vec2FloatWidget(Vec2FloatAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   QGridLayout *layout = new QGridLayout(this);
   setup_default_layout_spacing(layout);
 

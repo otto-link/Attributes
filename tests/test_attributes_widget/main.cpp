@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
 		    {{0.f, {0.f, 0.f, 0.f, 1.f}}, {1.f, {1.f, 1.f, 1.f, 1.f}}}})
 	});
 
+  p_a->set_description("A description that will\n appear in the tool tip.");
+
   // clang-format on
 
   // --- HighMap attributes

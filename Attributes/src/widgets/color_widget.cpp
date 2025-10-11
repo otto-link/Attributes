@@ -13,6 +13,8 @@ namespace attr
 
 ColorWidget::ColorWidget(ColorAttribute *p_attr) : p_attr(p_attr)
 {
+  this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
+
   this->picker = new qsx::ColorPicker(this->p_attr->get_label().c_str(), this);
 
   this->connect(this->picker,
@@ -28,24 +30,6 @@ ColorWidget::ColorWidget(ColorAttribute *p_attr) : p_attr(p_attr)
 
   this->update_widget_from_attribute();
 }
-
-// void ColorWidget::on_color_pick_button_released()
-// {
-//   std::vector<float> c = this->p_attr->get_value();
-//   QColor             current_color = QColor(static_cast<uint8_t>(c[0] * 255.f),
-//                                 static_cast<uint8_t>(c[1] * 255.f),
-//                                 static_cast<uint8_t>(c[2] * 255.f),
-//                                 static_cast<uint8_t>(c[3] * 255.f));
-
-//   QColor color = QColorDialog::getColor(current_color,
-//                                         this,
-//                                         "Select a color",
-//                                         QColorDialog::ShowAlphaChannel |
-//                                             QColorDialog::DontUseNativeDialog);
-
-//   if (color.isValid())
-//     this->update_attribute_from_widget(color);
-// }
 
 void ColorWidget::reset_value(bool reset_to_initial_state)
 {
