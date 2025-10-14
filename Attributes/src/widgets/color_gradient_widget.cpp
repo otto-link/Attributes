@@ -32,7 +32,7 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
   setup_default_layout_spacing(layout);
   this->setLayout(layout);
 
-  layout->addWidget(this->picker, 0, 0, 1, 2);
+  layout->addWidget(this->picker, 0, 0, 1, 3);
 
   // export / import buttons
   {
@@ -47,6 +47,16 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
     layout->addWidget(button, 1, 1);
 
     this->connect(button, &QPushButton::released, this, &ColorGradientWidget::on_import);
+  }
+
+  {
+    QPushButton *button = new QPushButton("Presets");
+    layout->addWidget(button, 1, 2);
+
+    this->connect(button,
+                  &QPushButton::released,
+                  this->picker,
+                  &qsx::ColorGradientPicker::show_presets_menu);
   }
 
   this->update_widget_from_attribute();
