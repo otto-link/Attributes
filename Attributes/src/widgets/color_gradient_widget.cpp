@@ -105,6 +105,7 @@ void ColorGradientWidget::on_import()
 
     this->p_attr->json_from(json);
     this->update_widget_from_attribute();
+    Q_EMIT this->value_changed();
   }
   else
   {
