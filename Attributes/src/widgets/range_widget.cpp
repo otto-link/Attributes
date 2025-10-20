@@ -29,6 +29,7 @@ RangeWidget::RangeWidget(RangeAttribute *p_attr) : p_attr(p_attr)
 
   this->slider->set_histogram_fct(this->p_attr->get_histogram_fct());
   this->slider->set_autorange(this->p_attr->get_autorange());
+  this->slider->set_is_enabled(this->p_attr->get_is_active());
 
   this->connect(this->slider,
                 &qsx::SliderRange::edit_ended,
