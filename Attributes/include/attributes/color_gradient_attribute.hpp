@@ -47,6 +47,7 @@ public:
   std::vector<Stop>  *get_value_ref();
   void                set_presets(const std::vector<Preset> &new_presets);
   void                set_value(const std::vector<Stop> &new_value);
+  void                shuffle_colors();
   std::string         to_string();
 
 private:

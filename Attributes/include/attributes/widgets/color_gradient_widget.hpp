@@ -25,6 +25,7 @@ public:
 private:
   void on_import();
   void on_export();
+  void on_shuffle();
   void update_attribute_from_widget();
   void update_widget_from_attribute();
 

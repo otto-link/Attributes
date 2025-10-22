@@ -1,6 +1,7 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <random>
 
 #include "attributes/color_gradient_attribute.hpp"
 #include "attributes/widgets/color_widget.hpp"
@@ -68,6 +69,24 @@ void ColorGradientAttribute::set_presets(const std::vector<Preset> &new_presets)
 void ColorGradientAttribute::set_value(const std::vector<Stop> &new_value)
 {
   this->value = new_value;
+}
+
+void ColorGradientAttribute::shuffle_colors()
+{
+  // extract colors
+  std::vector<std::array<float, 4>> colors;
+  colors.reserve(this->value.size());
+  for (const auto &s : this->value)
+    colors.push_back(s.color);
+
+  // shuffle colors
+  std::random_device rd;
+  std::mt19937       gen(rd());
+  std::shuffle(colors.begin(), colors.end(), gen);
+
+  // reassign shuffled colors back to value
+  for (size_t i = 0; i < this->value.size(); ++i)
+    this->value[i].color = colors[i];
 }
 
 std::string ColorGradientAttribute::to_string()

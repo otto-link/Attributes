@@ -32,7 +32,7 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
   setup_default_layout_spacing(layout);
   this->setLayout(layout);
 
-  layout->addWidget(this->picker, 0, 0, 1, 3);
+  layout->addWidget(this->picker, 0, 0, 1, 4);
 
   // export / import buttons
   {
@@ -57,6 +57,13 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
                   &QPushButton::released,
                   this->picker,
                   &qsx::ColorGradientPicker::show_presets_menu);
+  }
+
+  {
+    QPushButton *button = new QPushButton("Shuffle");
+    layout->addWidget(button, 1, 3);
+
+    this->connect(button, &QPushButton::released, this, &ColorGradientWidget::on_shuffle);
   }
 
   this->update_widget_from_attribute();
@@ -89,6 +96,15 @@ void ColorGradientWidget::on_export()
     Logger::log()->error("json_to_file: Could not open file {} to save JSON",
                          fname.toStdString());
   }
+}
+
+void ColorGradientWidget::on_shuffle()
+{
+  Logger::log()->trace("ColorGradientWidget::on_shuffle");
+
+  this->p_attr->shuffle_colors();
+  this->update_widget_from_attribute();
+  Q_EMIT this->value_changed();
 }
 
 void ColorGradientWidget::on_import()
