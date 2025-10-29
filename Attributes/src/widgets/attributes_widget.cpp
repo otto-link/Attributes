@@ -1,6 +1,7 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <format>
 #include <fstream>
 
 #include <QFileDialog>
@@ -196,12 +197,23 @@ AttributesWidget::AttributesWidget(
     {
       AbstractAttribute *p_attr = p_attr_map->at(key).get();
       AbstractWidget    *widget = get_attribute_widget(p_attr);
-      layout->addWidget(widget);
 
-      this->connect(widget,
-                    &AbstractWidget::value_changed,
-                    this,
-                    &AttributesWidget::value_changed);
+      if (!widget)
+      {
+        QLabel *error_label = new QLabel(
+            std::format("NO WIDGET FOR KEY: {}", key).c_str());
+        layout->addWidget(error_label);
+
+        Logger::log()->error("Could not generate widget for attribute with key: {}", key);
+      }
+      else
+      {
+        this->connect(widget,
+                      &AbstractWidget::value_changed,
+                      this,
+                      &AttributesWidget::value_changed);
+        layout->addWidget(widget);
+      }
 
       this->widget_map[key] = widget;
 

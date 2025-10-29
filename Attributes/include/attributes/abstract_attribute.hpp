@@ -13,6 +13,8 @@
 namespace attr
 {
 
+// DO NOT change the order (and add new attribute at the end only) to ensure backward
+// compatibility when serializing
 enum AttributeType
 {
   BOOL,
@@ -27,13 +29,13 @@ enum AttributeType
   HMAP_PATH,
   INT,
   RANGE,
-  RESOLUTION,
   SEED,
   STRING,
   VEC_FLOAT,
   VEC_INT,
   VEC2FLOAT,
   WAVE_NB,
+  RESOLUTION,
   INVALID,
 };
 
