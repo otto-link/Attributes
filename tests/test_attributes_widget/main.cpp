@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   attr::Logger::log()->info("Starting test application...");
 
   std::map<std::string, std::unique_ptr<attr::AbstractAttribute>> map0, map1, map2, map3,
-      map4, map5, map6, map7;
+      map4, map5, map6, map7, map8;
 
   // --- numbers
 
@@ -121,6 +121,10 @@ int main(int argc, char *argv[])
   map7["vec_float"] = attr::create_attr<attr::VecFloatAttribute>("vec_float", vfloat, -4.f, 10.f);
   // clang-format on
 
+  // clang-format off
+  map8["res0"] = attr::create_attr<attr::ResolutionAttribute>("res", 256, 512, true, true);
+  // clang-format on
+
   if (false)
   {
     QMainWindow w;
@@ -140,8 +144,8 @@ int main(int argc, char *argv[])
   // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
   // aw1->show();
 
-  auto aw2 = new attr::AttributesWidget(&map2);
-  aw2->show();
+  // auto aw2 = new attr::AttributesWidget(&map2);
+  // aw2->show();
 
   // auto aw3 = new attr::AttributesWidget(&map3);
   // aw3->show();
@@ -161,6 +165,9 @@ int main(int argc, char *argv[])
 
   // auto aw7 = new attr::AttributesWidget(&map7);
   // aw7->show();
+
+  auto aw8 = new attr::AttributesWidget(&map8);
+  aw8->show();
 
   return app.exec();
 }

@@ -15,25 +15,26 @@ namespace attr
 
 enum AttributeType
 {
-  BOOL,   /**< Boolean attribute */
-  CHOICE, /**< Choice attribute */
-  COLOR,  /**< Color attribute */
+  BOOL,
+  CHOICE,
+  COLOR,
   COLOR_GRADIENT,
-  ENUM,     /**< Enum attribute */
-  FILENAME, /**< Filename attribute */
-  FLOAT,    /**< Floating-point number attribute */
+  ENUM,
+  FILENAME,
+  FLOAT,
   HMAP_ARRAY,
   HMAP_CLOUD,
   HMAP_PATH,
-  INT,       /**< Integer attribute */
-  RANGE,     /**< Range attribute */
-  SEED,      /**< Random seed attribute */
-  STRING,    /**< String attribute */
-  VEC_FLOAT, /**< Vector of floats */
-  VEC_INT,   /**< Vector of integers */
-  VEC2FLOAT, /**< (x, y) floats */
-  WAVE_NB,   /**< Wavenumber attribute */
-  INVALID,   /**< Invalid attribute */
+  INT,
+  RANGE,
+  RESOLUTION,
+  SEED,
+  STRING,
+  VEC_FLOAT,
+  VEC_INT,
+  VEC2FLOAT,
+  WAVE_NB,
+  INVALID,
 };
 
 // A mapping between AttributeType and its string representation.
@@ -50,6 +51,7 @@ static std::map<AttributeType, std::string> attribute_type_map = {
     {AttributeType::HMAP_PATH, "Path"},
     {AttributeType::INT, "Integer"},
     {AttributeType::RANGE, "Value range"},
+    {AttributeType::RESOLUTION, "Resolution (w x h)"},
     {AttributeType::SEED, "Random seed number"},
     {AttributeType::STRING, "String"},
     {AttributeType::VEC_FLOAT, "Vector of floats"},
