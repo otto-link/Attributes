@@ -119,4 +119,18 @@ std::unique_ptr<AttributeType> create_attr(Args &&...args)
   return std::make_unique<AttributeType>(std::forward<Args>(args)...);
 }
 
+// Helper - Safely deserialize json
+template <typename T>
+inline void json_safe_get(const nlohmann::json &j, const std::string &key, T &value)
+{
+  if (j.contains(key))
+  {
+    value = j.at(key).get<T>();
+  }
+  else
+  {
+    Logger::log()->error("Required json key \"{}\" not found.", key);
+  }
+}
+
 } // namespace attr

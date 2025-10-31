@@ -42,10 +42,10 @@ std::string ResolutionAttribute::get_value_format() const { return this->value_f
 void ResolutionAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->width = json["width"];
-  this->height = json["height"];
-  this->keep_aspect_ratio = json["keep_aspect_ratio"];
-  this->power_of_two = json["power_of_two"];
+  json_safe_get(json, "width", width);
+  json_safe_get(json, "height", height);
+  json_safe_get(json, "keep_aspect_ratio", keep_aspect_ratio);
+  json_safe_get(json, "power_of_two", power_of_two);
   this->update_aspect_ratio();
 }
 

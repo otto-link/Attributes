@@ -29,9 +29,9 @@ int VecIntAttribute::get_vmax() const { return this->vmax; }
 void VecIntAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::vector<int>>();
-  this->vmin = json["vmin"];
-  this->vmax = json["vmax"];
+  json_safe_get<std::vector<int>>(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
 }
 
 nlohmann::json VecIntAttribute::json_to() const

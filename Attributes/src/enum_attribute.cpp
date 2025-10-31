@@ -50,8 +50,8 @@ std::map<std::string, int> EnumAttribute::get_map() const { return this->map; }
 void EnumAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"];
-  this->choice = json["choice"];
+  json_safe_get(json, "value", value);
+  json_safe_get(json, "choice", choice);
 }
 
 nlohmann::json EnumAttribute::json_to() const

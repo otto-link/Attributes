@@ -30,9 +30,9 @@ int IntAttribute::get_vmax() const { return this->vmax; }
 void IntAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"];
-  this->vmin = json["vmin"];
-  this->vmax = json["vmax"];
+  json_safe_get(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
 }
 
 nlohmann::json IntAttribute::json_to() const

@@ -28,8 +28,8 @@ std::string AbstractAttribute::get_type_string() const
 
 void AbstractAttribute::json_from(nlohmann::json const &json)
 {
-  this->type = json["type"].get<AttributeType>();
-  this->label = json["label"];
+  json_safe_get<AttributeType>(json, "type", type);
+  json_safe_get(json, "label", label);
 }
 
 nlohmann::json AbstractAttribute::json_to() const

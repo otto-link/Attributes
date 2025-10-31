@@ -31,11 +31,11 @@ Vec2FloatAttribute::Vec2FloatAttribute(const std::string        &label,
 void Vec2FloatAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::vector<float>>();
-  this->xmin = json["xmin"];
-  this->xmax = json["xmax"];
-  this->ymin = json["ymin"];
-  this->ymax = json["ymax"];
+  json_safe_get<std::vector<float>>(json, "value", value);
+  json_safe_get(json, "xmin", xmin);
+  json_safe_get(json, "xmax", xmax);
+  json_safe_get(json, "ymin", ymin);
+  json_safe_get(json, "ymax", ymax);
 }
 
 std::vector<float> Vec2FloatAttribute::get_value() const { return this->value; }

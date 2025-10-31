@@ -20,9 +20,9 @@ VecFloatAttribute::VecFloatAttribute(const std::string        &label,
 void VecFloatAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::vector<float>>();
-  this->vmin = json["vmin"];
-  this->vmax = json["vmax"];
+  json_safe_get<std::vector<float>>(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
 }
 
 std::vector<float> VecFloatAttribute::get_value() const { return this->value; }

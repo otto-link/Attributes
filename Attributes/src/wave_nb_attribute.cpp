@@ -49,10 +49,10 @@ float WaveNbAttribute::get_vmax() const { return this->vmax; }
 void WaveNbAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::vector<float>>();
-  this->vmin = json["vmin"];
-  this->vmax = json["vmax"];
-  this->link_xy = json["link_xy"];
+  json_safe_get<std::vector<float>>(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
+  json_safe_get(json, "link_xy", link_xy);
 }
 
 nlohmann::json WaveNbAttribute::json_to() const

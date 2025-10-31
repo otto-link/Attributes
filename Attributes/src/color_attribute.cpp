@@ -31,7 +31,7 @@ std::vector<float> ColorAttribute::get_value() const { return this->value; }
 void ColorAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::vector<float>>();
+  json_safe_get<std::vector<float>>(json, "value", value);
 }
 
 nlohmann::json ColorAttribute::json_to() const

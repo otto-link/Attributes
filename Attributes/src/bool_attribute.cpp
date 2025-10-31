@@ -32,9 +32,9 @@ bool        BoolAttribute::get_value() const { return this->value; }
 void BoolAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"];
-  this->label_true = json["label_true"];
-  this->label_false = json["label_false"];
+  json_safe_get(json, "value", value);
+  json_safe_get(json, "label_true", label_true);
+  json_safe_get(json, "label_false", label_false);
 }
 
 nlohmann::json BoolAttribute::json_to() const

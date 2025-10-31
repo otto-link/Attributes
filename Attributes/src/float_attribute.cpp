@@ -33,10 +33,10 @@ float FloatAttribute::get_vmax() const { return this->vmax; }
 void FloatAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"];
-  this->vmin = json["vmin"];
-  this->vmax = json["vmax"];
-  this->log_scale = json["log_scale"];
+  json_safe_get(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
+  json_safe_get(json, "log_scale", log_scale);
 }
 
 nlohmann::json FloatAttribute::json_to() const

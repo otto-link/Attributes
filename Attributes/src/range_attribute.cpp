@@ -55,10 +55,10 @@ float RangeAttribute::get_vmax() const { return this->vmax; }
 void RangeAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::vector<float>>();
-  this->vmin = json["vmin"];
-  this->vmax = json["vmax"];
-  this->is_active = json["is_active"];
+  json_safe_get<std::vector<float>>(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
+  json_safe_get(json, "is_active", is_active);
 }
 
 nlohmann::json RangeAttribute::json_to() const

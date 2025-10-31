@@ -27,10 +27,10 @@ std::filesystem::path FilenameAttribute::get_value() const { return this->value;
 void FilenameAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::filesystem::path>();
-  this->for_saving = json["for_saving"];
-  this->filter = json["filter"];
-  this->label = json["label"];
+  json_safe_get<std::filesystem::path>(json, "value", value);
+  json_safe_get(json, "for_saving", for_saving);
+  json_safe_get(json, "filter", filter);
+  json_safe_get(json, "label", label);
 }
 
 nlohmann::json FilenameAttribute::json_to() const

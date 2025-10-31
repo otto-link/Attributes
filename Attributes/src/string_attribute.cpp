@@ -30,8 +30,8 @@ std::string StringAttribute::get_value() const { return this->value; }
 void StringAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"].get<std::string>();
-  this->read_only = json["read_only"];
+  json_safe_get<std::string>(json, "value", value);
+  json_safe_get(json, "read_only", read_only);
 }
 
 nlohmann::json StringAttribute::json_to() const

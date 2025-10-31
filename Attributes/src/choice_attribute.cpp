@@ -79,9 +79,8 @@ std::string ChoiceAttribute::get_value() const { return this->value; }
 void ChoiceAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  this->value = json["value"];
-  this->choice_list = json["choice_list"].get<std::vector<std::string>>();
-  ;
+  json_safe_get(json, "value", value);
+  json_safe_get<std::vector<std::string>>(json, "choice_list", choice_list);
 }
 
 nlohmann::json ChoiceAttribute::json_to() const
