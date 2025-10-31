@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
   map0["float bound_inf"] = attr::create_attr<attr::FloatAttribute>("label float bound_inf", 1.f, 0.f);
   map0["float bound_sup"] = attr::create_attr<attr::FloatAttribute>("label float bound_sup", 1.f, -FLT_MAX, 20.f, "{:.2f}°");
   map0["float bound_both"] = attr::create_attr<attr::FloatAttribute>("label float bound_both", 1.f, 0.f, 10.f);
+  map0["float log"] = attr::create_attr<attr::FloatAttribute>("label LOG", 1.f, 1e-5f, 1e5f, "{:.3e}", true);
 
   map0["seed0"] = attr::create_attr<attr::SeedAttribute>();
   map0["seed1"] = attr::create_attr<attr::SeedAttribute>("label + default value", 10);
@@ -138,8 +139,8 @@ int main(int argc, char *argv[])
   // auto point = attr::get_attribute_widget(map.at("cloud").get());
   // point->show();
 
-  // auto aw0 = new attr::AttributesWidget(&map0);
-  // aw0->show();
+  auto aw0 = new attr::AttributesWidget(&map0);
+  aw0->show();
 
   // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
   // aw1->show();
@@ -166,8 +167,8 @@ int main(int argc, char *argv[])
   // auto aw7 = new attr::AttributesWidget(&map7);
   // aw7->show();
 
-  auto aw8 = new attr::AttributesWidget(&map8);
-  aw8->show();
+  // auto aw8 = new attr::AttributesWidget(&map8);
+  // aw8->show();
 
   return app.exec();
 }

@@ -18,11 +18,13 @@ public:
                  float              value,
                  float              vmin = -FLT_MAX,
                  float              vmax = FLT_MAX,
-                 std::string        value_format = "{:.3f}");
+                 std::string        value_format = "{:.3f}",
+                 bool               log_scale = false);
 
   void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
 
+  bool        get_log_scale() const;
   float       get_value() const;
   std::string get_value_format() const;
   float       get_vmin() const;
@@ -35,6 +37,7 @@ private:
   float       vmin;
   float       vmax;
   std::string value_format;
+  bool        log_scale;
 };
 
 } // namespace attr

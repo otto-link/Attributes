@@ -3,6 +3,8 @@
  * this software. */
 #include <QHBoxLayout>
 
+#include "qsx/slider_float_log.hpp"
+
 #include "attributes/widgets/float_widget.hpp"
 #include "attributes/widgets/widget_utils.hpp"
 
@@ -13,12 +15,20 @@ FloatWidget::FloatWidget(FloatAttribute *p_attr) : p_attr(p_attr)
 {
   this->set_tool_tip_fct([p_attr]() { return p_attr ? p_attr->get_description() : ""; });
 
-  this->slider = new qsx::SliderFloat(this->p_attr->get_label().c_str(),
-                                      this->p_attr->get_value(),
-                                      this->p_attr->get_vmin(),
-                                      this->p_attr->get_vmax(),
-                                      false, // +/- buttons
-                                      this->p_attr->get_value_format());
+  if (p_attr->get_log_scale())
+    this->slider = new qsx::SliderFloatLog(this->p_attr->get_label().c_str(),
+                                           this->p_attr->get_value(),
+                                           this->p_attr->get_vmin(),
+                                           this->p_attr->get_vmax(),
+                                           false, // +/- buttons
+                                           this->p_attr->get_value_format());
+  else
+    this->slider = new qsx::SliderFloat(this->p_attr->get_label().c_str(),
+                                        this->p_attr->get_value(),
+                                        this->p_attr->get_vmin(),
+                                        this->p_attr->get_vmax(),
+                                        false, // +/- buttons
+                                        this->p_attr->get_value_format());
 
   this->connect(this->slider,
                 &qsx::SliderFloat::edit_ended,

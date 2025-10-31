@@ -11,13 +11,16 @@ FloatAttribute::FloatAttribute(const std::string &label,
                                float              value,
                                float              vmin,
                                float              vmax,
-                               std::string        value_format)
+                               std::string        value_format,
+                               bool               log_scale)
     : AbstractAttribute(AttributeType::FLOAT, label), value(value), vmin(vmin),
-      vmax(vmax), value_format(value_format)
+      vmax(vmax), value_format(value_format), log_scale(log_scale)
 {
   this->save_state();
   this->save_initial_state();
 }
+
+bool FloatAttribute::get_log_scale() const { return this->log_scale; }
 
 float FloatAttribute::get_value() const { return this->value; }
 
@@ -33,6 +36,7 @@ void FloatAttribute::json_from(nlohmann::json const &json)
   this->value = json["value"];
   this->vmin = json["vmin"];
   this->vmax = json["vmax"];
+  this->log_scale = json["log_scale"];
 }
 
 nlohmann::json FloatAttribute::json_to() const
@@ -41,6 +45,7 @@ nlohmann::json FloatAttribute::json_to() const
   json["value"] = this->value;
   json["vmin"] = this->vmin;
   json["vmax"] = this->vmax;
+  json["log_scale"] = this->log_scale;
   return json;
 }
 
