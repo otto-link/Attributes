@@ -54,6 +54,11 @@ int main(int argc, char *argv[])
   map1["fname2"] = attr::create_attr<attr::FilenameAttribute>("", "./toto_no_label.csv", "*", true);  // save
   
   map1["choice"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice", choice_list, "B");
+  map1["choice_combo"] = attr::create_attr<attr::ChoiceAttribute>("A list of choice", choice_list, "B");
+
+  auto *p_cm = dynamic_cast<attr::ChoiceAttribute*>(map1.at("choice_combo").get());
+  p_cm->set_use_combo_list(true);
+  
   map1["enum"] = attr::create_attr<attr::EnumAttribute>("A list of enum", choice_enum, "B");
 
   map1["str1"] = attr::create_attr<attr::StringAttribute>("string1", "value");
@@ -142,8 +147,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  // aw1->show();
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
@@ -161,8 +166,8 @@ int main(int argc, char *argv[])
                                             "_SEPARATOR_TEXT_The section title",
                                             "v2f1"};
 
-  auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
-  aw6->show();
+  // auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
+  // aw6->show();
 
   // auto aw7 = new attr::AttributesWidget(&map7);
   // aw7->show();

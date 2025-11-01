@@ -74,6 +74,8 @@ std::vector<std::string> ChoiceAttribute::get_choice_list() const
   return this->choice_list;
 }
 
+bool ChoiceAttribute::get_use_combo_list() const { return this->use_combo_list; }
+
 std::string ChoiceAttribute::get_value() const { return this->value; }
 
 void ChoiceAttribute::json_from(nlohmann::json const &json)
@@ -95,6 +97,11 @@ void ChoiceAttribute::set_choice_list(const std::vector<std::string> &new_choice
 {
   this->choice_list = new_choice_list;
 };
+
+void ChoiceAttribute::set_use_combo_list(bool new_state)
+{
+  this->use_combo_list = new_state;
+}
 
 void ChoiceAttribute::set_value(const std::string &new_value) { this->value = new_value; }
 
