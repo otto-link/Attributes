@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QFont>
 #include <QFrame>
+#include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -144,16 +145,43 @@ AttributesWidget::AttributesWidget(
   // "p_attr_ordered_key"
   int count = 0;
 
+  QGroupBox   *current_groupbox = nullptr;
+  QVBoxLayout *current_layout = layout; // start with main layout
+
   for (const auto &key : attr_key_queue)
   {
+    // --- GroupBox
+
+    if (key.starts_with("_GROUPBOX_BEGIN_"))
+    {
+      std::string title = key.substr(strlen("_GROUPBOX_BEGIN_"));
+      current_groupbox = new QGroupBox(title.c_str(), this);
+
+      QVBoxLayout *group_layout = new QVBoxLayout(current_groupbox);
+      setup_default_layout_spacing(group_layout);
+
+      current_layout->addWidget(current_groupbox);
+      current_layout = group_layout; // descend into groupbox
+      continue;
+    }
+
+    if (key == "_GROUPBOX_END_")
+    {
+      current_layout = layout;    // return to parent layout
+      current_groupbox = nullptr; // clear active groupbox
+      continue;
+    }
+
+    // --- add widgets
+
     if (key == "_SEPARATOR_")
     {
       QLabel *spacer = new QLabel("");
-      layout->addWidget(spacer);
+      current_layout->addWidget(spacer);
     }
-    else if (key.substr(0, 6) == "_TEXT_")
+    else if (key.starts_with("_TEXT_"))
     {
-      std::string title = key.substr(6);
+      std::string title = key.substr(strlen("_TEXT_"));
 
       QWidget     *separator_widget = new QWidget;
       QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
@@ -163,11 +191,11 @@ AttributesWidget::AttributesWidget(
       label->setStyleSheet("font-weight: bold;");
       sep_layout->addWidget(label);
 
-      layout->addWidget(separator_widget);
+      current_layout->addWidget(separator_widget);
     }
-    else if (key.substr(0, 16) == "_SEPARATOR_TEXT_")
+    else if (key.starts_with("_SEPARATOR_TEXT_"))
     {
-      std::string title = key.substr(16);
+      std::string title = key.substr(strlen("_SEPARATOR_TEXT_"));
 
       QWidget     *separator_widget = new QWidget;
       QHBoxLayout *sep_layout = new QHBoxLayout(separator_widget);
@@ -191,7 +219,7 @@ AttributesWidget::AttributesWidget(
       sep_layout->setStretch(0, 1);
       sep_layout->setStretch(2, 4);
 
-      layout->addWidget(separator_widget);
+      current_layout->addWidget(separator_widget);
     }
     else if (p_attr_map->contains(key))
     {
@@ -202,7 +230,7 @@ AttributesWidget::AttributesWidget(
       {
         QLabel *error_label = new QLabel(
             std::format("NO WIDGET FOR KEY: {}", key).c_str());
-        layout->addWidget(error_label);
+        current_layout->addWidget(error_label);
 
         Logger::log()->error("Could not generate widget for attribute with key: {}", key);
       }
@@ -212,7 +240,7 @@ AttributesWidget::AttributesWidget(
                       &AbstractWidget::value_changed,
                       this,
                       &AttributesWidget::value_changed);
-        layout->addWidget(widget);
+        current_layout->addWidget(widget);
       }
 
       this->widget_map[key] = widget;

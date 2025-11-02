@@ -159,15 +159,31 @@ int main(int argc, char *argv[])
   // auto aw4 = new attr::AttributesWidget(&map4);
   // aw4->show();
 
-  // auto aw5 = new attr::AttributesWidget(&map5);
-  // aw5->show();
+  {
+    std::vector<std::string> attr_key_list = {"wnb0",
+                                              "_GROUPBOX_BEGIN_Group1",
+                                              "wnb1",
+                                              "wnb2",
+                                              "wnb3",
+                                              "_GROUPBOX_END_",
+                                              "range0",
+                                              "_GROUPBOX_BEGIN_Other group",
+                                              "range1",
+                                              "range2",
+                                              "_GROUPBOX_END_"};
 
-  std::vector<std::string> attr_key_list = {"v2f0",
-                                            "_SEPARATOR_TEXT_The section title",
-                                            "v2f1"};
+    auto aw5 = new attr::AttributesWidget(&map5, &attr_key_list);
+    aw5->show();
+  }
 
-  // auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
-  // aw6->show();
+  {
+    std::vector<std::string> attr_key_list = {"v2f0",
+                                              "_SEPARATOR_TEXT_The section title",
+                                              "v2f1"};
+
+    auto aw6 = new attr::AttributesWidget(&map6, &attr_key_list, "", true);
+    aw6->show();
+  }
 
   auto aw7 = new attr::AttributesWidget(&map7);
   aw7->show();
