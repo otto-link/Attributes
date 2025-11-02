@@ -1,200 +1,15 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
-
 #include <QGridLayout>
 #include <QLabel>
 #include <QPainter>
-#include <QPushButton>
 
 #include "attributes/widgets/vec_float_widget.hpp"
 #include "attributes/widgets/widget_utils.hpp"
 
 namespace attr
 {
-
-// --- base VecWidget
-
-FVecWidget::FVecWidget(VecFloatAttribute *p_attr, QWidget *parent)
-    : QWidget(parent), p_attr(p_attr), radius(CANVAS_POINT_RADIUS)
-{
-  this->setMinimumSize(128, 128);
-  this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  this->setMouseTracking(true);
-
-  this->update_widget_from_attribute();
-}
-
-int FVecWidget::get_hovered_point_index(const QPointF &pos)
-{
-  for (size_t k = 0; k < this->qpoints.size(); k++)
-  {
-    QRectF rect(this->qpoints[k].x() - this->radius,
-                this->qpoints[k].y() - this->radius,
-                2.f * this->radius,
-                2.f * this->radius);
-    if (rect.contains(pos))
-      return static_cast<int>(k);
-  }
-
-  return -1;
-}
-
-float FVecWidget::map_ypos_to_value(float ypos)
-{
-  float v = 1.f - ypos / this->height();
-  v = std::clamp(v, 0.f, 1.f);
-  return this->p_attr->get_vmin() +
-         v * (this->p_attr->get_vmax() - this->p_attr->get_vmin());
-}
-
-float FVecWidget::map_value_to_ypos(float value)
-{
-  float ypos = (value - this->p_attr->get_vmin()) /
-               (this->p_attr->get_vmax() - this->p_attr->get_vmin());
-  return (1.f - ypos) * this->height();
-}
-
-void FVecWidget::mouseMoveEvent(QMouseEvent *event)
-{
-  if (this->moving_point_index != -1)
-  {
-    // clamp position
-    float cx = (float)this->qpoints[this->moving_point_index].x();
-
-    float cy = std::clamp((float)event->position().y(), 0.f, (float)this->height());
-
-    this->qpoints[this->moving_point_index] = QPointF(cx, cy);
-    this->update();
-  }
-}
-
-void FVecWidget::mousePressEvent(QMouseEvent *event)
-{
-  if (event->button() == Qt::LeftButton)
-  {
-    this->moving_point_index = this->get_hovered_point_index(event->position());
-  }
-  else if (event->button() == Qt::RightButton)
-  {
-    int index = this->get_hovered_point_index(event->position());
-    if (index >= 0)
-    {
-      this->qpoints.erase(this->qpoints.begin() + index);
-      this->update();
-      this->update_attribute_from_widget();
-      this->update_widget_from_attribute();
-    }
-  }
-}
-
-void FVecWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-  if (event->button() == Qt::LeftButton)
-  {
-    if (this->moving_point_index != -1)
-    {
-      this->moving_point_index = -1;
-      this->update();
-      this->update_attribute_from_widget();
-    }
-  }
-}
-
-void FVecWidget::new_value()
-{
-  float new_value = 0.5f * (this->p_attr->get_vmin() + this->p_attr->get_vmax());
-
-  // push back last value if one is available
-  if (this->p_attr->get_value().size() > 0)
-    new_value = this->p_attr->get_value().back();
-
-  this->p_attr->get_value_ref()->push_back(new_value);
-  this->update_widget_from_attribute();
-  Q_EMIT this->value_changed();
-}
-
-void FVecWidget::paintEvent(QPaintEvent *event)
-{
-  Q_UNUSED(event);
-
-  QPainter painter(this);
-  painter.setRenderHint(QPainter::Antialiasing);
-
-  // background
-  painter.setBrush(QBrush(CANVAS_BGCOLOR));
-  painter.setPen(Qt::black);
-  painter.drawRoundedRect(this->rect(), this->radius, this->radius);
-
-  // edges
-  QPen pen;
-  pen.setStyle(Qt::SolidLine);
-  pen.setBrush(Qt::darkGray);
-  painter.setPen(pen);
-
-  for (auto &qp : this->qpoints)
-    painter.drawLine(QPointF(qp.x(), this->height()), qp);
-
-  if (this->qpoints.size() > 1)
-    for (size_t k = 0; k < this->qpoints.size() - 1; k++)
-      painter.drawLine(this->qpoints[k], this->qpoints[k + 1]);
-
-  // draw points
-  pen.setWidth(1);
-  painter.setPen(pen);
-
-  painter.setBrush(QBrush(CANVAS_BGCOLOR));
-  painter.setPen(Qt::NoPen);
-  for (auto &qp : this->qpoints)
-    painter.drawEllipse(qp, 1.3f * radius, 1.3f * radius);
-
-  pen.setBrush(Qt::white);
-  painter.setPen(pen);
-
-  for (size_t k = 0; k < this->qpoints.size(); k++)
-    painter.drawEllipse(this->qpoints[k], radius, radius);
-
-  // display value if moving point
-  if (this->moving_point_index >= 0)
-  {
-    float ypos = (float)this->qpoints[this->moving_point_index].y();
-    float value = this->map_ypos_to_value(ypos);
-    painter.drawText(this->qpoints[this->moving_point_index] +
-                         QPointF(this->radius, -this->radius),
-                     std::to_string(value).c_str());
-  }
-}
-
-void FVecWidget::update_attribute_from_widget()
-{
-  std::vector<float> values = {};
-
-  for (auto &qp : this->qpoints)
-    values.push_back(this->map_ypos_to_value(qp.y()));
-
-  this->p_attr->set_value(values);
-
-  Q_EMIT this->value_changed();
-}
-
-void FVecWidget::update_widget_from_attribute()
-{
-  this->qpoints.clear();
-
-  int nvalues = (int)this->p_attr->get_value().size();
-
-  for (int k = 0; k < nvalues; k++)
-  {
-    float x = (float)(k + 1) / (nvalues + 1) * this->width();
-    float y = this->map_value_to_ypos(this->p_attr->get_value()[k]);
-
-    this->qpoints.push_back(QPointF(x, y));
-  }
-
-  this->update();
-}
-
-// --- VecFloatWidget
 
 VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
 {
@@ -203,35 +18,74 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
   QGridLayout *layout = new QGridLayout(this);
   setup_default_layout_spacing(layout);
 
-  // label
-  int row = 0;
-  if (this->p_attr->get_label() != "")
+  this->curve_editor = new qsx::CurveEditor(p_attr->get_label());
+  layout->addWidget(this->curve_editor, 0, 0, 1, 4);
+
+  this->connect(this->curve_editor,
+                &qsx::CurveEditor::edit_ended,
+                this,
+                &VecFloatWidget::update_attribute_from_widget);
+
   {
-    QLabel *label = new QLabel(this->p_attr->get_label().c_str());
-    layout->addWidget(label, row++, 0, 1, 2);
+    QPushButton *button = new QPushButton("Reset");
+    layout->addWidget(button, 1, 0);
+    this->connect(button, &QPushButton::pressed, this, &VecFloatWidget::on_reset);
   }
 
-  // selection
-  this->vec_widget = new FVecWidget(p_attr, this);
-  layout->addWidget((QWidget *)this->vec_widget, row++, 0, 1, 2);
-
-  this->connect(this->vec_widget,
-                &FVecWidget::value_changed,
-                this,
-                &VecFloatWidget::value_changed);
-
-  // buttons
   {
-    QPushButton *button = new QPushButton("New value");
-    layout->addWidget(button, row, 0);
-
+    QPushButton *button = new QPushButton("-1 point");
+    layout->addWidget(button, 1, 1);
     this->connect(button,
                   &QPushButton::pressed,
-                  this->vec_widget,
-                  &FVecWidget::new_value);
+                  this,
+                  [this]() { this->on_sampling_change(-1); });
+  }
+
+  {
+    QPushButton *button = new QPushButton("+1 point");
+    layout->addWidget(button, 1, 2);
+    this->connect(button,
+                  &QPushButton::pressed,
+                  this,
+                  [this]() { this->on_sampling_change(1); });
+  }
+
+  {
+    this->button_smooth = new QPushButton("Smooth");
+    this->button_smooth->setCheckable(true);
+    layout->addWidget(this->button_smooth, 1, 3);
+    this->connect(this->button_smooth,
+                  &QPushButton::pressed,
+                  this,
+                  &VecFloatWidget::on_smooth);
   }
 
   this->setLayout(layout);
+
+  this->update_widget_from_attribute();
+}
+
+void VecFloatWidget::on_reset()
+{
+  this->curve_editor->clear_points();
+  this->update_attribute_from_widget();
+  Q_EMIT this->value_changed();
+}
+
+void VecFloatWidget::on_sampling_change(int sampling_points_variation)
+{
+  int new_count = this->curve_editor->get_sample_count() + sampling_points_variation;
+  new_count = std::max(new_count, 2);
+  this->curve_editor->set_sample_count(new_count);
+  Q_EMIT this->value_changed();
+}
+
+void VecFloatWidget::on_smooth()
+{
+  bool state = this->curve_editor->get_smooth_interpolation();
+  this->curve_editor->set_smooth_interpolation(!state);
+  this->update_attribute_from_widget();
+  Q_EMIT this->value_changed();
 }
 
 void VecFloatWidget::reset_value(bool reset_to_initial_state)
@@ -240,7 +94,44 @@ void VecFloatWidget::reset_value(bool reset_to_initial_state)
     this->p_attr->reset_to_initial_state();
   else
     this->p_attr->reset_to_save_state();
-  this->vec_widget->update_widget_from_attribute();
+
+  this->update_widget_from_attribute();
+}
+
+void VecFloatWidget::update_attribute_from_widget()
+{
+  std::vector<float> vec = this->curve_editor->get_values();
+
+  // normalize values to [vmin, vmax]
+  float vmin = this->p_attr->get_vmin();
+  float vmax = this->p_attr->get_vmax();
+
+  for (auto &v : vec)
+    v = v * (vmax - vmin) + vmin;
+
+  this->p_attr->set_value(vec);
+
+  Q_EMIT this->value_changed();
+}
+
+void VecFloatWidget::update_widget_from_attribute()
+{
+  std::vector<float> vec = this->p_attr->get_value();
+
+  if (vec.empty())
+    return;
+
+  // normalize values to [0, 1]
+  float vmin = this->p_attr->get_vmin();
+  float vmax = this->p_attr->get_vmax();
+
+  for (auto &v : vec)
+    v = (v - vmin) / (vmax - vmin);
+
+  this->curve_editor->set_values(vec);
+
+  // smooth button
+  this->button_smooth->setChecked(this->curve_editor->get_smooth_interpolation());
 }
 
 } // namespace attr

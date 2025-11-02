@@ -3,47 +3,16 @@
  * this software. */
 #pragma once
 #include <QMouseEvent>
+#include <QPushButton>
 #include <QWidget>
+
+#include "qsx/curve_editor.hpp"
 
 #include "attributes/vec_float_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
 
 namespace attr
 {
-
-class FVecWidget : public QWidget
-{
-  Q_OBJECT
-
-public:
-  FVecWidget() = delete;
-  FVecWidget(VecFloatAttribute *p_attr, QWidget *parent = nullptr);
-
-  void update_widget_from_attribute();
-
-signals:
-  void value_changed();
-
-public slots:
-  void new_value();
-
-protected:
-  void mouseMoveEvent(QMouseEvent *event) override;
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
-  void paintEvent(QPaintEvent *event) override;
-  void update_attribute_from_widget();
-
-private:
-  int   get_hovered_point_index(const QPointF &pos);
-  float map_ypos_to_value(float ypos);
-  float map_value_to_ypos(float value);
-
-  VecFloatAttribute   *p_attr;
-  float                radius;
-  int                  moving_point_index = -1;
-  std::vector<QPointF> qpoints = {};
-};
 
 // =====================================
 // VecFloatWidget
@@ -58,8 +27,15 @@ public:
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
+  void on_reset();
+  void on_sampling_change(int sampling_points_variation);
+  void on_smooth();
+  void update_attribute_from_widget();
+  void update_widget_from_attribute();
+
   VecFloatAttribute *p_attr;
-  FVecWidget        *vec_widget;
+  qsx::CurveEditor  *curve_editor;
+  QPushButton       *button_smooth;
 };
 
 } // namespace attr
