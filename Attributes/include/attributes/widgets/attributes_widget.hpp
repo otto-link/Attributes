@@ -24,7 +24,8 @@ public:
   AttributesWidget(std::map<std::string, std::unique_ptr<AbstractAttribute>> *p_attr_map,
                    std::vector<std::string> *p_attr_ordered_key = nullptr,
                    const std::string        &widget_title = "",
-                   const bool                add_save_reset_state_buttons = false);
+                   const bool                add_save_reset_state_buttons = false,
+                   QWidget                  *parent = nullptr);
 
 public slots:
   void on_load_preset();
