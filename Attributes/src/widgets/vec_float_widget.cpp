@@ -18,23 +18,19 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
   QGridLayout *layout = new QGridLayout(this);
   setup_default_layout_spacing(layout);
 
-  this->curve_editor = new qsx::CurveEditor(p_attr->get_label());
-  layout->addWidget(this->curve_editor, 0, 0, 1, 4);
+  this->vector_editor = new qsx::VectorEditor(p_attr->get_label(),
+                                              this->p_attr->get_value(),
+                                              this);
+  layout->addWidget(this->vector_editor, 0, 0, 1, 2);
 
-  this->connect(this->curve_editor,
-                &qsx::CurveEditor::edit_ended,
+  this->connect(this->vector_editor,
+                &qsx::VectorEditor::edit_ended,
                 this,
                 &VecFloatWidget::update_attribute_from_widget);
 
   {
-    QPushButton *button = new QPushButton("Reset");
-    layout->addWidget(button, 1, 0);
-    this->connect(button, &QPushButton::pressed, this, &VecFloatWidget::on_reset);
-  }
-
-  {
     QPushButton *button = new QPushButton("-1 point");
-    layout->addWidget(button, 1, 1);
+    layout->addWidget(button, 1, 0);
     this->connect(button,
                   &QPushButton::pressed,
                   this,
@@ -43,21 +39,11 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
 
   {
     QPushButton *button = new QPushButton("+1 point");
-    layout->addWidget(button, 1, 2);
+    layout->addWidget(button, 1, 1);
     this->connect(button,
                   &QPushButton::pressed,
                   this,
                   [this]() { this->on_sampling_change(1); });
-  }
-
-  {
-    this->button_smooth = new QPushButton("Smooth");
-    this->button_smooth->setCheckable(true);
-    layout->addWidget(this->button_smooth, 1, 3);
-    this->connect(this->button_smooth,
-                  &QPushButton::pressed,
-                  this,
-                  &VecFloatWidget::on_smooth);
   }
 
   this->setLayout(layout);
@@ -65,27 +51,24 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
   this->update_widget_from_attribute();
 }
 
-void VecFloatWidget::on_reset()
-{
-  this->curve_editor->clear_points();
-  this->update_attribute_from_widget();
-  Q_EMIT this->value_changed();
-}
-
 void VecFloatWidget::on_sampling_change(int sampling_points_variation)
 {
-  int new_count = this->curve_editor->get_sample_count() + sampling_points_variation;
-  new_count = std::max(new_count, 2);
-  this->curve_editor->set_sample_count(new_count);
-  Q_EMIT this->value_changed();
-}
+  std::vector<float> vec = this->vector_editor->get_values();
 
-void VecFloatWidget::on_smooth()
-{
-  bool state = this->curve_editor->get_smooth_interpolation();
-  this->curve_editor->set_smooth_interpolation(!state);
-  this->update_attribute_from_widget();
-  Q_EMIT this->value_changed();
+  if (sampling_points_variation > 0)
+  {
+    float new_val = vec.empty() ? 0.f : vec.back();
+    vec.push_back(new_val);
+  }
+  else
+  {
+    if (vec.size() > 2)
+      vec.pop_back();
+  }
+
+  // int new_count = this->vector_editor->get_sample_count() + sampling_points_variation;
+  // new_count = std::max(new_count, 2);
+  this->vector_editor->set_values(vec);
 }
 
 void VecFloatWidget::reset_value(bool reset_to_initial_state)
@@ -100,7 +83,7 @@ void VecFloatWidget::reset_value(bool reset_to_initial_state)
 
 void VecFloatWidget::update_attribute_from_widget()
 {
-  std::vector<float> vec = this->curve_editor->get_values();
+  std::vector<float> vec = this->vector_editor->get_values();
 
   // normalize values to [vmin, vmax]
   float vmin = this->p_attr->get_vmin();
@@ -118,8 +101,11 @@ void VecFloatWidget::update_widget_from_attribute()
 {
   std::vector<float> vec = this->p_attr->get_value();
 
+  // make sure there is at least 2 values
   if (vec.empty())
-    return;
+    vec = {0.f, 0.f};
+  else if (vec.size() == 1)
+    vec.push_back(vec.back());
 
   // normalize values to [0, 1]
   float vmin = this->p_attr->get_vmin();
@@ -128,10 +114,7 @@ void VecFloatWidget::update_widget_from_attribute()
   for (auto &v : vec)
     v = (v - vmin) / (vmax - vmin);
 
-  this->curve_editor->set_values(vec);
-
-  // smooth button
-  this->button_smooth->setChecked(this->curve_editor->get_smooth_interpolation());
+  this->vector_editor->set_values(vec);
 }
 
 } // namespace attr

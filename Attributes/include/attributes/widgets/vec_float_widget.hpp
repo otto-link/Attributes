@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QWidget>
 
-#include "qsx/curve_editor.hpp"
+#include "qsx/vector_editor.hpp"
 
 #include "attributes/vec_float_attribute.hpp"
 #include "attributes/widgets/abstract_widget.hpp"
@@ -27,14 +27,12 @@ public:
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
-  void on_reset();
   void on_sampling_change(int sampling_points_variation);
-  void on_smooth();
   void update_attribute_from_widget();
   void update_widget_from_attribute();
 
   VecFloatAttribute *p_attr;
-  qsx::CurveEditor  *curve_editor;
+  qsx::VectorEditor *vector_editor;
   QPushButton       *button_smooth;
 };
 
