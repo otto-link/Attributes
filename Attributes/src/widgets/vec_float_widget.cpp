@@ -3,7 +3,7 @@
  * this software. */
 #include <QGridLayout>
 #include <QLabel>
-#include <QPainter>
+#include <QPushButton>
 
 #include "attributes/widgets/vec_float_widget.hpp"
 #include "attributes/widgets/widget_utils.hpp"
@@ -66,8 +66,6 @@ void VecFloatWidget::on_sampling_change(int sampling_points_variation)
       vec.pop_back();
   }
 
-  // int new_count = this->vector_editor->get_sample_count() + sampling_points_variation;
-  // new_count = std::max(new_count, 2);
   this->vector_editor->set_values(vec);
 }
 

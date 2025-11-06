@@ -2,8 +2,6 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 #pragma once
-#include <QMouseEvent>
-#include <QPushButton>
 #include <QWidget>
 
 #include "qsx/vector_editor.hpp"
@@ -33,7 +31,6 @@ private:
 
   VecFloatAttribute *p_attr;
   qsx::VectorEditor *vector_editor;
-  QPushButton       *button_smooth;
 };
 
 } // namespace attr
