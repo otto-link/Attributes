@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
   p_cm->set_use_combo_list(true);
   
   map1["enum"] = attr::create_attr<attr::EnumAttribute>("A list of enum", choice_enum, "B");
+  map1["enum2"] = attr::create_attr<attr::EnumAttribute>("Choice:", choice_enum, "A");
 
   map1["str1"] = attr::create_attr<attr::StringAttribute>("string1", "value");
   map1["str2"] = attr::create_attr<attr::StringAttribute>("string2 read_only", "hard value", true);
@@ -147,8 +148,8 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  // aw1->show();
+  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
@@ -159,6 +160,7 @@ int main(int argc, char *argv[])
   // auto aw4 = new attr::AttributesWidget(&map4);
   // aw4->show();
 
+  if (false)
   {
     std::vector<std::string> attr_key_list = {"wnb0",
                                               "_GROUPBOX_BEGIN_Group1",
@@ -176,6 +178,7 @@ int main(int argc, char *argv[])
     aw5->show();
   }
 
+  if (false)
   {
     std::vector<std::string> attr_key_list = {"v2f0",
                                               "_SEPARATOR_TEXT_The section title",
@@ -185,8 +188,8 @@ int main(int argc, char *argv[])
     aw6->show();
   }
 
-  auto aw7 = new attr::AttributesWidget(&map7);
-  aw7->show();
+  // auto aw7 = new attr::AttributesWidget(&map7);
+  // aw7->show();
 
   // auto aw8 = new attr::AttributesWidget(&map8);
   // aw8->show();
