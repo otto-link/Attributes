@@ -29,6 +29,14 @@ ArrayWidget::ArrayWidget(ArrayAttribute *p_attr) : p_attr(p_attr)
   this->canvas = new qsx::CanvasField(this->p_attr->get_label().c_str(),
                                       DEFAULT_CANVAS_RESOLUTION,
                                       DEFAULT_CANVAS_RESOLUTION);
+
+  // init canvas
+  if (this->p_attr->get_background_image_fct())
+  {
+    QImage bg_image = this->p_attr->get_background_image_fct()();
+    this->canvas->set_bg_image(bg_image);
+  }
+
   this->array_data_to_widget_field_data();
 
   this->connect(this->canvas,

@@ -23,6 +23,11 @@ ArrayAttribute::ArrayAttribute(const std::string &label, const hmap::Array &valu
   this->save_initial_state();
 }
 
+std::function<QImage()> ArrayAttribute::get_background_image_fct() const
+{
+  return this->background_image_fct;
+}
+
 void ArrayAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
@@ -46,6 +51,11 @@ nlohmann::json ArrayAttribute::json_to() const
   json["vector"] = this->value.vector;
 
   return json;
+}
+
+void ArrayAttribute::set_background_image_fct(std::function<QImage()> new_fct)
+{
+  this->background_image_fct = new_fct;
 }
 
 std::string ArrayAttribute::to_string()
