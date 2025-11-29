@@ -27,6 +27,8 @@ public:
                    const bool                add_save_reset_state_buttons = false,
                    QWidget                  *parent = nullptr);
 
+  QSize sizeHint() const;
+
 public slots:
   void on_load_preset();
   void on_restore_initial_state();

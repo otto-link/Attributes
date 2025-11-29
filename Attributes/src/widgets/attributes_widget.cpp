@@ -375,4 +375,42 @@ void AttributesWidget::on_save_state()
     pa->save_state();
 }
 
+QSize AttributesWidget::sizeHint() const
+{
+  QLayout *lay = this->layout();
+  if (!lay)
+    return QWidget::sizeHint();
+
+  int total_height = 0;
+  int max_width = 0;
+
+  const int      spacing = lay->spacing();
+  const QMargins margins = lay->contentsMargins();
+
+  for (int i = 0; i < lay->count(); ++i)
+  {
+    QLayoutItem *item = lay->itemAt(i);
+    if (!item)
+      continue;
+
+    QWidget *w = item->widget();
+    if (!w)
+      continue;
+
+    QSize s = w->sizeHint();
+
+    total_height += s.height();
+    max_width = std::max(max_width, s.width());
+
+    if (i + 1 < lay->count())
+      total_height += spacing;
+  }
+
+  // Apply margins
+  max_width += margins.left() + margins.right();
+  total_height += margins.top() + margins.bottom();
+
+  return QSize(max_width, total_height);
+}
+
 } // namespace attr
