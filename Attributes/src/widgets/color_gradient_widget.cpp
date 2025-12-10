@@ -55,8 +55,12 @@ ColorGradientWidget::ColorGradientWidget(ColorGradientAttribute *p_attr) : p_att
 
     this->connect(button,
                   &QPushButton::released,
-                  this->picker,
-                  &qsx::ColorGradientPicker::show_presets_menu);
+                  this,
+                  [this]()
+                  {
+                    if (this->picker)
+                      this->picker->show_presets_menu();
+                  });
   }
 
   {
