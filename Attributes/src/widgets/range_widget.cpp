@@ -60,9 +60,9 @@ void RangeWidget::reset_value(bool reset_to_initial_state)
 
 void RangeWidget::update_attribute_from_widget()
 {
-  float              x1 = this->slider->get_value(0);
-  float              x2 = this->slider->get_value(1);
-  std::vector<float> vec = {x1, x2};
+  float     x1 = this->slider->get_value(0);
+  float     x2 = this->slider->get_value(1);
+  glm::vec2 vec = {x1, x2};
 
   this->p_attr->set_value(vec);
   this->p_attr->set_is_active(this->slider->get_is_enabled());

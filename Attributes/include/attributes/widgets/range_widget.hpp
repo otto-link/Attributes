@@ -32,9 +32,9 @@ signals:
 private:
   void update_attribute_from_widget();
 
-  RangeAttribute    *p_attr;
-  qsx::SliderRange  *slider;
-  std::vector<float> value_bckp;
+  RangeAttribute   *p_attr;
+  qsx::SliderRange *slider;
+  glm::vec2         value_bckp;
 };
 
 } // namespace attr

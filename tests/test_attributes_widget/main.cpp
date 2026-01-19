@@ -107,8 +107,8 @@ int main(int argc, char *argv[])
 
   glm::vec2 kw = {2.f, 4.f};
   glm::vec2 dv = {-1.f, 8.f};
+  glm::vec2 vrange = {-1.f, 8.f};
 
-  std::vector<float> vrange = {-1.f, 8.f};
   std::vector<int>   vint = {1, 3, 7, 2};
   std::vector<float> vfloat = {1.f, 3.f, 7.f, 2.f};
 

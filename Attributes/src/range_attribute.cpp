@@ -22,12 +22,12 @@ RangeAttribute::RangeAttribute(const std::string &label, const bool is_active)
   this->save_initial_state();
 }
 
-RangeAttribute::RangeAttribute(const std::string        &label,
-                               const std::vector<float> &value,
-                               const float               vmin,
-                               const float               vmax,
-                               const bool                is_active,
-                               std::string               value_format)
+RangeAttribute::RangeAttribute(const std::string &label,
+                               const glm::vec2   &value,
+                               const float        vmin,
+                               const float        vmax,
+                               const bool         is_active,
+                               std::string        value_format)
     : AbstractAttribute(AttributeType::RANGE, label), value(value), vmin(vmin),
       vmax(vmax), is_active(is_active), value_format(value_format)
 {
@@ -44,7 +44,7 @@ std::function<PairVec()> RangeAttribute::get_histogram_fct() const
 
 bool RangeAttribute::get_is_active() const { return this->is_active; }
 
-std::vector<float> RangeAttribute::get_value() const { return this->value; }
+glm::vec2 RangeAttribute::get_value() const { return this->value; }
 
 std::string RangeAttribute::get_value_format() const { return this->value_format; }
 
@@ -55,7 +55,7 @@ float RangeAttribute::get_vmax() const { return this->vmax; }
 void RangeAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
-  json_safe_get<std::vector<float>>(json, "value", value);
+  json_safe_get(json, "value", value);
   json_safe_get(json, "vmin", vmin);
   json_safe_get(json, "vmax", vmax);
   json_safe_get(json, "is_active", is_active);
@@ -64,7 +64,7 @@ void RangeAttribute::json_from(nlohmann::json const &json)
 nlohmann::json RangeAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
-  json["value"] = this->value;
+  json["value"] = {this->value.x, this->value.y};
   json["vmin"] = this->vmin;
   json["vmax"] = this->vmax;
   json["is_active"] = this->is_active;
@@ -80,10 +80,7 @@ void RangeAttribute::set_histogram_fct(std::function<PairVec()> new_histogram_fc
 
 void RangeAttribute::set_is_active(bool new_state) { this->is_active = new_state; }
 
-void RangeAttribute::set_value(const std::vector<float> &new_value)
-{
-  this->value = new_value;
-}
+void RangeAttribute::set_value(const glm::vec2 &new_value) { this->value = new_value; }
 
 std::string RangeAttribute::to_string()
 {
