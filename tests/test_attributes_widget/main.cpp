@@ -93,10 +93,10 @@ int main(int argc, char *argv[])
 
   // --- HighMap attributes
 
-  hmap::Array input_array = hmap::white(hmap::Vec2<int>(256, 256), 0.f, 1.f, 0);
+  hmap::Array input_array = hmap::white(glm::ivec2(256, 256), 0.f, 1.f, 0);
 
   // clang-format off
-  map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", hmap::Vec2<int>(256, 256));
+  map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", glm::ivec2(256, 256));
   map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_array);
 
   map4["cloud"] = attr::create_attr<attr::CloudAttribute>("cloud label");

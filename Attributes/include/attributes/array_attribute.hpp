@@ -18,11 +18,11 @@ namespace attr
 class ArrayAttribute : public AbstractAttribute
 {
 public:
-  ArrayAttribute(const std::string &label, const hmap::Vec2<int> &shape);
+  ArrayAttribute(const std::string &label, const glm::ivec2 &shape);
   ArrayAttribute(const std::string &label, const hmap::Array &value);
 
   std::function<QImage()> get_background_image_fct() const;
-  hmap::Vec2<int>         get_shape() const { return this->value.shape; }
+  glm::ivec2              get_shape() const { return this->value.shape; }
   hmap::Array             get_value() const { return this->value; }
   hmap::Array            *get_value_ref() { return &this->value; }
   void                    set_background_image_fct(std::function<QImage()> new_fct);

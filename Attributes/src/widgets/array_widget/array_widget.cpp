@@ -56,15 +56,15 @@ void ArrayWidget::array_data_to_widget_field_data()
   hmap::Array array = this->p_attr->get_value();
   hmap::remap(array);
   array = array.resample_to_shape_bilinear(
-      hmap::Vec2<int>(this->canvas->get_field_width(), this->canvas->get_field_height()));
+      glm::ivec2(this->canvas->get_field_width(), this->canvas->get_field_height()));
   this->canvas->set_field_data(array.vector);
 }
 
 void ArrayWidget::on_canvas_edit_ended()
 {
-  hmap::Vec2<int> shape_canvas = hmap::Vec2<int>(this->canvas->get_field_width(),
-                                                 this->canvas->get_field_height());
-  hmap::Array     array(shape_canvas);
+  glm::ivec2  shape_canvas = glm::ivec2(this->canvas->get_field_width(),
+                                       this->canvas->get_field_height());
+  hmap::Array array(shape_canvas);
   array.vector = this->canvas->get_field_data();
 
   *this->p_attr->get_value_ref() = array.resample_to_shape_bicubic(

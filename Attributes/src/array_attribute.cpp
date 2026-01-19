@@ -7,7 +7,7 @@
 namespace attr
 {
 
-ArrayAttribute::ArrayAttribute(const std::string &label, const hmap::Vec2<int> &shape)
+ArrayAttribute::ArrayAttribute(const std::string &label, const glm::ivec2 &shape)
     : AbstractAttribute(AttributeType::HMAP_ARRAY, label)
 {
   this->value = hmap::Array(shape);
@@ -32,7 +32,7 @@ void ArrayAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
 
-  hmap::Vec2<int> shape(json["shape.x"], json["shape.y"]);
+  glm::ivec2 shape(json["shape.x"], json["shape.y"]);
   this->value = hmap::Array(shape);
 
   std::vector<float> vector = json["vector"].get<std::vector<float>>();
