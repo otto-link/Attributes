@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+#include <glm/glm.hpp>
+
 #include "attributes/logger.hpp"
 #include "nlohmann/json.hpp"
 
@@ -126,6 +128,21 @@ inline void json_safe_get(const nlohmann::json &j, const std::string &key, T &va
   if (j.contains(key))
   {
     value = j.at(key).get<T>();
+  }
+  else
+  {
+    Logger::log()->error("Required json key \"{}\" not found.", key);
+  }
+}
+
+inline void json_safe_get(const nlohmann::json &j,
+                          const std::string    &key,
+                          glm::vec2            &value)
+{
+  if (j.contains(key))
+  {
+    std::array<float, 2> raw = j.at(key).get<std::array<float, 2>>();
+    value = {raw[0], raw[1]};
   }
   else
   {

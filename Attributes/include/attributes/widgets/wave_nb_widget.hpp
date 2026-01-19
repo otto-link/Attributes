@@ -31,12 +31,12 @@ protected slots:
 private:
   void update_attribute_from_widget();
 
-  WaveNbAttribute   *p_attr;
-  qsx::SliderFloat  *slider_x;
-  qsx::SliderFloat  *slider_y;
-  QPushButton       *button_link_xy;
-  QPushButton       *button_reset;
-  std::vector<float> value_bckp;
+  WaveNbAttribute  *p_attr;
+  qsx::SliderFloat *slider_x;
+  qsx::SliderFloat *slider_y;
+  QPushButton      *button_link_xy;
+  QPushButton      *button_reset;
+  glm::vec2         value_bckp;
 };
 
 } // namespace attr

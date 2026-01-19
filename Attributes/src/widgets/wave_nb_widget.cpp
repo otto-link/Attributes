@@ -154,9 +154,9 @@ void WaveNbWidget::reset_value(bool reset_to_initial_state)
 
 void WaveNbWidget::update_attribute_from_widget()
 {
-  float              x1 = this->slider_x->get_value();
-  float              x2 = this->slider_y->get_value();
-  std::vector<float> vec = {x1, x2};
+  float     x1 = this->slider_x->get_value();
+  float     x2 = this->slider_y->get_value();
+  glm::vec2 vec = {x1, x2};
 
   this->p_attr->set_value(vec);
   Q_EMIT this->value_changed();

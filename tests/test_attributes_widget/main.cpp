@@ -105,9 +105,10 @@ int main(int argc, char *argv[])
 
   // --- vector-like attributes
 
-  std::vector<float> kw = {2.f, 4.f};
-  std::vector<float> dv = {-1.f, 8.f};
+  glm::vec2 kw = {2.f, 4.f};
+  glm::vec2 dv = {-1.f, 8.f};
 
+  std::vector<float> vrange = {-1.f, 8.f};
   std::vector<int>   vint = {1, 3, 7, 2};
   std::vector<float> vfloat = {1.f, 3.f, 7.f, 2.f};
 
@@ -119,7 +120,7 @@ int main(int argc, char *argv[])
 
   map5["range0"] =  attr::create_attr<attr::RangeAttribute>();
   map5["range1"] =  attr::create_attr<attr::RangeAttribute>("range label", false);
-  map5["range2"] =  attr::create_attr<attr::RangeAttribute>("range label2", dv, -2.f, 10.f);
+  map5["range2"] =  attr::create_attr<attr::RangeAttribute>("range label2", vrange, -2.f, 10.f);
 
   map6["v2f0"] = attr::create_attr<attr::Vec2FloatAttribute>("label center");
   map6["v2f1"] = attr::create_attr<attr::Vec2FloatAttribute>("label center XY", dv, -2.f, 3.f, -15.f, 20.f);

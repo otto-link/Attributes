@@ -93,8 +93,8 @@ void Vec2FloatWidget::reset_value(bool reset_to_initial_state)
 
 void Vec2FloatWidget::update_attribute_from_widget()
 {
-  std::vector<float> new_value = {this->point2d_selector->get_value().first,
-                                  this->point2d_selector->get_value().second};
+  glm::vec2 new_value = {this->point2d_selector->get_value().first,
+                         this->point2d_selector->get_value().second};
   this->p_attr->set_value(new_value);
   Q_EMIT this->value_changed();
 }
