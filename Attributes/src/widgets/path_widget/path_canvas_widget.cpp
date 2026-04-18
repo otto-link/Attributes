@@ -263,7 +263,7 @@ void PathCanvasWidget::paintEvent(QPaintEvent * /* event */)
 
 void PathCanvasWidget::randomize()
 {
-  if (this->p_attr->get_value_ref()->get_npoints())
+  if (this->p_attr->get_value_ref()->size())
   {
     this->p_attr->get_value_ref()->randomize((uint)time(NULL));
     this->p_attr->get_value_ref()->reorder_nns();
@@ -283,7 +283,7 @@ void PathCanvasWidget::reorder_nns()
 
 void PathCanvasWidget::reverse()
 {
-  if (this->p_attr->get_value_ref()->get_npoints())
+  if (this->p_attr->get_value_ref()->size())
   {
     this->p_attr->get_value_ref()->reverse();
     this->update_widget_from_attribute();

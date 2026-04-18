@@ -36,11 +36,11 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
 
   // close/open button
   {
-    std::string label = this->p_attr->get_value_ref()->closed ? "Closed" : "Opened";
+    std::string label = this->p_attr->get_value_ref()->is_closed() ? "Closed" : "Opened";
 
     QPushButton *button = new QPushButton(label.c_str());
     button->setCheckable(true);
-    button->setChecked(this->p_attr->get_value_ref()->closed);
+    button->setChecked(this->p_attr->get_value_ref()->is_closed());
 
     layout->addWidget(button, row, 0);
     this->connect(
@@ -48,8 +48,8 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
         &QPushButton::pressed,
         [this, button]()
         {
-          this->p_attr->get_value_ref()->closed = !this->p_attr->get_value_ref()->closed;
-          button->setText(this->p_attr->get_value_ref()->closed ? "Closed" : "Opened");
+          this->p_attr->get_value_ref()->set_closed(!this->p_attr->get_value_ref()->is_closed());
+          button->setText(this->p_attr->get_value_ref()->is_closed() ? "Closed" : "Opened");
           Q_EMIT this->value_changed();
         });
   }

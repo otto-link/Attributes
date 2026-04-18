@@ -90,7 +90,7 @@ void CloudWidget::load_points_from_csv()
 
 void CloudWidget::randomize_points()
 {
-  if (this->p_attr->get_value().get_npoints())
+  if (this->p_attr->get_value().size())
   {
     this->p_attr->get_value_ref()->randomize((uint)time(NULL));
     this->update_canvas_from_attribute();

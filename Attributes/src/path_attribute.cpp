@@ -54,7 +54,7 @@ std::string PathAttribute::to_string()
 {
   std::string str = "";
 
-  str += "npoints: " + std::to_string(this->value.get_npoints());
+  str += "npoints: " + std::to_string(this->value.size());
   for (auto &p : this->value.points)
     str += "\n(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ", " +
            std::to_string(p.v) + ")";
