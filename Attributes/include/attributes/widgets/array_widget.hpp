@@ -2,9 +2,6 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 #pragma once
-
-#include "highmap/kernels.hpp"
-
 #include "qsx/canvas_field.hpp"
 
 #include "attributes/array_attribute.hpp"
