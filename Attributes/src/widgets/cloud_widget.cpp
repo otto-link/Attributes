@@ -37,6 +37,8 @@ CloudWidget::CloudWidget(CloudAttribute *p_attr) : p_attr(p_attr)
                                        "{:.2f}");
 
   // init canvas
+  this->canvas->set_connected_points(this->p_attr->get_are_points_connected());
+
   if (this->p_attr->get_background_image_fct())
   {
     QImage bg_image = this->p_attr->get_background_image_fct()();

@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
   map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", glm::ivec2(256, 256));
   map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_array);
 
-  map4["cloud"] = attr::create_attr<attr::CloudAttribute>("cloud label");
+  map4["cloud"] = attr::create_attr<attr::CloudAttribute>("cloud label", true);
   map4["path"] = attr::create_attr<attr::PathAttribute>("path label");
   // clang-format on
 

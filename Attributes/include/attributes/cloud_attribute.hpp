@@ -19,11 +19,14 @@ class CloudAttribute : public AbstractAttribute
 {
 public:
   CloudAttribute(const std::string &label);
+  CloudAttribute(const std::string &label, bool are_points_connected);
   CloudAttribute(const std::string &label, const std::vector<glm::vec3> &value);
 
   std::function<QImage()> get_background_image_fct() const;
+  bool                    get_are_points_connected() const;
   std::vector<glm::vec3>  get_value() const { return this->value; }
   std::vector<glm::vec3> *get_value_ref() { return &this->value; }
+  void                    set_are_points_connected(const bool new_state);
   void                    set_background_image_fct(std::function<QImage()> new_fct);
   void                    set_value(const std::vector<glm::vec3> &new_value);
   std::string             to_string();
@@ -33,6 +36,7 @@ public:
 
 private:
   std::vector<glm::vec3>  value;
+  bool                    are_points_connected = false;
   std::function<QImage()> background_image_fct = nullptr;
 };
 

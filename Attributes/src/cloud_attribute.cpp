@@ -15,12 +15,26 @@ CloudAttribute::CloudAttribute(const std::string &label)
   this->save_initial_state();
 }
 
+CloudAttribute::CloudAttribute(const std::string &label, bool are_points_connected)
+    : AbstractAttribute(AttributeType::HMAP_CLOUD, label),
+      are_points_connected(are_points_connected)
+{
+  this->value = std::vector<glm::vec3>();
+  this->save_state();
+  this->save_initial_state();
+}
+
 CloudAttribute::CloudAttribute(const std::string            &label,
                                const std::vector<glm::vec3> &value)
     : AbstractAttribute(AttributeType::HMAP_CLOUD, label), value(value)
 {
   this->save_state();
   this->save_initial_state();
+}
+
+bool CloudAttribute::get_are_points_connected() const
+{
+  return this->are_points_connected;
 }
 
 std::function<QImage()> CloudAttribute::get_background_image_fct() const
@@ -64,6 +78,11 @@ nlohmann::json CloudAttribute::json_to() const
   json["values"] = v;
 
   return json;
+}
+
+void CloudAttribute::set_are_points_connected(const bool new_state)
+{
+  this->are_points_connected = new_state;
 }
 
 void CloudAttribute::set_background_image_fct(std::function<QImage()> new_fct)
