@@ -2,6 +2,8 @@
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
 #pragma once
+#include <array>
+
 #include "attributes/abstract_attribute.hpp"
 
 namespace attr
@@ -14,18 +16,18 @@ namespace attr
 class ColorAttribute : public AbstractAttribute
 {
 public:
-  ColorAttribute(const std::string &label, const std::vector<float> &value);
+  ColorAttribute(const std::string &label, const std::array<float, 4> &value);
   ColorAttribute(const std::string &label, float r, float g, float b, float a);
 
   void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
 
-  std::vector<float> get_value() const;
-  void               set_value(const std::vector<float> &new_value);
-  std::string        to_string();
+  std::array<float, 4> get_value() const;
+  void                 set_value(const std::array<float, 4> &new_value);
+  std::string          to_string();
 
 private:
-  std::vector<float> value = {1.f, 1.f, 1.f, 1.f};
+  std::array<float, 4> value = {1.f, 1.f, 1.f, 1.f};
 };
 
 } // namespace attr

@@ -43,15 +43,16 @@ PathWidget::PathWidget(PathAttribute *p_attr) : p_attr(p_attr)
     button->setChecked(this->p_attr->get_value_ref()->is_closed());
 
     layout->addWidget(button, row, 0);
-    this->connect(
-        button,
-        &QPushButton::pressed,
-        [this, button]()
-        {
-          this->p_attr->get_value_ref()->set_closed(!this->p_attr->get_value_ref()->is_closed());
-          button->setText(this->p_attr->get_value_ref()->is_closed() ? "Closed" : "Opened");
-          Q_EMIT this->value_changed();
-        });
+    this->connect(button,
+                  &QPushButton::pressed,
+                  [this, button]()
+                  {
+                    this->p_attr->get_value_ref()->set_closed(
+                        !this->p_attr->get_value_ref()->is_closed());
+                    button->setText(
+                        this->p_attr->get_value_ref()->is_closed() ? "Closed" : "Opened");
+                    Q_EMIT this->value_changed();
+                  });
   }
 
   // reverse button

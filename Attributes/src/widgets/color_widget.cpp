@@ -44,10 +44,10 @@ void ColorWidget::update_attribute_from_widget()
 {
   QColor color = this->picker->get_color();
 
-  std::vector<float> rgba = {static_cast<float>(color.red()) / 255.f,
-                             static_cast<float>(color.green()) / 255.f,
-                             static_cast<float>(color.blue()) / 255.f,
-                             static_cast<float>(color.alpha()) / 255.f};
+  std::array<float, 4> rgba = {static_cast<float>(color.red()) / 255.f,
+                               static_cast<float>(color.green()) / 255.f,
+                               static_cast<float>(color.blue()) / 255.f,
+                               static_cast<float>(color.alpha()) / 255.f};
 
   this->p_attr->set_value(rgba);
   Q_EMIT this->value_changed();
