@@ -35,6 +35,7 @@ CloudWidget::CloudWidget(CloudAttribute *p_attr) : p_attr(p_attr)
                                        0.f,
                                        1.f,
                                        "{:.2f}");
+  this->canvas->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   // init canvas
   this->canvas->set_connected_points(this->p_attr->get_are_points_connected());
