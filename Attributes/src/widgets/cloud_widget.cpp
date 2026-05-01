@@ -1,10 +1,16 @@
 /* Copyright (c) 2024 Otto Link. Distributed under the terms of the GNU General
  * Public License. The full license is in the file LICENSE, distributed with
  * this software. */
+#include <algorithm>
+#include <random>
+
+#include <QFile>
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QStringList>
+#include <QTextStream>
 
 #include "attributes/widgets/cloud_widget.hpp"
 #include "attributes/widgets/widget_utils.hpp"
@@ -70,8 +76,7 @@ CloudWidget::CloudWidget(CloudAttribute *p_attr) : p_attr(p_attr)
 
 void CloudWidget::clear_points()
 {
-  std::vector<float> x, y, z;
-  this->p_attr->set_value(hmap::Cloud(x, y, z));
+  this->p_attr->set_value({});
   this->update_canvas_from_attribute();
   Q_EMIT this->value_changed();
 }
@@ -79,23 +84,64 @@ void CloudWidget::clear_points()
 void CloudWidget::load_points_from_csv()
 {
   QString fname = QFileDialog::getOpenFileName(this, "", "", "CSV file (*.csv)");
+  if (fname.isNull() || fname.isEmpty())
+    return;
 
-  if (!fname.isNull() && !fname.isEmpty())
+  QFile file(fname);
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    return;
+
+  auto &points = *this->p_attr->get_value_ref();
+  points.clear();
+  points.reserve(1024); // envelop...
+
+  QTextStream in(&file);
+
+  while (!in.atEnd())
   {
-    this->p_attr->get_value_ref()->from_csv(fname.toStdString());
-    this->update_canvas_from_attribute();
-    Q_EMIT this->value_changed();
+    QString line = in.readLine().trimmed();
+    if (line.isEmpty())
+      continue;
+
+    // Support both ',' and ';'
+    QChar       sep = line.contains(';') ? ';' : ',';
+    QStringList tokens = line.split(sep, Qt::SkipEmptyParts);
+
+    if (tokens.size() < 3)
+      continue;
+
+    bool ok_x = false, ok_y = false, ok_z = false;
+
+    float x = tokens[0].toFloat(&ok_x);
+    float y = tokens[1].toFloat(&ok_y);
+    float z = tokens[2].toFloat(&ok_z);
+
+    if (ok_x && ok_y && ok_z)
+    {
+      points.emplace_back(x, y, z);
+    }
+    // else skip malformed line
   }
+
+  file.close();
+
+  this->update_canvas_from_attribute();
+  Q_EMIT this->value_changed();
 }
 
 void CloudWidget::randomize_points()
 {
-  if (this->p_attr->get_value().size())
-  {
-    this->p_attr->get_value_ref()->randomize((uint)time(NULL));
-    this->update_canvas_from_attribute();
-    Q_EMIT this->value_changed();
-  }
+  static std::random_device             rd;
+  static std::mt19937                   rng(rd());
+  std::uniform_real_distribution<float> dist(0.f, 1.f);
+
+  std::vector<glm::vec3> &points = *this->p_attr->get_value_ref();
+
+  for (size_t k = 0; k < points.size(); ++k)
+    points[k] = glm::vec3(dist(rng), dist(rng), dist(rng));
+
+  this->update_canvas_from_attribute();
+  Q_EMIT this->value_changed();
 }
 
 void CloudWidget::reset_value(bool reset_to_initial_state)
@@ -104,6 +150,7 @@ void CloudWidget::reset_value(bool reset_to_initial_state)
     this->p_attr->reset_to_initial_state();
   else
     this->p_attr->reset_to_save_state();
+
   this->update_canvas_from_attribute();
   Q_EMIT this->value_changed();
 }
@@ -113,15 +160,35 @@ void CloudWidget::update_attribute_from_canvas()
   std::vector<float> x = this->canvas->get_points_x();
   std::vector<float> y = this->canvas->get_points_y();
   std::vector<float> z = this->canvas->get_points_z();
-  this->p_attr->set_value(hmap::Cloud(x, y, z));
+
+  std::vector<glm::vec3> new_value;
+  new_value.reserve(x.size());
+
+  for (size_t k = 0; k < x.size(); ++k)
+    new_value.push_back({x[k], y[k], z[k]});
+
+  this->p_attr->set_value(new_value);
+
   Q_EMIT this->value_changed();
 }
 
 void CloudWidget::update_canvas_from_attribute()
 {
-  this->canvas->set_points(this->p_attr->get_value().get_x(),
-                           this->p_attr->get_value().get_y(),
-                           this->p_attr->get_value().get_values());
+  std::vector<glm::vec3> &points = *this->p_attr->get_value_ref();
+
+  std::vector<float> x, y, v;
+  x.reserve(points.size());
+  y.reserve(points.size());
+  v.reserve(points.size());
+
+  for (const auto &p : points)
+  {
+    x.push_back(p.x);
+    y.push_back(p.y);
+    v.push_back(p.z);
+  }
+
+  this->canvas->set_points(x, y, v);
 }
 
 } // namespace attr

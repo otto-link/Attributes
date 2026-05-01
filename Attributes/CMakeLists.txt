@@ -22,6 +22,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${ATTR_INCLUDE})
 # --- Link libraries
 target_link_libraries(
   ${PROJECT_NAME}
+  glm::glm
   spdlog::spdlog
   nlohmann_json::nlohmann_json
   qsliderx

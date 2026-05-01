@@ -21,6 +21,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(spdlog REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 find_package(nlohmann_json REQUIRED)
+find_package(glm REQUIRED)
 
 add_subdirectory(external)
 add_subdirectory(Attributes)
