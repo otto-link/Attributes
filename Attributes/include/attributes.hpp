@@ -16,7 +16,6 @@
 #include "attributes/float_attribute.hpp"
 #include "attributes/int_attribute.hpp"
 #include "attributes/logger.hpp"
-#include "attributes/path_attribute.hpp"
 #include "attributes/range_attribute.hpp"
 #include "attributes/resolution_attribute.hpp"
 #include "attributes/seed_attribute.hpp"

@@ -25,7 +25,6 @@
 #include "attributes/widgets/filename_widget.hpp"
 #include "attributes/widgets/float_widget.hpp"
 #include "attributes/widgets/int_widget.hpp"
-#include "attributes/widgets/path_widget.hpp"
 #include "attributes/widgets/range_widget.hpp"
 #include "attributes/widgets/resolution_widget.hpp"
 #include "attributes/widgets/seed_widget.hpp"
@@ -52,8 +51,7 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(FILENAME, FilenameWidget, FilenameAttribute, p_attr);
   RETURN_IF_MATCH(FLOAT, FloatWidget, FloatAttribute, p_attr);
   RETURN_IF_MATCH(HMAP_ARRAY, ArrayWidget, ArrayAttribute, p_attr);
-  RETURN_IF_MATCH(HMAP_CLOUD, CloudWidget, CloudAttribute, p_attr);
-  RETURN_IF_MATCH(HMAP_PATH, PathWidget, PathAttribute, p_attr);
+  RETURN_IF_MATCH(CLOUD, CloudWidget, CloudAttribute, p_attr);
   RETURN_IF_MATCH(INT, IntWidget, IntAttribute, p_attr);
   RETURN_IF_MATCH(ENUM, EnumWidget, EnumAttribute, p_attr);
   RETURN_IF_MATCH(RANGE, RangeWidget, RangeAttribute, p_attr);

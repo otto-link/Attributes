@@ -8,7 +8,7 @@ namespace attr
 {
 
 CloudAttribute::CloudAttribute(const std::string &label)
-    : AbstractAttribute(AttributeType::HMAP_CLOUD, label)
+    : AbstractAttribute(AttributeType::CLOUD, label)
 {
   this->value = std::vector<glm::vec3>();
   this->save_state();
@@ -16,7 +16,7 @@ CloudAttribute::CloudAttribute(const std::string &label)
 }
 
 CloudAttribute::CloudAttribute(const std::string &label, bool are_points_connected)
-    : AbstractAttribute(AttributeType::HMAP_CLOUD, label),
+    : AbstractAttribute(AttributeType::CLOUD, label),
       are_points_connected(are_points_connected)
 {
   this->value = std::vector<glm::vec3>();
@@ -26,7 +26,7 @@ CloudAttribute::CloudAttribute(const std::string &label, bool are_points_connect
 
 CloudAttribute::CloudAttribute(const std::string            &label,
                                const std::vector<glm::vec3> &value)
-    : AbstractAttribute(AttributeType::HMAP_CLOUD, label), value(value)
+    : AbstractAttribute(AttributeType::CLOUD, label), value(value)
 {
   this->save_state();
   this->save_initial_state();
