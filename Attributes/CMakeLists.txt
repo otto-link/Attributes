@@ -27,5 +27,4 @@ target_link_libraries(
   nlohmann_json::nlohmann_json
   qsliderx
   Qt6::Core
-  Qt6::Widgets
-  highmap)
+  Qt6::Widgets)

@@ -6,8 +6,6 @@
 #include "attributes.hpp"
 #include "attributes/widgets/attributes_widget.hpp"
 
-#include "highmap/primitives.hpp"
-
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -93,11 +91,8 @@ int main(int argc, char *argv[])
 
   // --- HighMap attributes
 
-  hmap::Array input_array = hmap::white(glm::ivec2(256, 256), 0.f, 1.f, 0);
-
   // clang-format off
   map3["array0"] = attr::create_attr<attr::ArrayAttribute>("array label", glm::ivec2(256, 256));
-  map3["array1"] = attr::create_attr<attr::ArrayAttribute>("array label", input_array);
 
   map4["cloud"] = attr::create_attr<attr::CloudAttribute>("cloud label", true);
   // clang-format on
@@ -148,14 +143,14 @@ int main(int argc, char *argv[])
   // auto aw0 = new attr::AttributesWidget(&map0);
   // aw0->show();
 
-  auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
-  aw1->show();
+  // auto aw1 = new attr::AttributesWidget(&map1, nullptr, "Custom TITLE", true);
+  // aw1->show();
 
   // auto aw2 = new attr::AttributesWidget(&map2);
   // aw2->show();
 
-  // auto aw3 = new attr::AttributesWidget(&map3);
-  // aw3->show();
+  auto aw3 = new attr::AttributesWidget(&map3);
+  aw3->show();
 
   auto aw4 = new attr::AttributesWidget(&map4);
   aw4->show();

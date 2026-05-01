@@ -50,7 +50,7 @@ AbstractWidget *get_attribute_widget(AbstractAttribute *p_attr)
   RETURN_IF_MATCH(COLOR_GRADIENT, ColorGradientWidget, ColorGradientAttribute, p_attr);
   RETURN_IF_MATCH(FILENAME, FilenameWidget, FilenameAttribute, p_attr);
   RETURN_IF_MATCH(FLOAT, FloatWidget, FloatAttribute, p_attr);
-  RETURN_IF_MATCH(HMAP_ARRAY, ArrayWidget, ArrayAttribute, p_attr);
+  RETURN_IF_MATCH(ARRAY, ArrayWidget, ArrayAttribute, p_attr);
   RETURN_IF_MATCH(CLOUD, CloudWidget, CloudAttribute, p_attr);
   RETURN_IF_MATCH(INT, IntWidget, IntAttribute, p_attr);
   RETURN_IF_MATCH(ENUM, EnumWidget, EnumAttribute, p_attr);

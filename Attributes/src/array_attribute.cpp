@@ -8,16 +8,17 @@ namespace attr
 {
 
 ArrayAttribute::ArrayAttribute(const std::string &label, const glm::ivec2 &shape)
-    : AbstractAttribute(AttributeType::HMAP_ARRAY, label)
+    : AbstractAttribute(AttributeType::ARRAY, label), shape(shape),
+      vector(static_cast<size_t>(shape.x * shape.y), 0.f)
 {
-  this->value = hmap::Array(shape);
-
   this->save_state();
   this->save_initial_state();
 }
 
-ArrayAttribute::ArrayAttribute(const std::string &label, const hmap::Array &value)
-    : AbstractAttribute(AttributeType::HMAP_ARRAY, label), value(value)
+ArrayAttribute::ArrayAttribute(const std::string        &label,
+                               const glm::ivec2         &shape,
+                               const std::vector<float> &vector)
+    : AbstractAttribute(AttributeType::ARRAY, label), shape(shape), vector(vector)
 {
   this->save_state();
   this->save_initial_state();
@@ -32,11 +33,8 @@ void ArrayAttribute::json_from(nlohmann::json const &json)
 {
   AbstractAttribute::json_from(json);
 
-  glm::ivec2 shape(json["shape.x"], json["shape.y"]);
-  this->value = hmap::Array(shape);
-
-  std::vector<float> vector = json["vector"].get<std::vector<float>>();
-  this->value.vector = vector;
+  this->shape = glm::ivec2(json["shape.x"], json["shape.y"]);
+  this->vector = json["vector"].get<std::vector<float>>();
 
   this->save_state();
   this->save_initial_state();
@@ -46,9 +44,9 @@ nlohmann::json ArrayAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
 
-  json["shape.x"] = this->value.shape.x;
-  json["shape.y"] = this->value.shape.y;
-  json["vector"] = this->value.vector;
+  json["shape.x"] = this->shape.x;
+  json["shape.y"] = this->shape.y;
+  json["vector"] = this->vector;
 
   return json;
 }
@@ -61,10 +59,14 @@ void ArrayAttribute::set_background_image_fct(std::function<QImage()> new_fct)
 std::string ArrayAttribute::to_string()
 {
   std::string str = "";
-  str += "min: " + std::to_string(this->value.min()) + "; ";
-  str += "max: " + std::to_string(this->value.max()) + "; ";
-  str += "shape: {" + std::to_string(this->value.shape.x) + ", " +
-         std::to_string(this->value.shape.y) + "}";
+
+  if (!this->vector.empty())
+  {
+    str += "min: " + std::to_string(this->min()) + "; ";
+    str += "max: " + std::to_string(this->max()) + "; ";
+  }
+  str += "shape: {" + std::to_string(this->shape.x) + ", " +
+         std::to_string(this->shape.y) + "}";
 
   return str;
 }
