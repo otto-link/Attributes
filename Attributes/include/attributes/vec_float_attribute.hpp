@@ -18,7 +18,7 @@ public:
                     const std::vector<float> &value,
                     const float               vmin,
                     const float               vmax,
-                    bool                      variable_size = true);
+                    bool                      is_size_variable = true);
 
   void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
