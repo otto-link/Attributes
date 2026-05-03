@@ -25,6 +25,7 @@ public:
   void reset_value(bool reset_to_initial_state = false) override;
 
 private:
+  void on_reset();
   void on_sampling_change(int sampling_points_variation);
   void update_attribute_from_widget();
   void update_widget_from_attribute();

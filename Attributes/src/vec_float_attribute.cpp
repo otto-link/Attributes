@@ -9,21 +9,16 @@ namespace attr
 VecFloatAttribute::VecFloatAttribute(const std::string        &label,
                                      const std::vector<float> &value,
                                      const float               vmin,
-                                     const float               vmax)
+                                     const float               vmax,
+                                     bool                      is_size_variable)
     : AbstractAttribute(AttributeType::VEC_FLOAT, label), value(value), vmin(vmin),
-      vmax(vmax)
+      vmax(vmax), is_size_variable(is_size_variable)
 {
   this->save_state();
   this->save_initial_state();
 }
 
-void VecFloatAttribute::json_from(nlohmann::json const &json)
-{
-  AbstractAttribute::json_from(json);
-  json_safe_get<std::vector<float>>(json, "value", value);
-  json_safe_get(json, "vmin", vmin);
-  json_safe_get(json, "vmax", vmax);
-}
+bool VecFloatAttribute::get_is_size_variable() const { return this->is_size_variable; }
 
 std::vector<float> VecFloatAttribute::get_value() const { return this->value; }
 
@@ -33,6 +28,14 @@ float VecFloatAttribute::get_vmin() const { return this->vmin; }
 
 float VecFloatAttribute::get_vmax() const { return this->vmax; }
 
+void VecFloatAttribute::json_from(nlohmann::json const &json)
+{
+  AbstractAttribute::json_from(json);
+  json_safe_get<std::vector<float>>(json, "value", value);
+  json_safe_get(json, "vmin", vmin);
+  json_safe_get(json, "vmax", vmax);
+}
+
 nlohmann::json VecFloatAttribute::json_to() const
 {
   nlohmann::json json = AbstractAttribute::json_to();
@@ -40,6 +43,11 @@ nlohmann::json VecFloatAttribute::json_to() const
   json["vmin"] = this->vmin;
   json["vmax"] = this->vmax;
   return json;
+}
+
+void VecFloatAttribute::set_is_size_variable(const bool new_state)
+{
+  this->is_size_variable = new_state;
 }
 
 void VecFloatAttribute::set_value(const std::vector<float> &new_value)

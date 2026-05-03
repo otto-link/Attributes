@@ -21,34 +21,58 @@ VecFloatWidget::VecFloatWidget(VecFloatAttribute *p_attr) : p_attr(p_attr)
   this->vector_editor = new qsx::VectorEditor(p_attr->get_label(),
                                               this->p_attr->get_value(),
                                               this);
-  layout->addWidget(this->vector_editor, 0, 0, 1, 2);
+  layout->addWidget(this->vector_editor, 0, 0, 1, 3);
 
   this->connect(this->vector_editor,
                 &qsx::VectorEditor::edit_ended,
                 this,
                 &VecFloatWidget::update_attribute_from_widget);
 
+  if (p_attr->get_is_size_variable())
   {
-    QPushButton *button = new QPushButton("-1 point");
-    layout->addWidget(button, 1, 0);
-    this->connect(button,
-                  &QPushButton::pressed,
-                  this,
-                  [this]() { this->on_sampling_change(-1); });
+    {
+      QPushButton *button = new QPushButton("-1 point");
+      layout->addWidget(button, 1, 0);
+      this->connect(button,
+                    &QPushButton::pressed,
+                    this,
+                    [this]() { this->on_sampling_change(-1); });
+    }
+
+    {
+      QPushButton *button = new QPushButton("+1 point");
+      layout->addWidget(button, 1, 1);
+      this->connect(button,
+                    &QPushButton::pressed,
+                    this,
+                    [this]() { this->on_sampling_change(1); });
+    }
   }
 
   {
-    QPushButton *button = new QPushButton("+1 point");
-    layout->addWidget(button, 1, 1);
-    this->connect(button,
-                  &QPushButton::pressed,
-                  this,
-                  [this]() { this->on_sampling_change(1); });
+    QPushButton *button = new QPushButton("Reset to Flat");
+    layout->addWidget(button, 1, 2);
+    this->connect(button, &QPushButton::pressed, this, [this]() { this->on_reset(); });
   }
 
   this->setLayout(layout);
 
   this->update_widget_from_attribute();
+}
+
+void VecFloatWidget::on_reset()
+{
+  float              vmin = this->p_attr->get_vmin();
+  float              vmax = this->p_attr->get_vmax();
+  std::vector<float> vec(this->p_attr->get_value_ref()->size());
+
+  for (auto &v : vec)
+    v = 0.5f * (vmax + vmin);
+
+  this->p_attr->set_value(vec);
+
+  this->update_widget_from_attribute();
+  Q_EMIT this->value_changed();
 }
 
 void VecFloatWidget::on_sampling_change(int sampling_points_variation)

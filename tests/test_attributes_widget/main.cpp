@@ -121,6 +121,7 @@ int main(int argc, char *argv[])
 
   map7["vec_int"] = attr::create_attr<attr::VecIntAttribute>("vec_int", vint, -4, 10);
   map7["vec_float"] = attr::create_attr<attr::VecFloatAttribute>("vec_float", vfloat, -4.f, 10.f);
+  map7["vec_float2"] = attr::create_attr<attr::VecFloatAttribute>("vec_float", vfloat, -4.f, 10.f, false);
   // clang-format on
 
   // clang-format off
@@ -183,8 +184,8 @@ int main(int argc, char *argv[])
     aw6->show();
   }
 
-  // auto aw7 = new attr::AttributesWidget(&map7);
-  // aw7->show();
+  auto aw7 = new attr::AttributesWidget(&map7);
+  aw7->show();
 
   // auto aw8 = new attr::AttributesWidget(&map8);
   // aw8->show();

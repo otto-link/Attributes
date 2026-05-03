@@ -17,15 +17,18 @@ public:
   VecFloatAttribute(const std::string        &label,
                     const std::vector<float> &value,
                     const float               vmin,
-                    const float               vmax);
+                    const float               vmax,
+                    bool                      variable_size = true);
 
   void           json_from(nlohmann::json const &json) override;
   nlohmann::json json_to() const override;
 
   std::vector<float>  get_value() const;
   std::vector<float> *get_value_ref();
+  bool                get_is_size_variable() const;
   float               get_vmin() const;
   float               get_vmax() const;
+  void                set_is_size_variable(const bool new_state);
   void                set_value(const std::vector<float> &new_value);
   std::string         to_string() override;
 
@@ -33,6 +36,7 @@ private:
   std::vector<float> value;
   float              vmin;
   float              vmax;
+  bool               is_size_variable;
 };
 
 } // namespace attr
