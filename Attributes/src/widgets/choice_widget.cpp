@@ -60,24 +60,32 @@ void ChoiceWidget::build_combo_ui(QVBoxLayout *layout)
 
 void ChoiceWidget::build_button_ui(QVBoxLayout *layout)
 {
-  QHBoxLayout *button_layout = new QHBoxLayout();
+  static constexpr int max_col = 5; // TODO create ctx/config
+
+  // --- Optimize row/col numbers
+
+  const auto        &choices = this->p_attr->get_choice_list();
+  const int          n = static_cast<int>(choices.size());
+  int ncols = std::min(max_col, static_cast<int>(std::ceil(std::sqrt(n))));
+
+  // --- Build layout
+
+  QGridLayout *button_layout = new QGridLayout();
   this->button_group = new QButtonGroup(this);
   this->button_group->setExclusive(true);
 
-  const auto        &choices = this->p_attr->get_choice_list();
   const std::string &current_value = this->p_attr->get_value();
 
-  for (const auto &choice : choices)
+  for (int i = 0; i < n; ++i)
   {
-    QPushButton *btn = new QPushButton(QString::fromStdString(choice), this);
+    QPushButton *btn = new QPushButton(QString::fromStdString(choices[i]), this);
     btn->setCheckable(true);
     btn->setFlat(false);
     btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-
-    if (choice == current_value)
+    if (choices[i] == current_value)
       btn->setChecked(true);
 
-    button_layout->addWidget(btn);
+    button_layout->addWidget(btn, i / ncols, i % ncols);
     this->button_group->addButton(btn);
   }
 
