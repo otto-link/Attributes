@@ -94,7 +94,8 @@ public:
     {
       Logger::log()->critical(
           "in Attribute, trying to get an attribute type which is not "
-          "compatible with the current instance. Get type is: [{}]",
+          "compatible with the current instance. Label is: {}. Get type is: [{}]",
+          this->label,
           typeid(T).name());
       throw std::runtime_error("wrong type");
     }

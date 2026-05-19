@@ -64,9 +64,9 @@ void ChoiceWidget::build_button_ui(QVBoxLayout *layout)
 
   // --- Optimize row/col numbers
 
-  const auto        &choices = this->p_attr->get_choice_list();
-  const int          n = static_cast<int>(choices.size());
-  int ncols = std::min(max_col, static_cast<int>(std::ceil(std::sqrt(n))));
+  const auto &choices = this->p_attr->get_choice_list();
+  const int   n = static_cast<int>(choices.size());
+  int         ncols = std::min(max_col, static_cast<int>(std::ceil(std::sqrt(n))));
 
   // --- Build layout
 
