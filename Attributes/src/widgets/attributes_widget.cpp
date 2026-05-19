@@ -256,6 +256,52 @@ AttributesWidget::AttributesWidget(
 
   if (p_attr_ordered_key && count != static_cast<int>(p_attr_map->size()))
   {
+    // explicit debug msg
+    std::vector<std::string> all_keys;
+    for (const auto &s : *p_attr_ordered_key)
+      all_keys.push_back(s);
+
+    for (const auto &[s, _] : *p_attr_map)
+      if (std::find(all_keys.begin(), all_keys.end(), s) == all_keys.end())
+        all_keys.push_back(s);
+
+    // optional: makes debug deterministic
+    std::sort(all_keys.begin(), all_keys.end());
+
+    Logger::log()->trace("{:<30} {:<8} {:<8} {:<12}",
+                         "KEY",
+                         "IN_VEC",
+                         "IN_MAP",
+                         "STATUS");
+
+    Logger::log()->trace(
+        "--------------------------------------------------------------------");
+
+    for (const auto &key : all_keys)
+    {
+      bool key_in_vec = std::find(p_attr_ordered_key->begin(),
+                                  p_attr_ordered_key->end(),
+                                  key) != p_attr_ordered_key->end();
+
+      bool key_in_map = p_attr_map->contains(key);
+
+      std::string status;
+      if (key_in_vec && key_in_map)
+        status = "OK";
+      else if (key_in_vec && !key_in_map)
+        status = "MISS_MAP";
+      else if (!key_in_vec && key_in_map)
+        status = "MISS_VEC";
+      else
+        status = "NONE"; // should never happen
+
+      Logger::log()->trace("{:<30} {:<8} {:<8} {:<12}",
+                           key,
+                           key_in_vec ? "yes" : "no",
+                           key_in_map ? "yes" : "no",
+                           status);
+    }
+
     Logger::log()->critical(
         "Missing attributes in AttributesWidget (check attr_ordered_key)");
     throw std::runtime_error(

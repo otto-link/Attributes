@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
   auto aw4 = new attr::AttributesWidget(&map4);
   aw4->show();
 
-  if (false)
+  if (true)
   {
     std::vector<std::string> attr_key_list = {"wnb0",
                                               "_GROUPBOX_BEGIN_Group1",
